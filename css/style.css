@@ -1,0 +1,26 @@
+body {
+  background-color: black;
+  color: white;
+  text-shadow: 2px 2px #0a0a0a;
+}
+
+canvas {
+  border: 1px solid #c3c3c3;
+  background-color: #0a0a0a;
+  width: 400px;
+}
+
+#d1 {
+  width: 400px;
+  font: 10px arial;
+  text-align: right;
+  font-style: italic;
+}
+
+#framesize {
+    border: 1px solid #c3c3c3;
+    background-color: #0a0a0a;
+    color: white;
+    text-align: right;
+  width: 115px;
+}
