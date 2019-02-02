@@ -9,6 +9,12 @@ th{
 td{
     height: 62px; 
 }
+
+.fireType {
+    background-color: red;
+    color: white;
+}
+
 .sprite {
     height: 60px;
     width: 60px;
