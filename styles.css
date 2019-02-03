@@ -1,4 +1,9 @@
+body{
+    background-image: url("https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG");
+}
+
 th, td {
+box-align: center; 
     border: 1px solid rgb(46, 46, 46);
     text-align: center;
 } 
@@ -8,10 +13,86 @@ th{
 }
 td{
     height: 62px; 
+    background-color: lightgrey;
+    font-weight: bold;
 }
 
+.header {
+    background-color: white;
+}
+.footer {
+    background-color: white;
+}
 .fireType {
-    background-color: red;
+    background-color: orangered;
+    color: white;
+}
+.normalType { 
+    background-color: tan;
+    color: white;
+}
+.waterType { 
+    background-color: blue;
+    color: white;
+}
+.grassType { 
+    background-color: green;
+    color: white;
+}
+.electricType { 
+    background-color: yellow;
+    color: white;
+}
+.iceType { 
+    background-color: aqua;
+    color: white;
+}
+.fightingType { 
+    background-color: darkred;
+    color: white;
+}
+.poisonType { 
+    background-color: purple;
+    color: white;
+}
+.groundType { 
+    background-color: darkkhaki;
+    color: white;
+}
+.flyingType { 
+    background-color: lavender;
+    color: white;
+}
+.psychicType { 
+    background-color: palevioletred;
+    color: white;
+}
+.bugType { 
+    background-color: greenyellow;
+    color: white;
+}
+.rockType { 
+    background-color: saddlebrown;
+    color: white;
+}
+.ghostType { 
+    background-color: indigo;
+    color: white;
+}
+.darkType { 
+    background-color: black;
+    color: white;
+}
+.dragonType { 
+    background-color: blueviolet;
+    color: white;
+}
+.steelType { 
+    background-color: silver;
+    color: white;
+}
+.fairyType { 
+    background-color: pink;
     color: white;
 }
 
@@ -20,6 +101,18 @@ td{
     width: 60px;
 }
 
+#dex {
+    background-color: whitesmoke;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+    width: 75%;
+    text-align: center;
+    margin: auto;
+    min-width: 650px;
+    max-width: 750px;
+}
+
 #myTable {
-    min-width: 50px;
+    margin: auto;
 }
