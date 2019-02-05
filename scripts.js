@@ -28,29 +28,3 @@ function makeCaught(dexNum, caughtButton) {
         document.getElementById(dexNum).style.backgroundColor = "white";
     }
 }
-
-// function changeTypeColor() {
-//     var allShinyCheckBoxes = document.getElementsByClassName("shinyBox");
-//     var numOfShinyCheckboxes = document.getElementsByClassName("shinyBox").length;
-//     console.log(allShinyCheckBoxes[3]);
-//     for ( var i = 0; i < numOfShinyCheckboxes; i++) {
-//         if (allShinyCheckBoxes[i] = "Fire") {
-//             document.getElementById(allShinyCheckBoxes[i]).style.backgroundColor = "yellow";
-//         } 
-//         }
-// }
-
-document.addEventListener("DOMContentLoaded", function() {
-    var i;
-    var allShinyCheckBoxes = document.getElementsByClassName("shinyBox");
-    var numOfShinyCheckboxes = document.getElementsByClassName("shinyBox").length;
-    console.log(numOfShinyCheckboxes);
-    for (i = 0; i < numOfShinyCheckboxes; i++) {    
-        if (allShinyCheckBoxes[i] == "Fire") {
-            console.log("i equals fire at posiiton " + i);
-            //console.log(allShinyCheckBoxes[i]);
-            document.getElementById(allShinyCheckBoxes[i]).style.backgroundColor = "yellow";
-        } 
-    }
-    document.getElementById(allShinyCheckBoxes[3]).style.backgroundColor = "yellow";
-});

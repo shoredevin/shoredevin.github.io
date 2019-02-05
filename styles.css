@@ -1,7 +1,7 @@
 body{
     background-image: url("https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG");
+    background-color: whitesmoke;
 }
-
 th, td {
 box-align: center; 
     border: 1px solid rgb(46, 46, 46);
@@ -14,9 +14,8 @@ th{
 td{
     height: 62px; 
     background-color: lightgrey;
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
-
 .header {
     background-color: white;
 }
@@ -32,15 +31,15 @@ td{
     color: white;
 }
 .waterType { 
-    background-color: blue;
+    background-color: dodgerblue;
     color: white;
 }
 .grassType { 
-    background-color: green;
+    background-color: forestgreen;
     color: white;
 }
 .electricType { 
-    background-color: yellow;
+    background-color: gold;
     color: white;
 }
 .iceType { 
@@ -60,15 +59,15 @@ td{
     color: white;
 }
 .flyingType { 
-    background-color: lavender;
+    background-color: mediumslateblue;
     color: white;
 }
 .psychicType { 
-    background-color: palevioletred;
+    background-color: deeppink;
     color: white;
 }
 .bugType { 
-    background-color: greenyellow;
+    background-color: yellowgreen;
     color: white;
 }
 .rockType { 
@@ -88,31 +87,45 @@ td{
     color: white;
 }
 .steelType { 
-    background-color: silver;
+    background-color: lightsteelblue;
     color: white;
 }
 .fairyType { 
     background-color: pink;
     color: white;
 }
-
 .sprite {
     height: 60px;
     width: 60px;
 }
-
 #dex {
     background-color: whitesmoke;
     border-style: solid;
-    border-width: 5px;
+    border-width: 1px;
     border-color: black;
     width: 75%;
     text-align: center;
     margin: auto;
     min-width: 650px;
     max-width: 750px;
+    box-shadow: 5px 5px 5px black;
 }
-
+#typesTable {
+    margin: auto;
+    /*display: inline-block;*/
+    background-color: grey;
+    color: white;
+    /*border: 1px solid pink;*/
+    empty-cells: hide;
+    table-layout: fixed;
+    width: 90%;
+    height: 25px;
+}
 #myTable {
     margin: auto;
+}
+#test {
+    display: inline;
+    min-width: 1000px;
+    border-radius: 5px;
 }

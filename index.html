@@ -4,6 +4,8 @@
       <title>Pokedex Project</title>
       <link rel="shortcut icon" href="pokeball.ico" type="image/x-icon">
       <link rel="stylesheet" href="styles.css">
+      <link rel="stylesheet" type="text/css" href="tablefilter/style/tablefilter.css">
+      <style type="text/css"></style>
       <script src="scripts.js"></script>
    </head>
    <body>
@@ -11,6 +13,33 @@
       <div id="dex">
          <p>Use the checkbox in the "Shiny" column to indicate whether the specified Pokemon is shiny by changing the sprite
              and use the checkbox in the "Caught" column to indicate whether the specified Pokemon is caught by change the Dex# cell to yellow.</p>
+      <h3>Pokemon Types Chart:</h3>
+         <table id="typesTable">
+            <tr>
+               <td class="normalType">Normal</td>
+               <td class="waterType">Water</td>
+               <td class="grassType">Grass</td>
+               <td class="electricType">Electric</td>
+               <td class="iceType">Ice</td>
+               <td class="fightingType">Fighting</td>
+               <td class="poisonType">Poison</td>
+               <td class="groundType">Ground</td>
+               <td class="flyingType">Flying</td>  
+                      
+            </tr>
+            <tr>
+               <td class="psychicType">Psychic</td>
+               <td class="bugType">Bug</td>
+               <td class="rockType">Rock</td>
+               <td class="ghostType">Ghost</td>
+               <td class="darkType">Dark</td>
+               <td class="dragonType">Dragon</td>
+               <td class="steelType">Steel</td>
+               <td class="fairyType">Fairy</td>
+               <td></td>
+            </tr>
+         </table>
+         <h3>Pokedex:</h3>
          <table id="myTable">
             <tr>
                <th>Ndex #:</th>
@@ -71,7 +100,7 @@
                   <img id="4sprite" class="sprite" src="https://img.pokemondb.net/sprites/x-y/normal/charmander.png">
                </td>
                <td>Charmander</td>
-               <td class="shinyBox">Fire</td>
+               <td class="fireType">Fire</td>
                <td></td>
                <td>
                   <input type="checkbox" id="4shinyBox" class="shinyBox"   onclick="makeShiny('charmander', '4sprite', '4shinyBox')">
@@ -1534,7 +1563,7 @@
             <tr>
                <td id="148dex">148</td>
                <td><img id="148sprite" class="sprite" src="https://img.pokemondb.net/sprites/x-y/normal/dragonair.png"></td>
-               <td class="dragonType">Dragonair</td>
+               <td>Dragonair</td>
                <td class="dragonType">Dragon</td>
                <td></td>
                <td><input type="checkbox" id="148shinyBox" class="shinyBox"   onclick="makeShiny('dragonair', '148sprite', '148shinyBox')"></td>
@@ -1543,7 +1572,7 @@
             <tr>
                <td id="149dex">149</td>
                <td><img id="149sprite" class="sprite" src="https://img.pokemondb.net/sprites/x-y/normal/dragonite.png"></td>
-               <td class="dragonType">Dragonite</td>
+               <td>Dragonite</td>
                <td class="dragonType">Dragon</td>
                <td class="flyingType">Flying</td>
                <td><input type="checkbox" id="149shinyBox" class="shinyBox"   onclick="makeShiny('dragonite', '149sprite', '149shinyBox')"></td>
@@ -7427,7 +7456,62 @@
                <td><input type="checkbox" id="802caughtBox" onclick="makeCaught('802dex', '802caughtBox')"></td>
             </tr>
          </table>
+         <br>
       </div>
+      <br>
       <div id="footer" class="footer">Created by Devin Shore</div>
+
+      <script src="tablefilter/tablefilter.js"></script>
+      <script data-config>
+          var filtersConfig = {
+              base_path: '/tablefilter/',
+              auto_filter: {
+                  delay: 500 //milliseconds
+              },
+              single_filter: true,
+              //alternate_rows: true,
+              //rows_counter: true,
+              //btn_reset: true,
+              ////loader: true,
+              //status_bar: true,
+              //mark_active_columns: {
+              //    highlight_column: true
+              //},
+              //no_results_message: true,
+              //responsive: true,
+/*               custom_options: {
+                  cols:[3],
+                  texts: [
+                      [
+                          'na', '0 - 50', '50 - 500',
+                          '500 - 15 000', '15 000 - 25 000', '25 000 - 100 000',
+                          '100 000 - 1 500 000', 'not na'
+                      ]
+                  ],
+                  values: [
+                      [
+                          'na', '>0 && <=50', '>50 && <=500',
+                          '>500 && <=15000', '>15000 && <=25000',
+                          '>25000 && <=100000', '>100000 && <=1500000', '!na'
+                      ]
+                  ],
+                  sorts: [false]
+              }, */
+    /*           col_widths: [
+                  '150px', '100px', '100px',
+                  '90px', '90px', '90px',
+                  '90px', '70px', '70px'
+              ], */
+              //extensions:[{ name: 'sort' }]
+          };
+      
+          var tf = new TableFilter('myTable', filtersConfig);
+          tf.init();
+      
+      </script>
+      
+      
+      
+
    </body>
 </html>
