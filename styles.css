@@ -2,7 +2,7 @@ body{
     background-image: url("https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG");
     background-color: whitesmoke;
 }
-th, td {
+/* th, td {
 box-align: center; 
     border: 1px solid rgb(46, 46, 46);
     text-align: center;
@@ -14,8 +14,8 @@ th{
 td{
     height: 62px; 
     background-color: lightgrey;
-    /*font-weight: bold;*/
-}
+    /*font-weight: bold;
+}*/
 .header {
     background-color: white;
 }
@@ -106,8 +106,8 @@ td{
     width: 75%;
     text-align: center;
     margin: auto;
-    min-width: 650px;
-    max-width: 750px;
+    min-width: 770px;
+    max-width: 770px;
     box-shadow: 5px 5px 5px black;
 }
 #typesTable {
@@ -121,9 +121,9 @@ td{
     width: 90%;
     height: 25px;
 }
-#myTable {
+/* #myTable {
     margin: auto;
-}
+} */
 #test {
     display: inline;
     min-width: 1000px;
