@@ -3,6 +3,7 @@
    <head>
       <title>Pokedex Project</title>
       <link rel="shortcut icon" href="pokeball.ico" type="image/x-icon">
+      <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
       <link rel="stylesheet" href="styles.css">
       <link rel="stylesheet" type="text/css" href="tablefilter/style/tablefilter.css">
       <style type="text/css"></style>
@@ -16,26 +17,25 @@
       <h3>Pokemon Types Chart:</h3>
          <table id="typesTable">
             <tr>
-               <td class="normalType">Normal</td>
-               <td class="waterType">Water</td>
-               <td class="grassType">Grass</td>
-               <td class="electricType">Electric</td>
-               <td class="iceType">Ice</td>
-               <td class="fightingType">Fighting</td>
-               <td class="poisonType">Poison</td>
-               <td class="groundType">Ground</td>
-               <td class="flyingType">Flying</td>  
-                      
+               <td class="normalType" onclick="searchText('normal')">Normal</td>
+               <td class="waterType" onclick="searchText('water')">Water</td>
+               <td class="grassType" onclick="searchText('grass')">Grass</td>
+               <td class="electricType" onclick="searchText('electric')">Electric</td>
+               <td class="iceType" onclick="searchText('ice')">Ice</td>
+               <td class="fightingType" onclick="searchText('fighting')">Fighting</td>
+               <td class="poisonType" onclick="searchText('poison')">Poison</td>
+               <td class="groundType" onclick="searchText('ground')">Ground</td>
+               <td class="flyingType" onclick="searchText('flying')">Flying</td>        
             </tr>
             <tr>
-               <td class="psychicType">Psychic</td>
-               <td class="bugType">Bug</td>
-               <td class="rockType">Rock</td>
-               <td class="ghostType">Ghost</td>
-               <td class="darkType">Dark</td>
-               <td class="dragonType">Dragon</td>
-               <td class="steelType">Steel</td>
-               <td class="fairyType">Fairy</td>
+               <td class="psychicType" onclick="searchText('psychic')">Psychic</td>
+               <td class="bugType" onclick="searchText('bug')">Bug</td>
+               <td class="rockType" onclick="searchText('rock')">Rock</td>
+               <td class="ghostType" onclick="searchText('ghost')">Ghost</td>
+               <td class="darkType" onclick="searchText('dark')">Dark</td>
+               <td class="dragonType" onclick="searchText('dragon')">Dragon</td>
+               <td class="steelType" onclick="searchText('steel')">Steel</td>
+               <td class="fairyType" onclick="searchText('fairy')">Fairy</td>
                <td></td>
             </tr>
          </table>
@@ -7460,7 +7460,6 @@
       </div>
       <br>
       <div id="footer" class="footer">Created by Devin Shore</div>
-
       <script src="tablefilter/tablefilter.js"></script>
       <script data-config>
           var filtersConfig = {
@@ -7510,9 +7509,5 @@
           tf.init();
       
       </script>
-      
-      
-      
-
    </body>
 </html>

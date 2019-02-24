@@ -1,6 +1,7 @@
 body{
     background-image: url("https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG");
     background-color: whitesmoke;
+    font-family: 'Lora', sans-serif;
 }
 /* th, td {
 box-align: center; 
@@ -120,6 +121,7 @@ td{
     table-layout: fixed;
     width: 90%;
     height: 25px;
+    cursor: pointer;
 }
 /* #myTable {
     margin: auto;
