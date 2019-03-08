@@ -1,3 +1,4 @@
+var devdevedev;
 setInterval(getCurrentTime, 1000);
 var audio = new Audio('audio/Loud-alarm-clock-sound.wav');
 
