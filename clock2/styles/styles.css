@@ -61,42 +61,81 @@ body {
 /* #background {
     color: #320000; 
 }*/
-.red {
-    color: red;
-}
+/*red theme*/
 span.red {
     background-color: red;
-}
-.blue {
-    color: blue;
-}
-span.blue {
-    background-color: blue;
-}
-.blue-dark {
-    color: #000032;
-}
-span.blue-dark {
-    background-color: #000032;
-}
-.red-dark {
-    color: #320000;
 }
 span.red-dark {
     background-color: #320000;
 }
-#alarmTime.red {
+#alarmTime.red, .red {
     color: red;
 }
-#alarmTime.blue {
-    color: blue;
-}
-#alarmTime.red-dark {
+#alarmTime.red-dark, .red-dark {
     color: #320000;
 }
-#alarmTime.blue-dark {
+/*red theme*/
+/*blue theme*/
+span.blue {
+    background-color: blue;
+}
+span.blue-dark {
+    background-color: #000032;
+}
+#alarmTime.blue, .blue {
+    color: blue;;
+}
+#alarmTime.blue-dark, .blue-dark {
     color: #000032;
 }
+/*blue theme*/
+
+/*green theme*/
+span.green {
+    background-color: greenyellow;
+}
+span.green-dark {
+    background-color: #003200;
+}
+#alarmTime.green, .green {
+    color: greenyellow;
+}
+#alarmTime.green-dark, .green-dark{
+    color: #003200;
+}
+/*green theme*/
+
+/*purple theme*/
+span.purple {
+    background-color: rgb(250,0,250);
+}
+span.purple-dark {
+    background-color: #320032;
+}
+#alarmTime.purple, .purple {
+    color: rgb(250,0,250);
+}
+#alarmTime.purple-dark, .purple-dark{
+    color: #320032;
+}
+/*purple theme*/
+
+/*random theme*/
+/* span.random {
+    background-color: greenyellow;
+}
+span.random-dark {
+    background-color: #003200;
+}
+#alarmTime.random, .random {
+    color: greenyellow;
+}
+#alarmTime.random-dark, .random-dark{
+    color: #003200;
+} */
+/*random theme*/
+
+
 #alarmTime {
     background-color: black;
 }
@@ -150,11 +189,9 @@ span.red-dark {
 .border {
       border: 5px solid darkgrey;
       border-radius: 25px;
-      padding-top: 25px;
-      padding-left: 25px;
-      padding-bottom: 25px;
-      padding-right: 25px;
+      padding: 25px;
       width: 574px;
+      margin-bottom: 20px;
 }
 
 .alarmMeridiem {
@@ -179,30 +216,21 @@ span.red-dark {
     font-size: 15px;
     padding-left: 5px;
 }
-
-#snooze {
-    padding-top: 10px;
-    padding-left: 302px;
+#snooze-container {
     font-family: Arial, Helvetica, sans-serif;
-}
-
-#snoozeTime {
-    padding-left: 302px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-#snoozeText {
-    padding-left: 302px;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    width: 634px;
+    text-align: center;
 }
-
+#snoozeText {
+    color: white;
+    display: inline-block;
+}
+#snoozeTime {
+    display: inline-block;
+}
 #snoozeButton {
     text-align: center;
     font-size: 30px;
     border-radius: 5px;
-}
-
-span.blue {
-    color: green;
 }

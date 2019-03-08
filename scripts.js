@@ -10,10 +10,10 @@ function searchText(text) {
 }
 
 
-function makeShiny(name, location, button) {
+function makeShiny(url, name, location, button) {
     var buttonToCheck = document.getElementById(button);
-    var shinyUrl = 'https://img.pokemondb.net/sprites/x-y/shiny/' + name + '.png';
-    var normalUrl = 'https://img.pokemondb.net/sprites/x-y/normal/' + name + '.png';
+    var shinyUrl = 'https://img.pokemondb.net/sprites/' + url + name + '.png';
+    var normalUrl = 'https://img.pokemondb.net/sprites/' +url + name + '.png';
     if (buttonToCheck.checked == true) {
         document.getElementById(location).src = shinyUrl;
     } else {
