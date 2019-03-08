@@ -150,7 +150,7 @@ function snooze() {
         var newAlarmHour = (Number(addLeadingZero(alarmHour))+1);
     } else {
         var newAlarmMinute = Number(addLeadingZero(alarmMinute))+snoozeTime;
-        var newAlarmHour = alarmHour;
+        var newAlarmHour = Number(addLeadingZero(alarmHour));
     }
     document.getElementById("minute").value = newAlarmMinute;
     document.getElementById("hour").value = newAlarmHour;
