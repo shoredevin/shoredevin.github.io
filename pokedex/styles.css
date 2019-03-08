@@ -1,0 +1,133 @@
+body{
+    background-image: url("https://upload.wikimedia.org/wikipedia/en/3/39/Pokeball.PNG");
+    background-color: whitesmoke;
+    font-family: 'Lora', sans-serif;
+}
+/* th, td {
+box-align: center; 
+    border: 1px solid rgb(46, 46, 46);
+    text-align: center;
+} 
+th{
+    background-color: rgb(46, 46, 46);
+    color: white;
+}
+td{
+    height: 62px; 
+    background-color: lightgrey;
+    /*font-weight: bold;
+}*/
+.header {
+    background-color: white;
+}
+.footer {
+    background-color: white;
+}
+.fireType {
+    background-color: orangered;
+    color: white;
+}
+.normalType { 
+    background-color: tan;
+    color: white;
+}
+.waterType { 
+    background-color: dodgerblue;
+    color: white;
+}
+.grassType { 
+    background-color: forestgreen;
+    color: white;
+}
+.electricType { 
+    background-color: gold;
+    color: white;
+}
+.iceType { 
+    background-color: aqua;
+    color: white;
+}
+.fightingType { 
+    background-color: darkred;
+    color: white;
+}
+.poisonType { 
+    background-color: purple;
+    color: white;
+}
+.groundType { 
+    background-color: darkkhaki;
+    color: white;
+}
+.flyingType { 
+    background-color: mediumslateblue;
+    color: white;
+}
+.psychicType { 
+    background-color: deeppink;
+    color: white;
+}
+.bugType { 
+    background-color: yellowgreen;
+    color: white;
+}
+.rockType { 
+    background-color: saddlebrown;
+    color: white;
+}
+.ghostType { 
+    background-color: indigo;
+    color: white;
+}
+.darkType { 
+    background-color: black;
+    color: white;
+}
+.dragonType { 
+    background-color: blueviolet;
+    color: white;
+}
+.steelType { 
+    background-color: lightsteelblue;
+    color: white;
+}
+.fairyType { 
+    background-color: pink;
+    color: white;
+}
+.sprite {
+    height: 60px;
+    width: 60px;
+}
+#dex {
+    background-color: whitesmoke;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    width: 75%;
+    text-align: center;
+    margin: auto;
+    min-width: 770px;
+    max-width: 770px;
+    box-shadow: 5px 5px 5px black;
+}
+#typesTable {
+    margin: auto;
+    /*display: inline-block;*/
+    background-color: grey;
+    color: white;
+    /*border: 1px solid pink;*/
+    empty-cells: hide;
+    table-layout: fixed;
+    width: 90%;
+    height: 25px;
+    cursor: pointer;
+}
+/* #myTable {
+    margin: auto;
+} */
+#test {
+    display: inline;
+    min-width: 1000px;
+    border-radius: 5px;
+}
