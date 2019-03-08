@@ -1,4 +1,4 @@
-function searchText(text) {
+/*function searchText(text) {
     var searchBox = document.getElementById("flt0_myTable");
     searchBox.value = text;
     searchBox.focus();
@@ -7,7 +7,7 @@ function searchText(text) {
     // evt.which = 13;
     // evt.keycode = 13;
     // dispatchEvent(evt);
-}
+}*/
 
 
 function makeShiny(name, location, button) {
