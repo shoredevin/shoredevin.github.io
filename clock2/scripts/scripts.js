@@ -8,6 +8,7 @@ var alarmHour12 = undefined;
 var alarmMinute = undefined;
 
 function getCurrentTime() {
+    console.log("yaaa");
     // changeThemeColor();
     //set alarm time
     var alarmSeconds = "00";
