@@ -10,7 +10,6 @@ body {
 
 .block {
     width: 100px;
-    /*height: 100px;*/
     display: inline-block;
     border: 5px solid whitesmoke;
     text-align: center;
