@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: purple;
+    color: whitesmoke;
+}
+
+.row {
+    width: 400px;
+}
+
+.block {
+    width: 100px;
+    display: inline-block;
+    border: 5px solid whitesmoke;
+    text-align: center;
+    vertical-align: middle;
+    background: darkorchid;
+    font-size: 50px;
+    color: whitesmoke;
+}
+
+#buttonContainer {
+    padding-top: 25px;
+}
+
+.counter {
+    font-weight: bold;
+    display: inline-block;
+}
