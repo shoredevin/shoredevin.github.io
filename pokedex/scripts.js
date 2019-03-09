@@ -1,15 +1,3 @@
-/*function searchText(text) {
-    var searchBox = document.getElementById("flt0_myTable");
-    searchBox.value = text;
-    searchBox.focus();
-    searchBox.select();
-    // var evt = new CustomEvent('keypress');
-    // evt.which = 13;
-    // evt.keycode = 13;
-    // dispatchEvent(evt);
-}*/
-
-
 function makeShiny(name, location, button) {
     var buttonToCheck = document.getElementById(button);
     var shinyUrl = 'https://img.pokemondb.net/sprites/x-y/shiny/' + name + '.png';

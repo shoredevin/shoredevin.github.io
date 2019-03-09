@@ -1,14 +1,22 @@
+var devdevedev;
 setInterval(getCurrentTime, 1000);
 var audio = new Audio('audio/Loud-alarm-clock-sound.wav');
+
+var x = {
+    "time": "1:00",
+    "checked": true
+}
+
+JSON.stringify(x)
 
 var alarmMeridiem = undefined;
 var theme = "red";
 var currentHour24;
 var alarmHour12 = undefined;
 var alarmMinute = undefined;
+var randomStyleClasses;
 
 function getCurrentTime() {
-    console.log("yaaa");
     // changeThemeColor();
     //set alarm time
     var alarmSeconds = "00";
@@ -31,11 +39,9 @@ function getCurrentTime() {
     //ring alarm
     //console.log(currentSeconds);
     if (currentSeconds == "00") {
-        document.getElementById('snooze').innerHTML = '';
-        document.getElementById('snoozeText').innerHTML = '';
-        document.getElementById('snoozeTime').innerHTML = '';
+        // document.getElementById('snooze-container').hidden = false;
     }
-    console.log(alarmHour24 + ":" + alarmMinute)
+    //console.log(alarmHour24 + ":" + alarmMinute)
     if(alarmHour24 == currentHour24 && alarmMinute == currentMinutes && alarmSeconds == currentSeconds){
         ringAlarm();
     } 
@@ -56,10 +62,9 @@ function setMeridiem() {
         }
     } else {
         var currentHour12 = currentHour24;
-        document.getElementById('amLight').style.backgroundColor = theme;
-        document.getElementById('pmLight').style.backgroundColor = theme + "-dark";
+        document.getElementById('amLight').className = "light themed-elem " + theme;
+        document.getElementById('pmLight').className = "light themed-elem "+ theme + "-dark";
     }
-
     return currentHour12;
 }
 
@@ -82,7 +87,9 @@ function writeAlarm(alarmTime) {
 
 function ringAlarm() {        
     audio.play();
-    document.getElementById('snooze').innerHTML = '<button id="snoozeButton" onclick="snooze()">Snooze</button>';
+    // document.getElementById('snooze').innerHTML = '<button id="snoozeButton" onclick="snooze()">Snooze</button>';
+
+    document.getElementById('snooze-container').hidden = false;
 
     //var input = document.getElementById('snooze');
     window.addEventListener("keyup", function (event) {
@@ -92,8 +99,8 @@ function ringAlarm() {
         }
     });
 
-    document.getElementById('snoozeText').innerHTML = "Snooze for this many minutes:";
-    document.getElementById('snoozeTime').innerHTML = '<select name="snoozeSelector" id="snoozeSelector" class="snoozeSelector"><option value="10">10</option> <option value="15">15</option> <option value="20">20</option> <option value="25">25</option> <option value="30">Lazy Fucker</option></select>';
+    // document.getElementById('snoozeText').innerHTML = "Snooze for this many minutes:";
+    // document.getElementById('snoozeTime').innerHTML = '<select name="snoozeSelector" id="snoozeSelector" class="snoozeSelector"><option value="10">10</option> <option value="15">15</option> <option value="20">20</option> <option value="25">25</option> <option value="30">Lazy Fucker</option></select>';
 }
 
 function clearPMCheckBox() {
@@ -155,40 +162,106 @@ function snooze() {
     }
     document.getElementById("minute").value = newAlarmMinute;
     document.getElementById("hour").value = newAlarmHour;
-    document.getElementById('snooze').innerHTML = '';
-    document.getElementById('snoozeText').innerHTML = '';
-    document.getElementById('snoozeTime').innerHTML = '';
+    // document.getElementById('snooze').innerHTML = '';
+    // document.getElementById('snoozeText').innerHTML = '';
+    // document.getElementById('snoozeTime').innerHTML = '';
+
+    document.getElementById('snooze-container').hidden = true;
     writeAlarm();
 }
 
 function changeThemeColor(color) {
+
     // var color = document.getElementById('colorSelector').value;
-    console.log(color)
+    //console.log(color)
     // if (color == "blue") {
         // document.getElementById('clock').style.color = "blue";
         // document.getElementById('background').style.color = "#000032";
+    
     theme = color;
     var elems = document.getElementsByClassName("themed-elem");
-    console.log(elems)
+    //console.log(elems)
     for (let elem of elems) {
-        console.log(elem.id + "  " + elem.innerHTML);
+        //console.log(elem.id + "  " + elem.innerHTML);
         if (elem.id == "alarmTime" && elem.innerHTML == "88:88") {
             elem.className = "themed-elem " + color + "-dark"
         } else {
             elem.classList.remove("red");
             elem.classList.remove("blue");
+            elem.classList.remove("green");
+            elem.classList.remove("purple");
+            elem.classList.remove("random");
             elem.classList.add(color);
         }
     }
     var backgroundElem = document.getElementById("background");
     backgroundElem.classList.remove("red-dark");
     backgroundElem.classList.remove("blue-dark");
+    backgroundElem.classList.remove("green-dark");
+    backgroundElem.classList.remove("purple-dark");
+    backgroundElem.classList.remove("random-dark");
     backgroundElem.classList.add(color + "-dark");
 
     elems = document.getElementsByClassName("light");
     for (let elem of elems) {
         elem.classList = "light themed-elem";
     }
+
+    if (color == "random") {
+        var r = Math.floor(Math.random() * 256);
+        var g = Math.floor(Math.random() * 256);
+        var b = Math.floor(Math.random() * 256);
+        var rDark = r * .2;
+        var gDark = g * .2;
+        var bDark = b * .2;
+        //document.getElementById('box1').style.backgroundColor = 'rgb(' + r + ',' + g + ',' +  b + ')';
+        //document.getElementById('random').style.color = 'pink';
+        //document.getElementsByClassName('random-dark').style.color = 'purple';
+
+        var style = createRandomStyleClasses('rgb(' + r + ',' + g + ',' +  b + ')', 'rgb(' + rDark + ',' + gDark + ',' +  bDark + ')');
+
+        document.getElementById("random-style-elem").innerHTML = "";
+        document.getElementById("random-style-elem").innerHTML = style;
+
+        console.log(r, g, b);
+        console.log(rDark, gDark, bDark);
+
+        // var randoms = document.getElementsByClassName('random');
+        // for (let random of randoms) {
+        //     random.style.color = 'rgb(' + r + ',' + g + ',' +  b + ')';
+        // }
+
+        // var darkRandoms = document.getElementsByClassName('random-dark');
+        // for (let darkRandom of darkRandoms) {
+        //     darkRandom.style.color = 'rgb(' + rDark + ',' + gDark + ',' +  bDark + ')';
+        // }
+
+        // var spans = document.getElementsByTagName('span');
+        // console.log(spans);
+
+        // for (var span of spans) {
+        //     spanRandoms = span.getElementsByClassName('random');
+        //     for (let spanRandom of spanRandoms) {
+        //     //if (span.getElementsByClassName('random') == true) {
+        //     span.style.backgroundColor = 'rgb(' + r + ',' + g + ',' +  b + ')';
+        //     }
+        //     var spandarkRandoms = span.getElementsByClassName('random-dark');
+        //     for (let spandarkRandom of spandarkRandoms) {
+        //         spandarkRandom.style.backgroundColor = 'rgb(' + rDark + ',' + gDark + ',' +  bDark + ')';
+        //     }
+        // }
+
+    }
+
+
     setAlarmMeridiem(alarmMeridiem);
     setMeridiem();
+}
+
+function createRandomStyleClasses(light, dark) {
+    return "span.random { background-color: " + light + ";" +
+    "} span.random-dark { background-color: " + dark + ";" +
+    "} #alarmTime.random, .random { color: " + light + ";" +
+    "} #alarmTime.random-dark, .random-dark{ color: " + dark + ";" +
+    "}"
 }
