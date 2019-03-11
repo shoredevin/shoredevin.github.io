@@ -221,6 +221,7 @@ span.red-dark {
     color: white;
     width: 634px;
     text-align: center;
+    display: none;
 }
 #snoozeText {
     color: white;
@@ -233,4 +234,13 @@ span.red-dark {
     text-align: center;
     font-size: 30px;
     border-radius: 5px;
+}
+
+#selector-container {
+    padding-top: 10px;
+}
+
+#save-container {
+    padding-top: 10px;
+    display: none;
 }

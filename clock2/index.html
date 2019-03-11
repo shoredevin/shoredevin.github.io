@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>CSS/JS Clock</title>
-        <link rel="stylesheet" type="text/css" href="styles/styles.css">
+        <link rel="stylesheet" type="text/css" id="stylin" href="styles/styles.css">
         <link rel="shortcut icon" href="images/clock.ico" type="image/x-icon">
         <style id="random-style-elem">
         </style>
@@ -129,7 +129,7 @@
                 </div>
             </div>
             <div id="ringAlarm"><button onclick="ringAlarm()">Ring Alarm</button></div>
-            <div>
+            <div id="selector-container">
                 <select name="colorSelector" id="colorSelector" class="colorSelector" onchange="changeThemeColor(this.value)">
                     <option disabled selected="true">Choose Theme</option>
                     <option value="red">red</option> 
@@ -139,6 +139,10 @@
                     <option value="random">random</option>
                     <option value="random">random2</option>
                 </select>
+            </div>
+            <div id="save-container">
+                <input type="text" placeholder="Theme Name" id="themeName">
+                <input type="button" value="Save Theme" onclick="saveTheme()">
             </div>
         </div>
     </body>

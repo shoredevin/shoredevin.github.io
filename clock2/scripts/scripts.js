@@ -2,12 +2,18 @@ var devdevedev;
 setInterval(getCurrentTime, 1000);
 var audio = new Audio('audio/Loud-alarm-clock-sound.wav');
 
-var x = {
-    "time": "1:00",
-    "checked": true
+
+window.onload = function () {
+    addCustomsToColorSelector();
+    buildInitialSavedThemes();
 }
 
-JSON.stringify(x)
+// var x = {
+//     "time": "1:00",
+//     "checked": true
+// }
+
+// JSON.stringify(x)
 
 var alarmMeridiem = undefined;
 var theme = "red";
@@ -15,6 +21,12 @@ var currentHour24;
 var alarmHour12 = undefined;
 var alarmMinute = undefined;
 var randomStyleClasses;
+var r;
+var g;
+var b;
+var rDark;
+var gDark;
+var bDark;
 
 function getCurrentTime() {
     // changeThemeColor();
@@ -39,10 +51,10 @@ function getCurrentTime() {
     //ring alarm
     //console.log(currentSeconds);
     if (currentSeconds == "00") {
-        // document.getElementById('snooze-container').hidden = false;
+        document.getElementById('snooze-container').style = "display: none";
     }
     //console.log(alarmHour24 + ":" + alarmMinute)
-    if(alarmHour24 == currentHour24 && alarmMinute == currentMinutes && alarmSeconds == currentSeconds){
+    if (alarmHour24 == currentHour24 && alarmMinute == currentMinutes && alarmSeconds == currentSeconds){
         ringAlarm();
     } 
     //   
@@ -89,7 +101,7 @@ function ringAlarm() {
     audio.play();
     // document.getElementById('snooze').innerHTML = '<button id="snoozeButton" onclick="snooze()">Snooze</button>';
 
-    document.getElementById('snooze-container').hidden = false;
+    document.getElementById('snooze-container').style = "display: block";
 
     //var input = document.getElementById('snooze');
     window.addEventListener("keyup", function (event) {
@@ -166,12 +178,12 @@ function snooze() {
     // document.getElementById('snoozeText').innerHTML = '';
     // document.getElementById('snoozeTime').innerHTML = '';
 
-    document.getElementById('snooze-container').hidden = true;
+    document.getElementById('snooze-container').style = "display: none";
     writeAlarm();
 }
 
 function changeThemeColor(color) {
-
+    document.getElementById("save-container").style = "display: none";
     // var color = document.getElementById('colorSelector').value;
     //console.log(color)
     // if (color == "blue") {
@@ -191,6 +203,12 @@ function changeThemeColor(color) {
             elem.classList.remove("green");
             elem.classList.remove("purple");
             elem.classList.remove("random");
+            
+            var length = localStorage.length;
+            for (var i = 0; i < length; i++) {
+                var currColor = localStorage.key(i);
+                elem.classList.remove(currColor);
+            }
             elem.classList.add(color);
         }
     }
@@ -200,6 +218,12 @@ function changeThemeColor(color) {
     backgroundElem.classList.remove("green-dark");
     backgroundElem.classList.remove("purple-dark");
     backgroundElem.classList.remove("random-dark");
+
+    for (var i = 0; i < length; i++) {
+        var currColor = localStorage.key(i);
+        backgroundElem.classList.remove(currColor  + "-dark");
+    }
+
     backgroundElem.classList.add(color + "-dark");
 
     elems = document.getElementsByClassName("light");
@@ -208,12 +232,13 @@ function changeThemeColor(color) {
     }
 
     if (color == "random") {
-        var r = Math.floor(Math.random() * 256);
-        var g = Math.floor(Math.random() * 256);
-        var b = Math.floor(Math.random() * 256);
-        var rDark = r * .2;
-        var gDark = g * .2;
-        var bDark = b * .2;
+        document.getElementById("save-container").style = "display: block";
+        r = Math.floor(Math.random() * 256);
+        g = Math.floor(Math.random() * 256);
+        b = Math.floor(Math.random() * 256);
+        rDark = r * .2;
+        gDark = g * .2;
+        bDark = b * .2;
         //document.getElementById('box1').style.backgroundColor = 'rgb(' + r + ',' + g + ',' +  b + ')';
         //document.getElementById('random').style.color = 'pink';
         //document.getElementsByClassName('random-dark').style.color = 'purple';
@@ -252,8 +277,6 @@ function changeThemeColor(color) {
         // }
 
     }
-
-
     setAlarmMeridiem(alarmMeridiem);
     setMeridiem();
 }
@@ -264,4 +287,71 @@ function createRandomStyleClasses(light, dark) {
     "} #alarmTime.random, .random { color: " + light + ";" +
     "} #alarmTime.random-dark, .random-dark{ color: " + dark + ";" +
     "}"
+}
+
+function saveTheme() {
+    var themeName = document.getElementById("themeName").value;
+    if (themeName == "") {
+        alert("A name must be entered");
+    } else {
+        alert("You saved a theme named: " + themeName + " (r" + r + ".g" + g + ".b" + b + ")");
+        //var themeName = "*" + document.getElementById("themeName").value;
+        document.getElementById("themeName").value = "";
+        document.getElementById("save-container").style = "display: none";
+        //var rgb = r+"."+g+"."+b;
+        var color = [r, g, b];
+        localStorage.setItem(themeName, JSON.stringify(color));
+        
+        addCustomsToColorSelector();
+        addCustomThemeToCss(themeName);
+        // var retrievedData = localStorage.getItem("light-purple");
+        // var colorPurple = JSON.parse(retrievedData);
+        // console.log(colorPurple[1]);
+    }
+}
+
+function addCustomsToColorSelector() {
+    console.log("adding customs");
+    var length = localStorage.length;
+    for (var i = 0; i < length; i++) {
+        var currColor = localStorage.key(i);
+        var select = document.getElementById("colorSelector");
+        select.options[select.options.length] = new Option(currColor, currColor);
+        console.log(localStorage.key(i));
+    }
+}
+
+function addCustomThemeToCss(themeName) {
+    var light = "rgb(" + r + "," + g + "," + b + ")";
+    var dark = "rgb(" + rDark + "," + gDark + "," + bDark + ")";
+
+    var sheet = document.getElementById('stylin').sheet
+    var css_rules_num = sheet.cssRules.length;
+    
+    var string1 = "span." + themeName + " {background-color:" + light + ";}";
+    console.log(string1);
+    var string2 = "span." + themeName + "-dark" + " {background-color:" + dark + ";}";
+    var string3 = "#alarmTime." + themeName + ", ." + themeName + " {color:" + light + ";}";
+    var string4 = "#alarmTime." + themeName + "-dark" + ", ." + themeName + "-dark" + " {color:" + dark + ";}";
+
+    sheet.insertRule(string1, css_rules_num);    
+    sheet.insertRule(string2, css_rules_num+1);    
+    sheet.insertRule(string3, css_rules_num+2);    
+    sheet.insertRule(string4, css_rules_num+1);    
+}   
+
+function buildInitialSavedThemes() {
+    var length = localStorage.length;
+    for (var i = 0; i < length; i++) {
+        var currColor = localStorage.key(i);
+        console.log(currColor);
+        var rgb = JSON.parse(localStorage.getItem(currColor)); 
+        console.log(rgb);
+        console.log(rgb.length)
+        r = rgb[0];
+        g = rgb[1];
+        b = rgb[2];
+        var themeName = currColor;
+        addCustomThemeToCss(themeName);
+    }
 }
