@@ -351,6 +351,9 @@ function buildInitialSavedThemes() {
         r = rgb[0];
         g = rgb[1];
         b = rgb[2];
+        rDark = r * .2;
+        gDark = g * .2;
+        bDark = d * .2;
         var themeName = currColor;
         addCustomThemeToCss(themeName);
     }
