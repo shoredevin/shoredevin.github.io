@@ -4,8 +4,9 @@ var audio = new Audio('audio/Loud-alarm-clock-sound.wav');
 
 
 window.onload = function () {
-    addCustomsToColorSelector();
+    addCustomsToColorSelector("old");
     buildInitialSavedThemes();
+    showClearSavedThemesButton();
 }
 
 // var x = {
@@ -97,7 +98,10 @@ function writeAlarm(alarmTime) {
     elem.innerHTML = alarmTime12;
 }
 
-function ringAlarm() {        
+function ringAlarm() { 
+    var vol = document.getElementById("myRange").value/100; 
+    console.log("Ring volume: " + vol);
+    audio.volume = vol;      
     audio.play();
     // document.getElementById('snooze').innerHTML = '<button id="snoozeButton" onclick="snooze()">Snooze</button>';
 
@@ -140,7 +144,7 @@ function setAlarmMeridiem(meridia) {
     var amLight = document.getElementById("amAlarmLight")
     var pmLight = document.getElementById("pmAlarmLight")
     if (meridia != undefined) {
-        console.log(meridia)
+        //console.log(meridia)
         alarmMeridiem = meridia;
         if (meridia == "am") {
             amLight.classList.add(theme);
@@ -165,7 +169,7 @@ function snooze() {
     alarmMinute = addLeadingZero(document.getElementById("minute").value);
     alarmHour = addLeadingZero(document.getElementById("hour").value);
     if (Number(alarmMinute)+Number(snoozeTime) > 59) {
-        console.log(Number(alarmMinute)+Number(snoozeTime));
+        //console.log(Number(alarmMinute)+Number(snoozeTime));
         var newAlarmMinute = (Number(addLeadingZero(alarmMinute))+snoozeTime)%60;
         var newAlarmHour = (Number(addLeadingZero(alarmHour))+1);
     } else {
@@ -247,10 +251,7 @@ function changeThemeColor(color) {
 
         document.getElementById("random-style-elem").innerHTML = "";
         document.getElementById("random-style-elem").innerHTML = style;
-
-        console.log(r, g, b);
-        console.log(rDark, gDark, bDark);
-
+        console.log("Random RGB values:" + "\n", "light: " + r, g, b + "\n", "dark: " + rDark, gDark, bDark);
         // var randoms = document.getElementsByClassName('random');
         // for (let random of randoms) {
         //     random.style.color = 'rgb(' + r + ',' + g + ',' +  b + ')';
@@ -302,22 +303,47 @@ function saveTheme() {
         var color = [r, g, b];
         localStorage.setItem(themeName, JSON.stringify(color));
         
-        addCustomsToColorSelector();
+        addCustomsToColorSelector("new");
         addCustomThemeToCss(themeName);
         // var retrievedData = localStorage.getItem("light-purple");
         // var colorPurple = JSON.parse(retrievedData);
         // console.log(colorPurple[1]);
+        showClearSavedThemesButton();
     }
 }
 
-function addCustomsToColorSelector() {
+function addCustomsToColorSelector(trigger) {
     console.log("adding customs");
     var length = localStorage.length;
-    for (var i = 0; i < length; i++) {
-        var currColor = localStorage.key(i);
-        var select = document.getElementById("colorSelector");
-        select.options[select.options.length] = new Option(currColor, currColor);
-        console.log(localStorage.key(i));
+    var select = document.getElementById("colorSelector");
+    var optGroup = document.getElementById("custom-optgroup");
+
+    if (trigger == "new") {
+        for (var i = 0; i < length-1; i++) {
+            select.remove(select.length-1);
+        }
+    }
+    //var selectLength = select.options.length;
+    
+    // var newGroup = document.createElement("OPTGROUP");
+    // newGroup.setAttribute("label", "CustomThemes");
+    // newGroup.appendChild(select.options[3]);
+    // select.insertBefore(newGroup, select.options[3]);
+    if (length > 0) {
+        for (var i = 0; i < length; i++) {
+            var currColor = localStorage.key(i);
+            var optGroup = document.getElementById("custom-optgroup");
+            optGroup.style = "display: block";
+            //var opt = document.createElement("option");
+            opt = new Option("*"+currColor, currColor);
+            // opt.innerHTML = currColor;
+            // opt.value = currColor;
+            select.options[select.options.length] = opt;
+            optGroup.appendChild(opt);
+            //select.options[select.options.length] = new Option("*"+currColor, currColor);
+            //addOptionToSelect(select, currColor, null, {grp:1});
+            console.log(localStorage.key(i));
+        }
     }
 }
 
@@ -329,7 +355,7 @@ function addCustomThemeToCss(themeName) {
     var css_rules_num = sheet.cssRules.length;
     
     var string1 = "span." + themeName + " {background-color:" + light + ";}";
-    console.log(string1);
+    //console.log(string1);
     var string2 = "span." + themeName + "-dark" + " {background-color:" + dark + ";}";
     var string3 = "#alarmTime." + themeName + ", ." + themeName + " {color:" + light + ";}";
     var string4 = "#alarmTime." + themeName + "-dark" + ", ." + themeName + "-dark" + " {color:" + dark + ";}";
@@ -344,10 +370,10 @@ function buildInitialSavedThemes() {
     var length = localStorage.length;
     for (var i = 0; i < length; i++) {
         var currColor = localStorage.key(i);
-        console.log(currColor);
+        //console.log(currColor);
         var rgb = JSON.parse(localStorage.getItem(currColor)); 
-        console.log(rgb);
-        console.log(rgb.length)
+        //console.log(rgb);
+        //console.log(rgb.length)
         r = rgb[0];
         g = rgb[1];
         b = rgb[2];
@@ -356,5 +382,26 @@ function buildInitialSavedThemes() {
         bDark = b * .2;
         var themeName = currColor;
         addCustomThemeToCss(themeName);
+    }
+}
+
+function clearTheme() {
+    var length = localStorage.length;
+    for (var i = 0; i < length; i++) {
+        var select = document.getElementById("colorSelector");
+        select.remove(select.length-1);
+    }
+    localStorage.clear();
+    showClearSavedThemesButton();
+}
+
+function showClearSavedThemesButton() {
+    var length = localStorage.length;
+    if (length > 0) {
+        document.getElementById("clear-theme").style = "display: inline";
+    } else {
+        document.getElementById("clear-theme").style = "display: none";
+        var optGroup = document.getElementById("custom-optgroup");
+        optGroup.style = "display: none";
     }
 }

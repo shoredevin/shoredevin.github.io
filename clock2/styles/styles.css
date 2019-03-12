@@ -25,7 +25,7 @@ body {
 .alarmSetTime {
     font-size: 20;
     padding-top: 75px;
-    width: 200px;
+    width: 500px;
     position: absolute;
 }
 
@@ -238,9 +238,39 @@ span.red-dark {
 
 #selector-container {
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #save-container {
-    padding-top: 10px;
+    padding-bottom: 10px;
+    display: none;
+}
+
+#volume-container {
+    display: inline-block;
+    
+
+    /* border: 5px solid darkgrey;
+    border-radius: 10px;
+    padding: 5px;
+    width: 624px; */
+    /*margin-bottom: 20px;*/
+}
+
+#volText {
+    display: inline-block;
+}
+
+#myRange {
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    float: right;
+}
+
+#clear-theme {
+    display: none;
+}
+
+#custom-optgroup {
     display: none;
 }

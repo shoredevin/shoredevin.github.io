@@ -110,7 +110,9 @@
                     <span class="light themed-elem red-dark" id="amAlarmLight"></span>
                     <span id="am" class="plainText"> AM </span>  
                     <span class="light themed-elem red-dark" id="pmAlarmLight"></span>
-                    <span id="pm" class="plainText"> PM </span>
+                    <span id="pm" class="plainText"> PM</span>
+                    <input type="range" min="0" max="100" value="100" class="slider" id="myRange">
+                    <span style="color:white; font-weight:bolder;">🕩</span>
                 </div>
             </div>
             <div id="snooze-container">
@@ -132,13 +134,18 @@
             <div id="selector-container">
                 <select name="colorSelector" id="colorSelector" class="colorSelector" onchange="changeThemeColor(this.value)">
                     <option disabled selected="true">Choose Theme</option>
-                    <option value="red">red</option> 
-                    <option value="blue">blue</option> 
-                    <option value="green">green</option>
-                    <option value="purple">purple</option>
-                    <option value="random">random</option>
-                    <option value="random">random2</option>
+                    <optgroup label="Default Themes" id="default-optgroup">
+                        <option value="red">red</option> 
+                        <option value="blue">blue</option> 
+                        <option value="green">green</option>
+                        <option value="purple">purple</option>
+                        <option value="random">random</option>
+                        <option value="random">random2</option>
+                    </optgroup>
+                    <optgroup label="Custom Themes" id="custom-optgroup">
+                    </optgroup>
                 </select>
+                <button type="button" id="clear-theme" onclick="clearTheme()">Clear saved themes</button>
             </div>
             <div id="save-container">
                 <input type="text" placeholder="Theme Name" id="themeName">
