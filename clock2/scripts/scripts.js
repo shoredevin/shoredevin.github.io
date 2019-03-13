@@ -112,6 +112,12 @@ function ringAlarm() {
         if (event.keyCode === 32) {
             event.preventDefault();
             document.getElementById('snoozeButton').click();
+            window.removeEventListener("keyup", function (event) {
+                if (event.keyCode === 32) {
+                    event.preventDefault();
+                    document.getElementById('snoozeButton').click();
+                }
+            });
         }
     });
 
