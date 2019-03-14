@@ -1,20 +1,11 @@
-var devdevedev;
 setInterval(getCurrentTime, 1000);
 var audio = new Audio('audio/Loud-alarm-clock-sound.wav');
 
-
 window.onload = function () {
     addCustomsToColorSelector("old");
-    buildInitialSavedThemes();
+    //buildInitialSavedThemes();
     showClearSavedThemesButton();
 }
-
-// var x = {
-//     "time": "1:00",
-//     "checked": true
-// }
-
-// JSON.stringify(x)
 
 var alarmMeridiem = undefined;
 var theme = "red";
@@ -88,6 +79,14 @@ function writeTime(hour, minute, second) {
 function addLeadingZero(number) {
     return (number < 10 ? '0' : '') + number
 }
+
+var rgbToHex = function (rgb) { 
+    var hex = Number(rgb).toString(16);
+    if (hex.length < 2) {
+         hex = "0" + hex;
+    }
+    return hex;
+};
 
 function writeAlarm(alarmTime) {
     alarmHour12 = addLeadingZero(document.getElementById("hour").value);
@@ -193,18 +192,14 @@ function snooze() {
 }
 
 function changeThemeColor(color) {
+    var savedRgb = localStorage.getItem(color); 
+    if (savedRgb !== null) {
+        color = "random";
+    }
     document.getElementById("save-container").style = "display: none";
-    // var color = document.getElementById('colorSelector').value;
-    //console.log(color)
-    // if (color == "blue") {
-        // document.getElementById('clock').style.color = "blue";
-        // document.getElementById('background').style.color = "#000032";
-    
     theme = color;
     var elems = document.getElementsByClassName("themed-elem");
-    //console.log(elems)
     for (let elem of elems) {
-        //console.log(elem.id + "  " + elem.innerHTML);
         if (elem.id == "alarmTime" && elem.innerHTML == "88:88") {
             elem.className = "themed-elem " + color + "-dark"
         } else {
@@ -213,12 +208,6 @@ function changeThemeColor(color) {
             elem.classList.remove("green");
             elem.classList.remove("purple");
             elem.classList.remove("random");
-            
-            var length = localStorage.length;
-            for (var i = 0; i < length; i++) {
-                var currColor = localStorage.key(i);
-                elem.classList.remove(currColor);
-            }
             elem.classList.add(color);
         }
     }
@@ -242,47 +231,37 @@ function changeThemeColor(color) {
     }
 
     if (color == "random") {
-        document.getElementById("save-container").style = "display: block";
-        r = Math.floor(Math.random() * 256);
-        g = Math.floor(Math.random() * 256);
-        b = Math.floor(Math.random() * 256);
+        if (savedRgb === null) {
+            document.getElementById("save-container").style = "display: block";
+            r = Math.floor(Math.random() * 256);
+            g = Math.floor(Math.random() * 256);
+            b = Math.floor(Math.random() * 256);
+        } else {
+            savedRgb = JSON.parse(savedRgb);
+            r = savedRgb[0];
+            g = savedRgb[1];
+            b = savedRgb[2];
+        }
+        //get hex value for random color rgb
+        var hexR = rgbToHex(r);
+        var hexG = rgbToHex(g);
+        var hexB = rgbToHex(b);
+        var hexColor = "#"+hexR+hexG+hexB;
+        //create dark version of RGB color (1/5 light color)
         rDark = r * .2;
         gDark = g * .2;
         bDark = b * .2;
-        //document.getElementById('box1').style.backgroundColor = 'rgb(' + r + ',' + g + ',' +  b + ')';
-        //document.getElementById('random').style.color = 'pink';
-        //document.getElementsByClassName('random-dark').style.color = 'purple';
-
+        //set style
         var style = createRandomStyleClasses('rgb(' + r + ',' + g + ',' +  b + ')', 'rgb(' + rDark + ',' + gDark + ',' +  bDark + ')');
-
         document.getElementById("random-style-elem").innerHTML = "";
         document.getElementById("random-style-elem").innerHTML = style;
-        console.log("Random RGB values:" + "\n", "light: " + r, g, b + "\n", "dark: " + rDark, gDark, bDark);
-        // var randoms = document.getElementsByClassName('random');
-        // for (let random of randoms) {
-        //     random.style.color = 'rgb(' + r + ',' + g + ',' +  b + ')';
-        // }
-
-        // var darkRandoms = document.getElementsByClassName('random-dark');
-        // for (let darkRandom of darkRandoms) {
-        //     darkRandom.style.color = 'rgb(' + rDark + ',' + gDark + ',' +  bDark + ')';
-        // }
-
-        // var spans = document.getElementsByTagName('span');
-        // console.log(spans);
-
-        // for (var span of spans) {
-        //     spanRandoms = span.getElementsByClassName('random');
-        //     for (let spanRandom of spanRandoms) {
-        //     //if (span.getElementsByClassName('random') == true) {
-        //     span.style.backgroundColor = 'rgb(' + r + ',' + g + ',' +  b + ')';
-        //     }
-        //     var spandarkRandoms = span.getElementsByClassName('random-dark');
-        //     for (let spandarkRandom of spandarkRandoms) {
-        //         spandarkRandom.style.backgroundColor = 'rgb(' + rDark + ',' + gDark + ',' +  bDark + ')';
-        //     }
-        // }
-
+        //get and print name of random color hex
+        if (savedRgb === null) {
+            var randomColorName  = ntc.name(hexColor)[1];
+            console.log("Random RGB name: " + randomColorName);
+            console.log("Random RGB values:" + "\n", "light: " + r, g, b + "\n", "dark: " + rDark, gDark, bDark);
+            document.getElementById('themeName').value = randomColorName;
+        }
     }
     setAlarmMeridiem(alarmMeridiem);
     setMeridiem();
@@ -302,18 +281,12 @@ function saveTheme() {
         alert("A name must be entered");
     } else {
         alert("You saved a theme named: " + themeName + " (r" + r + ".g" + g + ".b" + b + ")");
-        //var themeName = "*" + document.getElementById("themeName").value;
         document.getElementById("themeName").value = "";
         document.getElementById("save-container").style = "display: none";
-        //var rgb = r+"."+g+"."+b;
         var color = [r, g, b];
         localStorage.setItem(themeName, JSON.stringify(color));
-        
         addCustomsToColorSelector("new");
-        addCustomThemeToCss(themeName);
-        // var retrievedData = localStorage.getItem("light-purple");
-        // var colorPurple = JSON.parse(retrievedData);
-        // console.log(colorPurple[1]);
+        changeThemeColor(themeName);
         showClearSavedThemesButton();
     }
 }
@@ -323,73 +296,55 @@ function addCustomsToColorSelector(trigger) {
     var length = localStorage.length;
     var select = document.getElementById("colorSelector");
     var optGroup = document.getElementById("custom-optgroup");
-
     if (trigger == "new") {
         for (var i = 0; i < length-1; i++) {
             select.remove(select.length-1);
         }
     }
-    //var selectLength = select.options.length;
-    
-    // var newGroup = document.createElement("OPTGROUP");
-    // newGroup.setAttribute("label", "CustomThemes");
-    // newGroup.appendChild(select.options[3]);
-    // select.insertBefore(newGroup, select.options[3]);
     if (length > 0) {
         for (var i = 0; i < length; i++) {
             var currColor = localStorage.key(i);
             var optGroup = document.getElementById("custom-optgroup");
             optGroup.style = "display: block";
-            //var opt = document.createElement("option");
-            opt = new Option("*"+currColor, currColor);
-            // opt.innerHTML = currColor;
-            // opt.value = currColor;
+            opt = new Option(currColor, currColor);
             select.options[select.options.length] = opt;
             optGroup.appendChild(opt);
-            //select.options[select.options.length] = new Option("*"+currColor, currColor);
-            //addOptionToSelect(select, currColor, null, {grp:1});
             console.log(localStorage.key(i));
         }
     }
 }
 
-function addCustomThemeToCss(themeName) {
-    var light = "rgb(" + r + "," + g + "," + b + ")";
-    var dark = "rgb(" + rDark + "," + gDark + "," + bDark + ")";
+// function addCustomThemeToCss(themeName) {
+//     var light = "rgb(" + r + "," + g + "," + b + ")";
+//     var dark = "rgb(" + rDark + "," + gDark + "," + bDark + ")";
 
-    var sheet = document.getElementById('stylin').sheet
-    var css_rules_num = sheet.cssRules.length;
+//     var sheet = document.getElementById('stylin').sheet
+//     var css_rules_num = sheet.cssRules.length;
     
-    var string1 = "span." + themeName + " {background-color:" + light + ";}";
-    //console.log(string1);
-    var string2 = "span." + themeName + "-dark" + " {background-color:" + dark + ";}";
-    var string3 = "#alarmTime." + themeName + ", ." + themeName + " {color:" + light + ";}";
-    var string4 = "#alarmTime." + themeName + "-dark" + ", ." + themeName + "-dark" + " {color:" + dark + ";}";
+//     var string1 = "span." + themeName + " {background-color:" + light + ";}";
+//     var string2 = "span." + themeName + "-dark" + " {background-color:" + dark + ";}";
+//     var string3 = "#alarmTime." + themeName + ", ." + themeName + " {color:" + light + ";}";
+//     var string4 = "#alarmTime." + themeName + "-dark" + ", ." + themeName + "-dark" + " {color:" + dark + ";}";
 
-    sheet.insertRule(string1, css_rules_num);    
-    sheet.insertRule(string2, css_rules_num+1);    
-    sheet.insertRule(string3, css_rules_num+2);    
-    sheet.insertRule(string4, css_rules_num+1);    
-}   
+//     sheet.insertRule(string1, css_rules_num);    
+//     sheet.insertRule(string2, css_rules_num+1);    
+//     sheet.insertRule(string3, css_rules_num+2);    
+//     sheet.insertRule(string4, css_rules_num+1);    
+// }   
 
-function buildInitialSavedThemes() {
-    var length = localStorage.length;
-    for (var i = 0; i < length; i++) {
-        var currColor = localStorage.key(i);
-        //console.log(currColor);
-        var rgb = JSON.parse(localStorage.getItem(currColor)); 
-        //console.log(rgb);
-        //console.log(rgb.length)
-        r = rgb[0];
-        g = rgb[1];
-        b = rgb[2];
-        rDark = r * .2;
-        gDark = g * .2;
-        bDark = b * .2;
-        var themeName = currColor;
-        addCustomThemeToCss(themeName);
-    }
-}
+// function buildInitialSavedThemes() {
+//     var length = localStorage.length;
+//     for (var i = 0; i < length; i++) {
+//         var currColor = localStorage.key(i);
+//         var rgb = JSON.parse(localStorage.getItem(currColor)); 
+//         r = rgb[0];
+//         g = rgb[1];
+//         b = rgb[2];
+//         rDark = r * .2;
+//         gDark = g * .2;
+//         bDark = b * .2;
+//     }
+// }
 
 function clearTheme() {
     var length = localStorage.length;
