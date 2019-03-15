@@ -119,7 +119,6 @@ function ringAlarm() {
             });
         }
     });
-
     // document.getElementById('snoozeText').innerHTML = "Snooze for this many minutes:";
     // document.getElementById('snoozeTime').innerHTML = '<select name="snoozeSelector" id="snoozeSelector" class="snoozeSelector"><option value="10">10</option> <option value="15">15</option> <option value="20">20</option> <option value="25">25</option> <option value="30">Lazy Fucker</option></select>';
 }
@@ -166,32 +165,7 @@ function setAlarmMeridiem(meridia) {
         amLight.classList.add(theme + "-dark");
         pmLight.classList.add(theme + "-dark");
     }
-}
-
-function snooze() {
-    audio.pause();
-    var snoozeTime = Number(document.getElementById("snoozeSelector").value);
-    alarmMinute = addLeadingZero(document.getElementById("minute").value);
-    alarmHour = addLeadingZero(document.getElementById("hour").value);
-    if (Number(alarmMinute)+Number(snoozeTime) > 59) {
-        //console.log(Number(alarmMinute)+Number(snoozeTime));
-        var newAlarmMinute = (Number(addLeadingZero(alarmMinute))+snoozeTime)%60;
-        var newAlarmHour = (Number(addLeadingZero(alarmHour))+1);
-    } else {
-        var newAlarmMinute = Number(addLeadingZero(alarmMinute))+snoozeTime;
-        var newAlarmHour = Number(addLeadingZero(alarmHour));
-    }
-    document.getElementById("minute").value = newAlarmMinute;
-    document.getElementById("hour").value = newAlarmHour;
-    // document.getElementById('snooze').innerHTML = '';
-    // document.getElementById('snoozeText').innerHTML = '';
-    // document.getElementById('snoozeTime').innerHTML = '';
-
-    document.getElementById('snooze-container').style = "display: none";
-    writeAlarm();
-}
-
-function changeThemeColor(color) {
+}function changeThemeColor(color) {
     var savedRgb = localStorage.getItem(color); 
     if (savedRgb !== null) {
         color = "random";
@@ -267,6 +241,31 @@ function changeThemeColor(color) {
     setMeridiem();
 }
 
+function snooze() {
+    audio.pause();
+    var snoozeTime = Number(document.getElementById("snoozeSelector").value);
+    alarmMinute = addLeadingZero(document.getElementById("minute").value);
+    alarmHour = addLeadingZero(document.getElementById("hour").value);
+    if (Number(alarmMinute)+Number(snoozeTime) > 59) {
+        //console.log(Number(alarmMinute)+Number(snoozeTime));
+        var newAlarmMinute = (Number(addLeadingZero(alarmMinute))+snoozeTime)%60;
+        var newAlarmHour = (Number(addLeadingZero(alarmHour))+1);
+    } else {
+        var newAlarmMinute = Number(addLeadingZero(alarmMinute))+snoozeTime;
+        var newAlarmHour = Number(addLeadingZero(alarmHour));
+    }
+    document.getElementById("minute").value = newAlarmMinute;
+    document.getElementById("hour").value = newAlarmHour;
+    // document.getElementById('snooze').innerHTML = '';
+    // document.getElementById('snoozeText').innerHTML = '';
+    // document.getElementById('snoozeTime').innerHTML = '';
+
+    document.getElementById('snooze-container').style = "display: none";
+    writeAlarm();
+}
+
+
+
 function createRandomStyleClasses(light, dark) {
     return "span.random { background-color: " + light + ";" +
     "} span.random-dark { background-color: " + dark + ";" +
@@ -277,22 +276,34 @@ function createRandomStyleClasses(light, dark) {
 
 function saveTheme() {
     var themeName = document.getElementById("themeName").value;
-    if (themeName == "") {
-        alert("A name must be entered");
-    } else {
-        alert("You saved a theme named: " + themeName + " (r" + r + ".g" + g + ".b" + b + ")");
-        document.getElementById("themeName").value = "";
-        document.getElementById("save-container").style = "display: none";
-        var color = [r, g, b];
-        localStorage.setItem(themeName, JSON.stringify(color));
-        addCustomsToColorSelector("new");
-        changeThemeColor(themeName);
-        showClearSavedThemesButton();
+    var selections = document.getElementById('colorSelector');
+    try {
+        var themeIndex = document.getElementById(themeName.toLowerCase()).index;
+    } catch(err) {
+        var themeIndex = -1;
+    }
+    for (var i = 0; i < selections.options.length; i++){
+        if (themeName == "") {
+            alert("A name must be entered");
+            break;
+        } else if (themeIndex >= 0) {
+            alert("Custom theme name already in use");
+            break;
+        } else if (themeIndex < 0) {   
+            alert("You saved a theme named: " + themeName + " (r" + r + ".g" + g + ".b" + b + ")");
+            document.getElementById("themeName").value = "";
+            document.getElementById("save-container").style = "display: none";
+            var color = [r, g, b];
+            localStorage.setItem(themeName, JSON.stringify(color));
+            addCustomsToColorSelector("new");
+            changeThemeColor(themeName);
+            showClearSavedThemesButton(); 
+            break;
+        }    
     }
 }
 
-function addCustomsToColorSelector(trigger) {
-    console.log("adding customs");
+function addCustomsToColorSelector(trigger) { 
     var length = localStorage.length;
     var select = document.getElementById("colorSelector");
     var optGroup = document.getElementById("custom-optgroup");
@@ -302,12 +313,14 @@ function addCustomsToColorSelector(trigger) {
         }
     }
     if (length > 0) {
+        console.log("adding customs");
         for (var i = 0; i < length; i++) {
             var currColor = localStorage.key(i);
             var optGroup = document.getElementById("custom-optgroup");
             optGroup.style = "display: block";
             opt = new Option(currColor, currColor);
             select.options[select.options.length] = opt;
+            opt.setAttribute("id", currColor.toLowerCase());
             optGroup.appendChild(opt);
             console.log(localStorage.key(i));
         }
