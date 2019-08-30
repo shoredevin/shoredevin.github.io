@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Google Sheets API Quickstart</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="scripts/scripts.js"></script>
+  <style type="text/css"></style>
+</head>
+
+<body>
+  <div id="header">
+    <h1>Pokedex Project v1.0</h1>
+    
+  </div>
+
+  <!--Add buttons to initiate auth sequence and sign out-->
+  <button id="authorize_button" style="display: none;" class="test">Authorize</button>
+  <button id="signout_button" style="display: none;" class="test">Sign Out</button>
+  <!-- <div class="user-icon-container"><img id="user-icon" src="/images/users-icons/pokefan_m.png"></div> -->
+  
+  <!-- <button id="save_button" style="display: block;" onclick="saveSheet()">Save</button> -->
+
+  <div id="pre">placeholder</div>
+
+  <div id="content-container" style="display: none">
+
+    <p id="instructions">To search for caught Pokemon or shiny Pokemon click the table header for their respective
+      columns:</p>
+
+    <div id="search-container">
+      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+      <input type="image" id="clear-button" src="/images/clear.png" onclick="clearSearch()">
+    </div>
+
+    <div id='table-container'>
+      <table id='myTable'>
+        <thead>
+          <tr>
+            <th>Id:</th>
+            <th>Sprite:</th>
+            <th>Name:</th>
+            <th colspan="2">Type:</th>
+            <th class="pointer-cell" onclick="addToSearch('★')">Caught:</th>
+            <th class="pointer-cell" onclick="addToSearch('♥')">Shiny:</th>
+            <th>Notes:</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    // Client ID and API key from the Developer Console
+    var CLIENT_ID = '1031814387459-03essqpn06v2iqa7qhqlvrgk27t70c2q.apps.googleusercontent.com';
+    var API_KEY = 'AIzaSyAiTPu0gDQqDPL0-LKbSu1Jvw4lcCEdFvE';
+
+    // Array of API discovery doc URLs for APIs used by the quickstart
+    var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+
+    var authorizeButton = document.getElementById('authorize_button');
+    var signoutButton = document.getElementById('signout_button');
+    var tableStorage;
+    var userEmail;
+    var sheet;
+    /**
+     *  On load, called to load the auth2 library and API client library.
+     */
+    function handleClientLoad() {
+      gapi.load('client:auth2', initClient);
+    }
+
+    /**
+     *  Initializes the API client library and sets up sign-in state
+     *  listeners.
+     */
+    function initClient() {
+      gapi.client.init({
+        apiKey: API_KEY,
+        clientId: CLIENT_ID,
+        discoveryDocs: DISCOVERY_DOCS,
+        scope: SCOPES
+      }).then(function () {
+        // Listen for sign-in state changes.
+        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+        // Handle the initial sign-in state.
+        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        authorizeButton.onclick = handleAuthClick;
+        signoutButton.onclick = handleSignoutClick;
+      }, function (error) {
+        appendPre(JSON.stringify(error, null, 2));
+      });
+    }
+
+    /**
+     *  Called when the signed in status changes, to update the UI
+     *  appropriately. After a sign-in, the API is called.
+     */
+    function updateSigninStatus(isSignedIn) {
+      if (isSignedIn) {
+        authorizeButton.style.display = 'none';
+        signoutButton.style.display = 'block';
+        listMajors();
+      } else {
+        authorizeButton.style.display = 'block';
+        signoutButton.style.display = 'none';
+      }
+      // pageLoad = true;
+      // console.log(pageLoad);
+    }
+
+    /**
+     *  Sign in the user upon button click.
+     */
+    function handleAuthClick(event) {
+      gapi.auth2.getAuthInstance().signIn();
+      // location.reload();
+    }
+
+    /**
+     *  Sign out the user upon button click.
+     */
+    function handleSignoutClick(event) {
+      gapi.auth2.getAuthInstance().signOut();
+      document.getElementById('tableBody').innerHTML = '';
+      document.getElementById('content-container').style = 'display:none';
+      document.getElementById('pre').style = 'visibility: hidden';
+
+    }
+
+    /**
+     * Append a pre element to the body containing the given message
+     * as its text node. Used to display the results of the API call.
+     *
+     * @param {string} message Text to be placed in pre element.
+     */
+    function appendPre(message) {
+      var pre = document.getElementById('pre');
+      pre.innerHTML = '';
+      document.getElementById('pre').style = 'background-color: white';
+      document.getElementById('pre').style = 'visibility: visible';
+      var textContent = document.createTextNode(message + '\n');
+      pre.appendChild(textContent);
+    }
+
+    /**
+     * Print the names and majors of students in a sample spreadsheet:
+     * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
+     */
+
+    // var pageLoad = false;
+
+    function listMajors() {
+      userEmail = gapi.auth2.getAuthInstance().currentUser.Ab.w3.U3;
+      var sheetName;
+      var params = {
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
+        range: 'Mappings',
+      };
+      var request = gapi.client.sheets.spreadsheets.values.get(params);
+      request.then(function(response) {
+        // console.log(response.result.values);
+        for(var i = 0; i < response.result.values.length; i++) {
+          if (response.result.values[i][0] == userEmail) {
+            sheetName = response.result.values[i][1];
+            console.log('sheetname ', sheetName);
+          };
+        };
+      }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+      });
+     
+      setTimeout(function() {
+        sheet = sheetName + '!A:H';
+        // console.log('sheet', sheet);
+
+      gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+        range: sheet,
+
+      }).then(function (response) {
+        var range = response.result;
+        if (range.values.length > 0) {
+          console.log(range);
+          console.log('(╯°□°)╯︵◓')
+          document.getElementById('content-container').style = 'display: block';
+          //var tablearea = document.getElementById('tablearea'),
+          table = document.getElementById('myTable');
+          tbdy = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+          for (i = 0; i < range.values.length; i++) {
+            var tr = document.createElement('tr');
+
+            var row = range.values[i];
+
+            for (var k = 0; k < range.values[i].length; k++) {
+              tr.appendChild(document.createElement('td'));
+              if (k != 1) {
+                tr.cells[k].appendChild(document.createTextNode(row[k]));
+
+                if (k == 3 || k == 4) {
+                  var type = row[k].toLowerCase();
+                  var typeClass = type + 'Type';
+                  tr.cells[k].classList.add(typeClass);
+                }
+                if (k == 5) {
+                  tr.cells[k].onclick = function () {
+                    if ($(this).text() == '☆') {
+                      $(this).text('★');
+                      $(this).parent().find('td:eq(1) img').removeClass('grayscale-image');
+                    } else {
+                      var text = $(this).parent().find('td:eq(6)').text();
+                      var r = undefined;
+                      if (text == '♥') {
+                        r = confirm('You are making a shiny Pokemon not caught')
+                      }
+                      if (r == true || r == undefined) {
+                        $(this).parent().find('td:eq(6)').text('♡');
+                        $(this).closest('tr').css('color', 'black');
+                        $(this).text('☆');
+                        var gen = '';
+                        if($(this).parent().find('td:eq(0)').text() < 722) {
+                          gen = 'x-y';
+                        } else if (row[0] < 803){
+                          gen = 'sun-moon';
+                        } else {
+                          gen ='ultra-sun-ultra-moon'
+                        }
+                        var pokemonName = $(this).parent().find('td:eq(2)').text();
+                        var replacementImg = document.createElement('img');
+                        replacementImg.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
+                        $(this).parent().find('td:eq(1)').html(replacementImg);
+                        replacementImg.classList.add('sprite');
+
+                        $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
+                      }
+                    }
+                  };
+                }
+
+                if (k == 6) {
+                  tr.cells[k].onclick = function () {
+                    var img = document.createElement('img');
+                    var pokemonName = $(this).parent().find('td:eq(2)').text();
+                    // var newName = pokemonName.replace(/\W/g, '');
+                    // console.log(newName);
+                    var gen = '';
+                    if($(this).parent().find('td:eq(0)').text() < 722) {
+                      gen = 'x-y';
+                    } else if (row[0] < 803){
+                  gen = 'sun-moon';
+                } else {
+                  gen ='ultra-sun-ultra-moon'
+                }
+                    
+                    var r = undefined;
+                    if ($(this).text() == '♡') {
+                      var text = $(this).parent().find('td:eq(5)').text();
+                      if (text == '☆') {
+                        r = confirm('You are setting the shiny status for an uncaught Pokemon')
+                      }
+                      if (r == true || r == undefined) {
+                        $(this).text('♥');
+                        $(this).closest('tr').css('color', 'red');
+                        img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + pokemonName.toLowerCase() + ".png";
+                        img.classList.add('sprite');
+                        $(this).parent().find('td:eq(1)').html(img);
+                        $(this).parent().find('td:eq(5)').text('★');
+                      }
+                    } else {
+                      $(this).text('♡');
+                      $(this).closest('tr').css('color', 'black');
+                      img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
+                      img.classList.add('sprite');
+                      $(this).parent().find('td:eq(1)').html(img);
+                      var text = $(this).parent().find('td:eq(5)').text();
+                      if (text == '☆') {
+                        $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
+                      }
+                    }
+                  };
+                }
+                if (k == 5 || k == 6 || k == 7) {
+                  tr.cells[k].classList.add('pointer-cell')
+                }
+                if (k == 7) {
+                  tr.cells[k].contentEditable = "true";
+                  tr.cells[k].style = "word-wrap: break-word";
+                }
+              } else {
+                var img = document.createElement('img');
+
+                var gen = '';
+                if(row[0] < 722) {
+                  gen = 'x-y';
+                } else if (row[0] < 803){
+                  gen = 'sun-moon';
+                } else {
+                  gen ='ultra-sun-ultra-moon'
+                }
+
+                if (row[6] == '♥') {
+                  img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
+                } else {
+                  img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
+                }
+
+                fetch(img.src, { method: 'HEAD' })
+                .then(res => {
+ 	              if (res.ok) {
+                  img.src='https://vignette.wikia.nocookie.net/nintendo/images/8/85/MissingNoNormal.png/revision/latest?cb=20131114211037&path-prefix=en';
+ 	              }
+                }).catch(err => console.log('Error:', err));
+
+
+
+                if (gen == 'x-y') {
+                  img.classList.add('sprite');
+                } else {
+                  img.classList.add('sprite-big');
+                }
+                if (row[5] == '☆') {
+                  img.classList.add('grayscale-image');
+                }
+                tr.cells[k].appendChild(img);
+              }
+              if (row[6] == "TRUE" || row[6] == "♥") {
+                tr.style = "color: red";
+              }
+            }
+            tbdy.appendChild(tr);
+          }
+          // tablearea.appendChild(table);
+
+
+        } else {
+          appendPre('No data found.');
+
+          
+          tableStorage = "yeetEmpty";
+        }
+      }, function (response) {
+        appendPre('Error: ' + response.result.error.message);
+        createWorksheet();
+      });
+    }, 5000);
+    }
+     
+    //console.log(myTable)[4];
+  
+//update the googlesheet when changes are made to front end
+$('body').on('DOMSubtreeModified', '.pointer-cell', function () {
+    var values = [];
+    $("table#myTable tr").each(function () {
+        var arrayOfThisRow = [];
+        var tableData = $(this).find('td');
+        
+        if (tableData.length > 0) {
+            tableData.each(function () {
+                if (this == undefined) {
+                    arrayOfThisRow.push($(' ').text());
+                } else {
+                    arrayOfThisRow.push($(this).text());
+                }
+            });
+            for (var i = 0; i < values.length; i++) {
+                if (values[i][7] == '') {
+                    values[i][7] = ' ';
+                }
+            }
+            values.push(arrayOfThisRow);
+        }
+    });
+    
+    var body = {
+        values: values
+    };
+    gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+        range: sheet,
+        valueInputOption: 'RAW',
+        resource: body
+    }).then((response) => {
+        console.log("updates saved...")
+        var result = response.result;
+    }).catch((err) => {
+        console.error(err.result.error.message)
+    });
+
+});
+
+  function createWorksheet() {
+    console.log('got here');
+    var params = {
+      spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',  // TODO: Update placeholder value.
+      sheetId: 1243340013, 
+    };
+
+    var copySheetToAnotherSpreadsheetRequestBody = {
+      destinationSpreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+    };
+
+    var request = gapi.client.sheets.spreadsheets.sheets.copyTo(params, copySheetToAnotherSpreadsheetRequestBody);
+    request.then(function(response) {
+      var sheetName = response.result.title;
+      var sheetId = response.result.sheetId;
+      // console.log(response.result)
+      changeName(sheetId);
+      sheetName = userEmail;
+      addToMappings(sheetName, sheetId);
+    }, function(reason) {
+      console.error('error: ' + reason.result.error.message);
+    });
+  }
+
+  function addToMappings(sheetName, sheetId) {
+    var row;
+    var params = {
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
+        range: 'Mappings',
+    };
+    var request = gapi.client.sheets.spreadsheets.values.get(params);
+      request.then(function(response) {
+        // console.log('*****', response.result.values[2][2])
+        if (response.result.values == undefined) {
+          row = 1;
+        } else {
+          row = response.result.values.length+1;
+        }  
+      }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+      });
+
+    setTimeout(function() {  
+      var values = [[userEmail, sheetName, sheetId]];
+      var body = {
+          values: values
+      };
+      var range = 'Mappings!a' + row + ':c' + row;
+      // console.log(range);
+      gapi.client.sheets.spreadsheets.values.update({
+          spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+          range: range,
+          valueInputOption: 'RAW',
+          resource: body
+      }).then((response) => {
+          console.log("updates saved...")
+          appendPre('Refresh the page to view your Pokedex');
+          var result = response.result;
+      }).catch((err) => {
+          console.error(err.result.error.message);
+      });    
+    }, 5000);
+  }
+
+  function changeName(sheetId) {
+    var requests = [];
+    // Change the spreadsheet's title.
+    requests.push({
+      updateSheetProperties: {
+        properties: {
+        sheetId: sheetId,
+        title: userEmail
+      },
+      fields: 'title'
+    }
+    });
+
+    var batchUpdateRequest = {requests: requests}
+
+    gapi.client.sheets.spreadsheets.batchUpdate({
+      spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+      resource: batchUpdateRequest
+    }).then((response) => {
+      console.log('name changed...');
+    });
+  }
+
+  </script>
+
+  <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+  </script>
+
+  
+</body>
+
+</html>

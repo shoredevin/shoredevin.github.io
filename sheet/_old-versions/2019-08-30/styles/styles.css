@@ -1,0 +1,215 @@
+body {
+    /* padding-top: 10px;
+    padding-left: 10px; */
+    background-image: url("https://cdn.bulbagarden.net/upload/2/25/LGPE_Kanto_Map.png");
+    font-family: 'Lora', sans-serif;
+    background-color: rgb(255,61,0);
+}
+
+#header {
+    margin-top: 40px;
+    background-color: white;
+}
+
+.test {
+    position: absolute;
+    margin-top: 5px;
+    margin-right: 5px;
+    top: 0;
+    right: 0;
+}
+
+.user-icon-container {
+    position: absolute;
+    margin-top: 30px;
+    margin-right: 5px;
+    top: 0;
+    right: 0;
+}
+
+#user-icon {
+    height: 50px;
+}
+
+#pre {
+    background-color: white;
+    margin-top: -10px;
+    font-size: 16px;
+    color: red;
+    visibility: hidden;
+    /* width: 800px; */
+    /* -webkit-text-stroke: .5px black; */
+}
+
+#content-container {
+    background-color: white;
+    width: 800px;
+    text-align: center;
+    margin: auto;
+    box-shadow: 5px 5px 5px black;
+    padding-bottom: 1px;
+    border-radius: 10px;
+    height: 610px;
+}
+
+#instructions {
+    margin: auto;
+    width: 777px;
+    /* background-color: white; */
+    margin-top: 10px;
+    /* margin-bottom: -9px; */
+    text-align: center;
+    font-size: 18px;
+    /* box-shadow: 5px 5px 5px black; */
+
+}
+
+#search-container {
+    width: 790px;
+    position: relative;
+    margin: auto;
+}
+
+#myInput {
+    background-image:url('/images/searchicon.png');
+    background-position: 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 790px;
+    border: 1px solid #ddd; 
+    flex-grow: 2;
+    /* box-shadow: 5px 5px 5px black; */
+
+}
+
+#clear-button {
+    position: absolute;
+    right: 5px;
+    bottom: -7px;
+}
+#table-container {
+    overflow: auto;
+    height: 500px;
+}
+
+table {
+    color: rgb(66,66,66);
+    margin: auto;
+    width: 777px;
+    text-align: center;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 15px;
+    /* padding-bottom: 50px; */
+    /* box-shadow: 5px 5px 5px black; */
+
+}
+
+th, td {
+    border: 1px solid rgb(66,66,66);
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+tr:nth-child(odd) {background-color: rgb(255,255,255);}
+tr:nth-child(even) {background-color: rgb(234,234,234);}
+
+th {
+    background-color: rgb(66,66,66);
+    color: white;
+    text-align: center;
+}
+
+.pointer-cell {
+    cursor: pointer;
+}
+
+.fireType {
+    background-color: orangered;
+    color: white;
+}
+.normalType { 
+    background-color: tan;
+    color: white;
+}
+.waterType { 
+    background-color: dodgerblue;
+    color: white;
+}
+.grassType { 
+    background-color: forestgreen;
+    color: white;
+}
+.electricType { 
+    background-color: gold;
+    color: white;
+}
+.iceType { 
+    background-color: aqua;
+    color: white;
+}
+.fightingType { 
+    background-color: darkred;
+    color: white;
+}
+.poisonType { 
+    background-color: purple;
+    color: white;
+}
+.groundType { 
+    background-color: darkkhaki;
+    color: white;
+}
+.flyingType { 
+    background-color: mediumslateblue;
+    color: white;
+}
+.psychicType { 
+    background-color: deeppink;
+    color: white;
+}
+.bugType { 
+    background-color: yellowgreen;
+    color: white;
+}
+.rockType { 
+    background-color: saddlebrown;
+    color: white;
+}
+.ghostType { 
+    background-color: indigo;
+    color: white;
+}
+.darkType { 
+    background-color: black;
+    color: white;
+}
+.dragonType { 
+    background-color: blueviolet;
+    color: white;
+}
+.steelType { 
+    background-color: lightsteelblue;
+    color: white;
+}
+.fairyType { 
+    background-color: pink;
+    color: white;
+}
+
+.sprite {
+    height: 72px;
+}
+
+.sprite-big {
+    height: 72px;
+}
+
+.grayscale-image {
+    -webkit-filter: grayscale(1);
+    filter: gray;
+    filter: grayscale(1);
+}

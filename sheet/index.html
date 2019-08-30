@@ -8,6 +8,7 @@
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
   <script src="scripts/scripts.js"></script>
   <style type="text/css"></style>
 </head>
@@ -28,15 +29,11 @@
   <div id="pre">placeholder</div>
 
   <div id="content-container" style="display: none">
-
-    <p id="instructions">To search for caught Pokemon or shiny Pokemon click the table header for their respective
-      columns:</p>
-
+    <p id="instructions">To search for caught Pokemon or shiny Pokemon click the table header for their respective columns:</p>
     <div id="search-container">
-      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+      <input class="form-control" id="myInput" type="text" placeholder="Search...">
       <input type="image" id="clear-button" src="/images/clear.png" onclick="clearSearch()">
     </div>
-
     <div id='table-container'>
       <table id='myTable'>
         <thead>
@@ -48,12 +45,12 @@
             <th class="pointer-cell" onclick="addToSearch('★')">Caught:</th>
             <th class="pointer-cell" onclick="addToSearch('♥')">Shiny:</th>
             <th>Notes:</th>
+            <th>Generation:</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
-
   </div>
 
   <script type="text/javascript">
@@ -112,6 +109,7 @@
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
         listMajors();
+        addTimeStamp('f');
       } else {
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
@@ -162,6 +160,7 @@
     // var pageLoad = false;
 
     function listMajors() {
+      appendPre('Loading your Pokedex, please wait...');
       userEmail = gapi.auth2.getAuthInstance().currentUser.Ab.w3.U3;
       var sheetName;
       var params = {
@@ -182,7 +181,7 @@
       });
      
       setTimeout(function() {
-        sheet = sheetName + '!A:H';
+        sheet = sheetName + '!A:I';
         // console.log('sheet', sheet);
 
       gapi.client.sheets.spreadsheets.values.get({
@@ -215,6 +214,7 @@
                 }
                 if (k == 5) {
                   tr.cells[k].onclick = function () {
+                    // console.log('running onclick function');
                     if ($(this).text() == '☆') {
                       $(this).text('★');
                       $(this).parent().find('td:eq(1) img').removeClass('grayscale-image');
@@ -231,8 +231,8 @@
                         var gen = '';
                         if($(this).parent().find('td:eq(0)').text() < 722) {
                           gen = 'x-y';
-                        } else if (row[0] < 803){
-                          gen = 'sun-moon';
+                        // } else if (row[0] < 803){
+                        //   gen = 'sun-moon';
                         } else {
                           gen ='ultra-sun-ultra-moon'
                         }
@@ -257,8 +257,8 @@
                     var gen = '';
                     if($(this).parent().find('td:eq(0)').text() < 722) {
                       gen = 'x-y';
-                    } else if (row[0] < 803){
-                  gen = 'sun-moon';
+                  //   } else if (row[0] < 803){
+                  // gen = 'sun-moon';
                 } else {
                   gen ='ultra-sun-ultra-moon'
                 }
@@ -273,6 +273,19 @@
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
                         img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + pokemonName.toLowerCase() + ".png";
+                        ///**
+                        // console.log(img.src);
+                        // fetch(img.src, {mode: 'no-cors' })
+                        // .then(res => {
+                        //   console.log(res);
+                        //   if (res.ok) {
+                        //     console.log(img.src + ' found');
+                        //   } else {
+                        //     console.log('yeet');
+                        //     img.src = 'https://wiki.p-insurgence.com/images/0/09/722.png';
+                        //   }
+                        // }).catch(err => console.log('Error:', err));
+                        ///**
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
                         $(this).parent().find('td:eq(5)').text('★');
@@ -281,6 +294,16 @@
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
                       img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
+                      ///**
+                      // fetch(img.src, {mode: 'no-cors' })
+                      //   .then(res => {
+                      //     if (res.ok) {
+                      //       console.log(img.src + ' found');
+                      //     } else {
+                      //       img.src = 'https://wiki.p-insurgence.com/images/0/09/722.png';
+                      //     }
+                      //   }).catch(err => console.log('Error:', err));
+                      ///**
                       img.classList.add('sprite');
                       $(this).parent().find('td:eq(1)').html(img);
                       var text = $(this).parent().find('td:eq(5)').text();
@@ -303,8 +326,8 @@
                 var gen = '';
                 if(row[0] < 722) {
                   gen = 'x-y';
-                } else if (row[0] < 803){
-                  gen = 'sun-moon';
+                // } else if (row[0] < 803){
+                //   gen = 'sun-moon';
                 } else {
                   gen ='ultra-sun-ultra-moon'
                 }
@@ -315,12 +338,6 @@
                   img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
                 }
 
-                fetch(img.src, { method: 'HEAD' })
-                .then(res => {
- 	              if (res.ok) {
-                  img.src='https://vignette.wikia.nocookie.net/nintendo/images/8/85/MissingNoNormal.png/revision/latest?cb=20131114211037&path-prefix=en';
- 	              }
-                }).catch(err => console.log('Error:', err));
 
 
 
@@ -333,71 +350,137 @@
                   img.classList.add('grayscale-image');
                 }
                 tr.cells[k].appendChild(img);
+
+                //yeet
+                
+                //
+
+                tr.cells[k].classList.add('pointer-cell');
               }
               if (row[6] == "TRUE" || row[6] == "♥") {
                 tr.style = "color: red";
               }
             }
             tbdy.appendChild(tr);
+            document.getElementById('pre').style = 'visibility: hidden';
           }
           // tablearea.appendChild(table);
 
 
         } else {
           appendPre('No data found.');
-
-          
-          tableStorage = "yeetEmpty";
+          // tableStorage = "yeetEmpty";
         }
       }, function (response) {
-        appendPre('Error: ' + response.result.error.message);
+        // appendPre('Error: ' + response.result.error.message);
+        appendPre('No Pokedex found for ' + userEmail + '. Building Pokedex now, please wait.');
         createWorksheet();
       });
     }, 5000);
-    }
+    //********************
+    //*
+    //* New code goes here
+    //*
+    //*
+    //********************
+    // var getSheetLength = new Promise(function(resolve, reject) {
+      var userSheetLength;
+      var defaultSheetLength;
+      params.range = userEmail;
+      var request = gapi.client.sheets.spreadsheets.values.get(params);
+      request.then(function(response) {
+        userSheetLength = response.result.values.length;
+        console.log('length of user sheet: ' + userSheetLength);
+      });
+
+      params.range = 'Default';
+      var request = gapi.client.sheets.spreadsheets.values.get(params);
+      request.then(function(response) {
+        defaultSheetLength = response.result.values.length;
+        console.log('length of default sheet: ' + defaultSheetLength);
+      });
+      // resolve('done');
+    // });
+
+    // getSheetLength.then(function(value) { 
+    setTimeout (function () {  
+      if(defaultSheetLength > userSheetLength && userSheetLength != null) {
+        // alert('There are Pokemon that have not been added to your Pokedex. Please contact the system administrator.');
+        syncSheets(userSheetLength, defaultSheetLength);
+        //here
+        // var newRange = "Default!A" + userSheetLength + ":H" + defaultSheetLength;
+        // console.log("Default!A" + userSheetLength + ":H" + defaultSheetLength);
+        //
+      }
+    }, 500);
+    // });
+
+
+
+    // document.getElementById('pre').style = 'visibility: hidden';
+  }
+
+  //add link to dex entry
+  $(document).on('click', '.sprite, .sprite-big', function() {
+    var name = $(this).closest('tr').find('td:eq(2)').text().toLowerCase();
+    var url = "https://pokemondb.net/pokedex/" + name;
+    console.log(url);
+    var win = window.self;
+    var h = win.innerHeight/2;
+    var w = win.innerWidth/2;
+    var y = win.top.outerHeight / 2 + win.top.screenY - ( h / 2)
+    var x = win.top.outerWidth / 2 + win.top.screenX - ( w / 2)
+    win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+y+', left='+x);
+  });
+
+// $('.sprite').hover(
+//   function() {
+//     alert("yeet");
+//   }, function() {
+//     $( this ).find( "span:last" ).remove();
+//   }
+// );
+
      
-    //console.log(myTable)[4];
   
 //update the googlesheet when changes are made to front end
-$('body').on('DOMSubtreeModified', '.pointer-cell', function () {
-    var values = [];
-    $("table#myTable tr").each(function () {
+  $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
+    setTimeout(function() { 
+      var values = [];
+      $("table#myTable tr").each(function () {
         var arrayOfThisRow = [];
         var tableData = $(this).find('td');
-        
         if (tableData.length > 0) {
-            tableData.each(function () {
-                if (this == undefined) {
-                    arrayOfThisRow.push($(' ').text());
-                } else {
-                    arrayOfThisRow.push($(this).text());
-                }
-            });
-            for (var i = 0; i < values.length; i++) {
-                if (values[i][7] == '') {
-                    values[i][7] = ' ';
-                }
+          tableData.each(function () {
+            if (this == undefined) {
+              arrayOfThisRow.push($(' ').text());
+            } else {
+              arrayOfThisRow.push($(this).text());
             }
-            values.push(arrayOfThisRow);
+          });
+          for (var i = 0; i < values.length; i++) {
+            if (values[i][7] == '') {
+              values[i][7] = ' ';
+            }
+          }
+          values.push(arrayOfThisRow);
         }
-    });
-    
-    var body = {
+      });
+      var body = {
         values: values
-    };
-    gapi.client.sheets.spreadsheets.values.update({
+      };
+      gapi.client.sheets.spreadsheets.values.update({
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
         range: sheet,
         valueInputOption: 'RAW',
         resource: body
-    }).then((response) => {
-        console.log("updates saved...")
+      }).then((response) => {
         var result = response.result;
-    }).catch((err) => {
-        console.error(err.result.error.message)
-    });
-
-});
+        console.log(`${result.updatedCells} cells updated.`);
+      });
+    }, 500);
+    addTimeStamp("d");
+  });
 
   function createWorksheet() {
     console.log('got here');
@@ -455,12 +538,16 @@ $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
           resource: body
       }).then((response) => {
           console.log("updates saved...")
-          appendPre('Refresh the page to view your Pokedex');
+          appendPre('Refresh the page to view your Pokedex.');
+          addTimeStamp('e');
           var result = response.result;
       }).catch((err) => {
           console.error(err.result.error.message);
       });    
     }, 5000);
+    // setTimeout(function() {
+    //   addTimeStamp('e');
+    // }, 500);
   }
 
   function changeName(sheetId) {
@@ -475,9 +562,7 @@ $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
       fields: 'title'
     }
     });
-
     var batchUpdateRequest = {requests: requests}
-
     gapi.client.sheets.spreadsheets.batchUpdate({
       spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
       resource: batchUpdateRequest
@@ -486,7 +571,80 @@ $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
     });
   }
 
-  </script>
+  function addTimeStamp(column) {
+    var currTime = moment().utc().format("MM-DD-YYYY, HH:mm:ss");
+    var values = [
+        [currTime],
+    ];
+    var body = {
+        values: values
+    };
+    var params = {
+	    spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
+        range: 'Mappings',
+    };
+    var request = gapi.client.sheets.spreadsheets.values.get(params);
+    request.then(function(response) {
+      var length = response.result.values.length;
+      for (var i = 0; i < length; i++) {
+        if(response.result.values[i][0] == userEmail) {
+          let userRow = i + 1;
+          var userCell = 'Mappings!' + column + userRow + ':' + column + userRow;
+          gapi.client.sheets.spreadsheets.values.update({
+              spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+              range: userCell,
+              valueInputOption: 'RAW',
+              resource: body
+          }).then((response) => {
+              var result = response.result;
+              console.log(`${result.updatedCells} cell(s) updated.`);
+          });
+        }
+      }
+    });
+  }
+
+  function syncSheets(userSheetLength, defaultSheetLength) {
+    var values = [];
+
+var params = {
+    spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+    range: 'Default!A810:H810',
+    valueRenderOption: 'FORMATTED_VALUE',
+    dateTimeRenderOption: 'FORMATTED_STRING',
+};
+
+var request = gapi.client.sheets.spreadsheets.values.get(params);
+request.then(function(response) {
+		values = response.result.values;
+	  console.log(values);
+}, function(reason) {
+		console.error('error: ' + reason.result.error.message);
+});
+
+setTimeout(function() {
+	var params = {
+		spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+		range: 'shore.devin@gmail.com!A810',
+		valueInputOption: 'RAW',
+	};
+	
+	//var values = [[ "Ford", "BMW", "Fiat" ]];
+	var body = {
+		values: values
+	};
+	console.log('yeet');
+	console.log(body);
+	var request = gapi.client.sheets.spreadsheets.values.update(params, body);
+	request.then(function(response) {
+		console.log(response.result);
+	}, function(reason) {
+		console.error('error: ' + reason.result.error.message);
+	});
+}, 500);
+  }
+
+</script>
 
   <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
     onreadystatechange="if (this.readyState === 'complete') this.onload()">

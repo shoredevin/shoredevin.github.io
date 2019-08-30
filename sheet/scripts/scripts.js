@@ -32,4 +32,5 @@ function clearSearch() {
     document.getElementById('myInput').value = '';
     document.getElementById('myInput').focus();
     document.activeElement.blur()
+    $('#table-container').scrollTop(0);
 }
