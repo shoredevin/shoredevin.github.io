@@ -201,13 +201,13 @@ th {
     color: white;
 }
 
-.sprite {
+/* .sprite {
     height: 72px;
 }
 
 .sprite-big {
     height: 72px;
-}
+} */
 
 .grayscale-image {
     -webkit-filter: grayscale(1);

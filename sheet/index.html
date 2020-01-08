@@ -238,7 +238,8 @@
                         }
                         var pokemonName = $(this).parent().find('td:eq(2)').text();
                         var replacementImg = document.createElement('img');
-                        replacementImg.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
+                        replacementImg.src = img.src = "/sheet/images/sprites/" + row[0].toLowerCase() + ".gif";
+                        //"https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
                         $(this).parent().find('td:eq(1)').html(replacementImg);
                         replacementImg.classList.add('sprite');
 
