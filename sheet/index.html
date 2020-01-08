@@ -320,9 +320,11 @@
                 }
 
                 if (row[6] == '♥') {
-                  img.src = "/images/sprites" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                  // img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
+                  img.src = "/images/sprites" + row[0].toLowerCase() + "-s" + ".gif";
                 } else {
-                  img.src = "/images/sprites" + pokemonNumber.toLowerCase() + ".gif";
+                  // img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
+                  img.src = "/images/sprites" + row[0].toLowerCase() + ".gif";
                 }
 
 
