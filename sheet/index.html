@@ -272,7 +272,7 @@
                       if (r == true || r == undefined) {
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        img.src = "/images/sprites" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                        img.src = "/images/sprites/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
                         $(this).parent().find('td:eq(5)').text('★');
@@ -280,7 +280,7 @@
                     } else {
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      img.src ="/images/sprites" + pokemonNumber.toLowerCase() + ".gif";
+                      img.src ="/images/sprites/" + pokemonNumber.toLowerCase() + ".gif";
                       ///**
                       // fetch(img.src, {mode: 'no-cors' })
                       //   .then(res => {
@@ -321,10 +321,10 @@
 
                 if (row[6] == '♥') {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
-                  img.src = "/images/sprites" + row[0].toLowerCase() + "-s" + ".gif";
+                  img.src = "/images/sprites/" + row[0].toLowerCase() + "-s" + ".gif";
                 } else {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
-                  img.src = "/images/sprites" + row[0].toLowerCase() + ".gif";
+                  img.src = "/images/sprites/" + row[0].toLowerCase() + ".gif";
                 }
 
 
