@@ -236,9 +236,9 @@
                         } else {
                           gen ='ultra-sun-ultra-moon'
                         }
-                        var pokemonName = $(this).parent().find('td:eq(2)').text();
+                        var pokemonNumber = $(this).parent().find('td:eq(0)').text();
                         var replacementImg = document.createElement('img');
-                        replacementImg.src = img.src = "/sheet/images/sprites/" + row[0].toLowerCase() + ".gif";
+                        replacementImg.src = img.src = "/sheet/images/sprites/" + pokemonNumber + ".gif";
                         //"https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
                         $(this).parent().find('td:eq(1)').html(replacementImg);
                         replacementImg.classList.add('sprite');
