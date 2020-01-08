@@ -609,7 +609,7 @@
 
 var params = {
     spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-    range: 'Default!' + userSheetLength + ':' + defaultSheetLength,
+    range: 'Default!' + 'A' + userSheetLength + ':' + 'H' + defaultSheetLength,
 		//A810:H810',
     valueRenderOption: 'FORMATTED_VALUE',
     dateTimeRenderOption: 'FORMATTED_STRING',
@@ -626,7 +626,7 @@ request.then(function(response) {
 setTimeout(function() {
 	var params = {
 		spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-    range: userEmail + '!' + userSheetLength,
+    range: userEmail + '!' + 'A' + userSheetLength,
 		//A810',
 		valueInputOption: 'RAW',
 	};
