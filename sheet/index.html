@@ -251,7 +251,7 @@
                 if (k == 6) {
                   tr.cells[k].onclick = function () {
                     var img = document.createElement('img');
-                    var pokemonName = $(this).parent().find('td:eq(2)').text();
+                    var pokemonNumber = $(this).parent().find('td:eq(0)').text();
                     // var newName = pokemonName.replace(/\W/g, '');
                     // console.log(newName);
                     var gen = '';
@@ -272,20 +272,7 @@
                       if (r == true || r == undefined) {
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + pokemonName.toLowerCase() + ".png";
-                        ///**
-                        // console.log(img.src);
-                        // fetch(img.src, {mode: 'no-cors' })
-                        // .then(res => {
-                        //   console.log(res);
-                        //   if (res.ok) {
-                        //     console.log(img.src + ' found');
-                        //   } else {
-                        //     console.log('yeet');
-                        //     img.src = 'https://wiki.p-insurgence.com/images/0/09/722.png';
-                        //   }
-                        // }).catch(err => console.log('Error:', err));
-                        ///**
+                        img.src = "/images/sprites" + pokemonNumber.toLowerCase() + "-s" + ".gif";
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
                         $(this).parent().find('td:eq(5)').text('★');
@@ -293,7 +280,7 @@
                     } else {
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
+                      img.src ="/images/sprites" + pokemonNumber.toLowerCase() + ".gif";
                       ///**
                       // fetch(img.src, {mode: 'no-cors' })
                       //   .then(res => {
@@ -333,9 +320,9 @@
                 }
 
                 if (row[6] == '♥') {
-                  img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
+                  img.src = "/images/sprites" + pokemonNumber.toLowerCase() + "-s" + ".gif";
                 } else {
-                  img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
+                  img.src = "/images/sprites" + pokemonNumber.toLowerCase() + ".gif";
                 }
 
 
