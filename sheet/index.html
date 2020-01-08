@@ -609,7 +609,8 @@
 
 var params = {
     spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-    range: 'Default!A810:H810',
+    range: 'Default!' + userSheetLength + ':' + defaultSheetLength,
+		//A810:H810',
     valueRenderOption: 'FORMATTED_VALUE',
     dateTimeRenderOption: 'FORMATTED_STRING',
 };
@@ -625,7 +626,8 @@ request.then(function(response) {
 setTimeout(function() {
 	var params = {
 		spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-		range: 'shore.devin@gmail.com!A810',
+    range: userEmail + '!' + userSheetLength,
+		//A810',
 		valueInputOption: 'RAW',
 	};
 	
