@@ -228,14 +228,14 @@
                         $(this).parent().find('td:eq(6)').text('♡');
                         $(this).closest('tr').css('color', 'black');
                         $(this).text('☆');
-                        var gen = '';
-                        if($(this).parent().find('td:eq(0)').text() < 722) {
-                          gen = 'x-y';
-                        // } else if (row[0] < 803){
-                        //   gen = 'sun-moon';
-                        } else {
-                          gen ='ultra-sun-ultra-moon'
-                        }
+                        // var gen = '';
+                        // if($(this).parent().find('td:eq(0)').text() < 722) {
+                        //   gen = 'x-y';
+                        // // } else if (row[0] < 803){
+                        // //   gen = 'sun-moon';
+                        // } else {
+                        //   gen ='ultra-sun-ultra-moon'
+                        // }
                         var pokemonNumber = $(this).parent().find('td:eq(0)').text();
                         var replacementImg = document.createElement('img');
                         replacementImg.src = img.src = "/sheet/images/sprites/" + pokemonNumber + ".gif";
@@ -255,14 +255,14 @@
                     var pokemonNumber = $(this).parent().find('td:eq(0)').text();
                     // var newName = pokemonName.replace(/\W/g, '');
                     // console.log(newName);
-                    var gen = '';
-                    if($(this).parent().find('td:eq(0)').text() < 722) {
-                      gen = 'x-y';
-                  //   } else if (row[0] < 803){
-                  // gen = 'sun-moon';
-                } else {
-                  gen ='ultra-sun-ultra-moon'
-                }
+                //     var gen = '';
+                //     if($(this).parent().find('td:eq(0)').text() < 722) {
+                //       gen = 'x-y';
+                //   //   } else if (row[0] < 803){
+                //   // gen = 'sun-moon';
+                // } else {
+                //   gen ='ultra-sun-ultra-moon'
+                // }
                     
                     var r = undefined;
                     if ($(this).text() == '♡') {
@@ -273,7 +273,11 @@
                       if (r == true || r == undefined) {
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                        if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
+                          img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
+                        } else {
+                          img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                        }
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
                         $(this).parent().find('td:eq(5)').text('★');
@@ -281,7 +285,11 @@
                     } else {
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + ".gif";
+                      if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
+                        img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + ".gif";
+                      } else {
+                        img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + ".gif";
+                      }
                       ///**
                       // fetch(img.src, {mode: 'no-cors' })
                       //   .then(res => {
@@ -311,14 +319,14 @@
               } else {
                 var img = document.createElement('img');
 
-                var gen = '';
-                if(row[0] < 722) {
-                  gen = 'x-y';
-                // } else if (row[0] < 803){
-                //   gen = 'sun-moon';
-                } else {
-                  gen ='ultra-sun-ultra-moon'
-                }
+                // var gen = '';
+                // if(row[0] < 722) {
+                //   gen = 'x-y';
+                // // } else if (row[0] < 803){
+                // //   gen = 'sun-moon';
+                // } else {
+                //   gen ='ultra-sun-ultra-moon'
+                // }
 
                 if (row[6] == '♥') {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
