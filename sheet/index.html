@@ -273,11 +273,11 @@
                       if (r == true || r == undefined) {
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                          img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
-                        } else {
+                        // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
+                        //   img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
+                        // } else {
                           img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
-                        }
+                        // }
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
                         $(this).parent().find('td:eq(5)').text('★');
@@ -285,11 +285,11 @@
                     } else {
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                        img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + ".gif";
-                      } else {
+                      // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
+                      //   img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + ".gif";
+                      // } else {
                         img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + ".gif";
-                      }
+                      // }
                       ///**
                       // fetch(img.src, {mode: 'no-cors' })
                       //   .then(res => {
