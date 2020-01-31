@@ -605,43 +605,42 @@
   function syncSheets(userSheetLength, defaultSheetLength) {
     var values = [];
 
-var params = {
-    spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-    range: 'Default!' + 'A' + userSheetLength + ':' + 'I' + defaultSheetLength,
-		//A810:H810',
-    valueRenderOption: 'FORMATTED_VALUE',
-    dateTimeRenderOption: 'FORMATTED_STRING',
-};
+    var params = {
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+        range: 'Default!' + 'A' + userSheetLength + ':' + 'I' + defaultSheetLength,
+        //A810:H810',
+        valueRenderOption: 'FORMATTED_VALUE',
+        dateTimeRenderOption: 'FORMATTED_STRING',
+    };
 
-var request = gapi.client.sheets.spreadsheets.values.get(params);
-request.then(function(response) {
-		values = response.result.values;
-	  console.log(values);
-}, function(reason) {
-		console.error('error: ' + reason.result.error.message);
-});
+    var request = gapi.client.sheets.spreadsheets.values.get(params);
+    request.then(function(response) {
+        values = response.result.values;
+        console.log(values);
+    }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+    });
 
-setTimeout(function() {
-	var params = {
-		spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-    range: userEmail + '!' + 'A' + userSheetLength,
-		//A810',
-		valueInputOption: 'RAW',
-	};
-	
-	//var values = [[ "Ford", "BMW", "Fiat" ]];
-	var body = {
-		values: values
-	};
-	console.log('yeet');
-	console.log(body);
-	var request = gapi.client.sheets.spreadsheets.values.update(params, body);
-	request.then(function(response) {
-		console.log(response.result);
-	}, function(reason) {
-		console.error('error: ' + reason.result.error.message);
-	});
-}, 500);
+    setTimeout(function() {
+      var params = {
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+        range: userEmail + '!' + 'A' + userSheetLength,
+        valueInputOption: 'RAW',
+      };
+      var body = {
+        values: values
+      };
+      console.log('yeet');
+      console.log(body);
+      var request = gapi.client.sheets.spreadsheets.values.update(params, body);
+      request.then(function(response) {
+        console.log(response.result);
+      }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
+      });
+
+      
+    }, 500);
   }
 
 </script>
