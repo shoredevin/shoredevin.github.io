@@ -574,13 +574,14 @@
 
   async function addTimeStamp(column) {
     // var currTime = moment().utc().format("MM-DD-YYYY, HH:mm:ss");
-    let currTime = undefined;
-    await new Promise(resolve => {
-      // var currTime = await getCurrTimeUTC();
-      currTime = getCurrTimeUTC();
-      resolve();
-    });
-    await new Promise (resolve => { 
+    // let currTime = undefined;
+    // await new Promise(resolve => {
+    let currTime = await getCurrTimeUTC();
+      // currTime = getCurrTimeUTC();
+      // resolve();
+    // });
+    // await new Promise (resolve => { 
+    currTime.then(function() {
       console.log(currTime);
       var values = [
           [currTime],
@@ -594,25 +595,24 @@
       };
       var request = gapi.client.sheets.spreadsheets.values.get(params);
       request.then(function(response) {
-        var length = response.result.values.length;
-        for (var i = 0; i < length; i++) {
-          if(response.result.values[i][0] == userEmail) {
-            let userRow = i + 1;
-            var userCell = 'Mappings!' + column + userRow + ':' + column + userRow;
-            gapi.client.sheets.spreadsheets.values.update({
-                spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-                range: userCell,
-                valueInputOption: 'RAW',
-                resource: body
-            }).then((response) => {
-                var result = response.result;
-                console.log(`${result.updatedCells} cell(s) updated.`);
-            });
+          var length = response.result.values.length;
+          for (var i = 0; i < length; i++) {
+            if(response.result.values[i][0] == userEmail) {
+              let userRow = i + 1;
+              var userCell = 'Mappings!' + column + userRow + ':' + column + userRow;
+              gapi.client.sheets.spreadsheets.values.update({
+                  spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+                  range: userCell,
+                  valueInputOption: 'RAW',
+                  resource: body
+              }).then((response) => {
+                  var result = response.result;
+                  console.log(`${result.updatedCells} cell(s) updated.`);
+              });
+            }
           }
-        }
+        });
       });
-      resolve();
-    });
   }
 
   function syncSheets(userSheetLength, defaultSheetLength) {
