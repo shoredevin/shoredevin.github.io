@@ -575,6 +575,7 @@
   async function addTimeStamp(column) {
     // var currTime = moment().utc().format("MM-DD-YYYY, HH:mm:ss");
     var currTime = await getCurrTimeUTC();
+    console.log(currTime);
     var values = [
         [currTime],
     ];
