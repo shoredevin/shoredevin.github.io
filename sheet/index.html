@@ -161,7 +161,10 @@
 
     function listMajors() {
       appendPre('Loading your Pokedex, please wait...');
-      userEmail = gapi.auth2.getAuthInstance().currentUser.Ab.w3.U3;
+      // console.log(gapi.auth2.getAuthInstance().currentUser);
+      // console.log(gapi.auth2.getAuthInstance().currentUser.s3.value.Qt.zu)
+      // userEmail = gapi.auth2.getAuthInstance().currentUser.Ab.w3.U3;
+      userEmail = gapi.auth2.getAuthInstance().currentUser.s3.value.Qt.zu;
       var sheetName;
       var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
@@ -569,8 +572,9 @@
     });
   }
 
-  function addTimeStamp(column) {
-    var currTime = moment().utc().format("MM-DD-YYYY, HH:mm:ss");
+  async function addTimeStamp(column) {
+    // var currTime = moment().utc().format("MM-DD-YYYY, HH:mm:ss");
+    var currTime = await getCurrTimeUTC();
     var values = [
         [currTime],
     ];
