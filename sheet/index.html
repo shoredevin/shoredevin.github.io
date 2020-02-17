@@ -578,10 +578,10 @@
     await new Promise(resolve => {
     // let currTime = await getCurrTimeUTC();
       currTime = getCurrTimeUTC();
-      resolve();
+      resolve(currTime);
     });
     // await new Promise (resolve => { 
-    currTime.then(function() {
+    currTime.then(function(currTime) {
       console.log(currTime);
       console.log(currTime.value);
       var values = [
