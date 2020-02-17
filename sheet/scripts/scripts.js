@@ -36,7 +36,8 @@ function clearSearch() {
 }
 
 async function getCurrTimeUTC() {
-    let response = await fetch(url)
+    let url = 'http://worldtimeapi.org/api/timezone/America/new_york';
+    let response = await fetch(url);
     let data = await response.json();
     let str = data.utc_datetime;
     let time = str.slice(str.indexOf('T') + 1, str.indexOf('.'));
