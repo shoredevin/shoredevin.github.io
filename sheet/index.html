@@ -507,25 +507,24 @@
     });
   }
 
-  function addToMappings(sheetName, sheetId) {
+  async function addToMappings(sheetName, sheetId) {
     var row;
     var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
         range: 'Mappings',
     };
     var request = gapi.client.sheets.spreadsheets.values.get(params);
-      request.then(function(response) {
-        // console.log('*****', response.result.values[2][2])
-        if (response.result.values == undefined) {
-          row = 1;
-        } else {
-          row = response.result.values.length+1;
-        }  
-      }, function(reason) {
-        console.error('error: ' + reason.result.error.message);
-      });
-
-    setTimeout(function() {  
+    request.then(function(response) {
+      if (response.result.values == undefined) {
+        row = 1;
+      } else {
+        row = response.result.values.length+1;
+      }  
+    }, function(reason) {
+      console.error('error: ' + reason.result.error.message);
+    })
+    .then(function(response) {
+    // setTimeout(function() {  
       var values = [[userEmail, sheetName, sheetId]];
       var body = {
           values: values
@@ -537,18 +536,23 @@
           range: range,
           valueInputOption: 'RAW',
           resource: body
-      }).then((response) => {
-          console.log("updates saved...")
+      }).then(async function (response) {
+        await new Promise (resolve => {
+          addTimeStamp('e');
+          console.log("updates saved...");
           appendPre('Refresh the page to view your Pokedex.');
           addTimeStamp('e');
-          var result = response.result;
+          resolve();
+        }).then((response) => {
+          location.reload();
+        });
       }).catch((err) => {
           console.error(err.result.error.message);
-      });    
-    }, 5000);
-    // setTimeout(function() {
-    //   addTimeStamp('e');
-    // }, 500);
+      });  
+    }).catch((err) => {
+      console.err(err);
+    });
+    // }, 5000);
   }
 
   function changeName(sheetId) {
