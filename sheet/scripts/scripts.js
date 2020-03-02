@@ -44,6 +44,6 @@ async function getCurrTimeUTC() {
     let date = str.slice(0, str.indexOf('T'))
     // let timezone = data.abbreviation;
     let timeStamp = time + ' ' + date + ' ' + 'UTC';
-    console.log(timeStamp);
+    // console.log(timeStamp);
     return timeStamp;
 }

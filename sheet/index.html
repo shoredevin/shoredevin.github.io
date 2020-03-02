@@ -9,22 +9,22 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
   <script src="scripts/scripts.js"></script>
+  <script src="scripts/save.js"></script>
   <style type="text/css"></style>
 </head>
 
 <body>
-  <div id="header">
-    <h1>Pokedex Project v1.0</h1>
-    
-  </div>
-
   <!--Add buttons to initiate auth sequence and sign out-->
-  <button id="authorize_button" style="display: none;" class="test">Authorize</button>
-  <button id="signout_button" style="display: none;" class="test">Sign Out</button>
-  <!-- <div class="user-icon-container"><img id="user-icon" src="/images/users-icons/pokefan_m.png"></div> -->
-  
-  <!-- <button id="save_button" style="display: block;" onclick="saveSheet()">Save</button> -->
+  <!-- <div id="button-control-bar"> -->
+  <div id="header">
+    <h1><span id="pokeball">◓</span> Pokedex Project v1.0</h1>
+    <button id="authorize_button" style="display: none;" class="auth-button">Authorize</button>
+    <button id="signout_button" style="display: none;" class="auth-button">Sign Out</button>
+    <p id="username-container"></p> 
+  <!-- </div> -->
+  </div>
 
   <div id="pre">placeholder</div>
 
@@ -69,6 +69,7 @@
     var signoutButton = document.getElementById('signout_button');
     var tableStorage;
     var userEmail;
+    var sheetName;
     var sheet;
     /**
      *  On load, called to load the auth2 library and API client library.
@@ -134,7 +135,7 @@
       document.getElementById('tableBody').innerHTML = '';
       document.getElementById('content-container').style = 'display:none';
       document.getElementById('pre').style = 'visibility: hidden';
-
+      document.getElementById('username-container').innerHTML = '';
     }
 
     /**
@@ -165,7 +166,6 @@
       // console.log(gapi.auth2.getAuthInstance().currentUser.s3.value.Qt.zu)
       // userEmail = gapi.auth2.getAuthInstance().currentUser.Ab.w3.U3;
       userEmail = gapi.auth2.getAuthInstance().currentUser.s3.value.Qt.zu;
-      var sheetName;
       var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
         range: 'Mappings',
@@ -315,9 +315,13 @@
                 if (k == 5 || k == 6 || k == 7) {
                   tr.cells[k].classList.add('pointer-cell')
                 }
+                if (k == 5 || k == 6) {
+                  tr.cells[k].classList.add('status-setter')
+                }
                 if (k == 7) {
                   tr.cells[k].contentEditable = "true";
                   tr.cells[k].style = "word-wrap: break-word";
+                  tr.cells[k].classList.add('notes-field')
                 }
               } else {
                 var img = document.createElement('img');
@@ -418,7 +422,7 @@
 
 
 
-    // document.getElementById('pre').style = 'visibility: hidden';
+    document.getElementById('username-container').innerHTML = userEmail;
   }
 
   //add link to dex entry
@@ -434,54 +438,135 @@
     win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+y+', left='+x);
   });
 
-// $('.sprite').hover(
-//   function() {
-//     alert("yeet");
-//   }, function() {
-//     $( this ).find( "span:last" ).remove();
-//   }
-// );
 
-     
-  
-//update the googlesheet when changes are made to front end
-  $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
-    setTimeout(function() { 
-      var values = [];
-      $("table#myTable tr").each(function () {
-        var arrayOfThisRow = [];
-        var tableData = $(this).find('td');
-        if (tableData.length > 0) {
-          tableData.each(function () {
-            if (this == undefined) {
-              arrayOfThisRow.push($(' ').text());
-            } else {
-              arrayOfThisRow.push($(this).text());
-            }
-          });
-          for (var i = 0; i < values.length; i++) {
-            if (values[i][7] == '') {
-              values[i][7] = ' ';
-            }
-          }
-          values.push(arrayOfThisRow);
-        }
-      });
-      var body = {
+  //functions for saving to backend
+    //setup before functions
+    var typingTimer;                //timer identifier
+    var doneTypingInterval = 1000;  //time in ms, 5 second for example
+    var $input = $('#myTable');
+    var test = 'bad';
+    var test2 = 'bad';
+
+    //on keyup, start the countdown
+    $input.on('keyup', function () {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    });
+
+    //on keydown, clear the countdown 
+    $input.on('keydown', function () {
+      clearTimeout(typingTimer);
+    });
+
+    //update the googlesheet when changes are made to front end
+    //via typing
+    //only saves the edited row
+    function doneTyping () {
+      console.log(test2);
+      let values = [
+        [
+          test2
+        ]
+      ];
+      let body = {
         values: values
       };
+      console.log(body);
+      let range = sheetName + '!' + 'h' + test;
       gapi.client.sheets.spreadsheets.values.update({
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-        range: sheet,
+        range: range,
         valueInputOption: 'RAW',
         resource: body
       }).then((response) => {
         var result = response.result;
+        console.log(range + ' updated');
+        console.log(`${result.updatedCells} cells updated.`);
+      }).catch((err) => {
+        console.error(err);
+      });
+      addTimeStamp("d");
+    }  
+
+    $("#myTable").delegate(".notes-field", "keyup", function(e) {
+      test = this.parentNode.rowIndex; //row
+      test2 = $(this)[0].textContent; //data
+    });
+
+//update the googlesheet when changes are made to front end
+//via click
+//only saves the edited row
+  $("#myTable").delegate(".status-setter", "click", function(e) {
+      let col = this.cellIndex;
+      let row = this.parentNode.rowIndex;
+      if (col == 5) {
+        col = "f";
+      } else if (col == 6){
+        col = "g";
+      };
+      let values = [
+        [
+          $(this)[0].textContent
+        ]
+      ];
+      let body = {
+        values: values
+      };
+      // console.log(body);
+      let range = sheetName + '!' + col + row;
+      gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+        range: range,
+        valueInputOption: 'RAW',
+        resource: body
+      }).then((response) => {
+        var result = response.result;
+        console.log(range + ' updated')
         console.log(`${result.updatedCells} cells updated.`);
       });
-    }, 500);
-    addTimeStamp("d");
+      addTimeStamp("d");
   });
+
+//update the googlesheet when changes are made to front end
+  // $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
+  //   setTimeout(function() { 
+  //     var values = [];
+  //     $("table#myTable tr").each(function () {
+  //       var arrayOfThisRow = [];
+  //       var tableData = $(this).find('td');
+  //       if (tableData.length > 0) {
+  //         tableData.each(function () {
+  //           if (this == undefined) {
+  //             arrayOfThisRow.push($(' ').text());
+  //           } else {
+  //             arrayOfThisRow.push($(this).text());
+  //           }
+  //         });
+  //         for (var i = 0; i < values.length; i++) {
+  //           if (values[i][7] == '') {
+  //             values[i][7] = ' ';
+  //           }
+  //         }
+  //         values.push(arrayOfThisRow);
+  //       }
+  //     });
+  //     var body = {
+  //       values: values
+  //     };
+  //     console.log(body)
+  //     gapi.client.sheets.spreadsheets.values.update({
+  //       spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+  //       range: sheet,
+  //       valueInputOption: 'RAW',
+  //       resource: body
+  //     }).then((response) => {
+  //       var result = response.result;
+  //       console.log(`${result.updatedCells} cells updated.`);
+  //     });
+  //   }, 500);
+  //   addTimeStamp("d");
+  // });
+  //end functions for saving to backend
 
   function createWorksheet() {
     console.log('got here');
@@ -582,8 +667,7 @@
     });
     // await new Promise (resolve => { 
     currTime.then(function(currTime) {
-      console.log(currTime);
-      console.log(currTime.value);
+      // console.log(currTime);
       var values = [
           [currTime],
       ];
@@ -600,7 +684,8 @@
         for (var i = 0; i < length; i++) {
           if(response.result.values[i][0] == userEmail) {
             let userRow = i + 1;
-            var userCell = 'Mappings!' + column + userRow + ':' + column + userRow;
+            var userCell = 'Mappings!' + column + userRow;
+            //  + ':' + column + userRow;
             gapi.client.sheets.spreadsheets.values.update({
                 spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
                 range: userCell,
@@ -608,6 +693,7 @@
                 resource: body
             }).then((response) => {
                 var result = response.result;
+                console.log(userCell + ' updated')
                 console.log(`${result.updatedCells} cell(s) updated.`);
             });
           };
