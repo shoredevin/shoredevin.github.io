@@ -1,4 +1,13 @@
 {
+    "gen1": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-1-r128/",
+    "gen2": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-2-r129/",
+    "gen3": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-3-r130/",
+    "gen4": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-4-r131/",
+    "gen5": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-5-r132/",
+    "gen6": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-6-r133/",
+    "gen7": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-7-r134/",
+    "gen8": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-gen-8-r135/",
+    "unknown": "https://projectpokemon.org/docs/spriteindex_148/home-sprites-unknown-r127/",
     "normal": [ 
         "https://projectpokemon.org/images/homeimg/poke_capture_0001_000_mf_n_00000000_f_n.png",
         "https://projectpokemon.org/images/homeimg/poke_capture_0002_000_mf_n_00000000_f_n.png",
