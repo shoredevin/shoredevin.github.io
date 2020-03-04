@@ -427,8 +427,12 @@
 
   //add link to dex entry
   $(document).on('click', '.sprite, .sprite-big', function() {
-    var name = $(this).closest('tr').find('td:eq(2)').text().toLowerCase();
-    var url = "https://pokemondb.net/pokedex/" + name;
+    var id = $(this).closest('tr').find('td:eq(0)').text().toLowerCase();
+    if($(this).closest('tr').find('td:eq(0)').text().toLowerCase() == "★") {
+      let url = "https://shoredevin.github.io/sheet/images" + id + "-s.gif"
+    } else {
+      let url = "https://shoredevin.github.io/sheet/images" + id + ".gif"
+    }
     console.log(url);
     var win = window.self;
     var h = win.innerHeight/2;
