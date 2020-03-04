@@ -241,7 +241,7 @@
                         // }
                         var pokemonNumber = $(this).parent().find('td:eq(0)').text();
                         var replacementImg = document.createElement('img');
-                        replacementImg.src = img.src = "/sheet/images/sprites/" + pokemonNumber + ".gif";
+                        replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
                         //"https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
                         $(this).parent().find('td:eq(1)').html(replacementImg);
                         replacementImg.classList.add('sprite');
@@ -277,9 +277,9 @@
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
                         // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                        //   img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
+                        //   img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
                         // } else {
-                          img.src = "/sheet/images/sprites/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                          img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
                         // }
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
@@ -289,9 +289,9 @@
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
                       // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                      //   img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + ".gif";
+                      //   img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + ".gif";
                       // } else {
-                        img.src ="/sheet/images/sprites/" + pokemonNumber.toLowerCase() + ".gif";
+                        img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
                       // }
                       ///**
                       // fetch(img.src, {mode: 'no-cors' })
@@ -337,10 +337,10 @@
 
                 if (row[6] == '♥') {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
-                  img.src = "/sheet/images/sprites/" + row[0].toLowerCase() + "-s" + ".gif";
+                  img.src = "/sheet/images/images/" + row[0].toLowerCase() + "-s" + ".gif";
                 } else {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
-                  img.src = "/sheet/images/sprites/" + row[0].toLowerCase() + ".gif";
+                  img.src = "/sheet/images/images/" + row[0].toLowerCase() + ".gif";
                 }
 
 
