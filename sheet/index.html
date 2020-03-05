@@ -34,6 +34,7 @@
       <input class="form-control" id="myInput" type="text" placeholder="Search...">
       <input type="image" id="clear-button" src="/sheet/images/clear.png" onclick="clearSearch()">
     </div>
+    <img id="image-holder" alt="">
     <div id='table-container'>
       <table id='myTable'>
         <thead>
@@ -427,30 +428,42 @@
 
   //add link to dex entry
   $(document).on('click', '.sprite, .sprite-big', function() {
-    let url = null;
+    var img = document.getElementById('image-holder');
     var id = $(this).closest('tr').find('td:eq(0)').text().toLowerCase();
     if($(this).closest('tr').find('td:eq(6)').text().toLowerCase() == "♥") {
-      url = "https://shoredevin.github.io/sheet/images/images/" + id + "-s.gif"
+      img.src = "https://shoredevin.github.io/sheet/images/images/" + id + "-s.gif"
     } else {
-      url = "https://shoredevin.github.io/sheet/images/images/" + id + ".gif"
+      img.src = "https://shoredevin.github.io/sheet/images/images/" + id + ".gif"
     }
-    console.log(url);
-    var win = window.self;
-    var h = win.innerHeight/2;
-    var w = win.innerWidth/2;
-    var y = win.top.outerHeight / 2 + win.top.screenY - ( h / 2)
-    var x = win.top.outerWidth / 2 + win.top.screenX - ( w / 2)
-    win.open(url, '_blank', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+y+', left='+x);
+    // console.log(img.src);
+    img.style.display = 'block';
+    // document.getElementById('table-container').contentEditable = false;
+    let ay = document.getElementsByClassName('notes-field');
+    for(i = 0; i < ay.length; i++) {
+      ay[i].contentEditable = false;
+    }
+    // showButton();
   });
 
+  // function showButton() {
+  //   document.getElementById('xButton').style.display = 'block';   
+  // }
+
+  document.getElementById('image-holder').addEventListener("click", function(){
+      document.getElementById('image-holder').style.display = 'none';
+      let ay = document.getElementsByClassName('notes-field');
+      for(i = 0; i < ay.length; i++) {
+        ay[i].contentEditable = true;
+      }
+  });
 
   //functions for saving to backend
     //setup before functions
     var typingTimer;                //timer identifier
     var doneTypingInterval = 1000;  //time in ms, 5 second for example
     var $input = $('#myTable');
-    var test = 'bad';
-    var test2 = 'bad';
+    var test = undefined;
+    var test2 = undefined;
 
     //on keyup, start the countdown
     $input.on('keyup', function () {

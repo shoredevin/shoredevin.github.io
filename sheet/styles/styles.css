@@ -225,3 +225,16 @@ th {
     filter: gray;
     filter: grayscale(1);
 }
+
+#image-holder {
+    z-index: 1;
+    width: 500px;
+    height: auto;
+    position: absolute;
+    left: 300px;
+    top: 200px; /* Or perhaps different coordinates */
+    display: none;
+    background-color: white;
+    outline: solid black;
+    box-shadow:         3px 3px 5px 6px white;
+}
