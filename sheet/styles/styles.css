@@ -72,7 +72,7 @@ body {
 }
 
 #close-button {
-    /* margin-left: -14%; */
+    margin-left: 135px;
     width: 2%;
     position: absolute;
     display: none;
@@ -80,8 +80,7 @@ body {
 }
 
 #image-holder {
-    /* margin-left: -14%; */
-    margin: auto;
+    margin-left: 135px;
     z-index: 1;
     position: absolute;
     display: none;
