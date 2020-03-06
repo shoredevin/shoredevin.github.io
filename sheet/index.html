@@ -34,8 +34,10 @@
       <input class="form-control" id="myInput" type="text" placeholder="Search...">
       <input type="image" id="clear-button" src="/sheet/images/clear.png" alt="Clear" onclick="clearSearch()">
     </div>
-    <img id="image-holder" alt="">
-    <input type="image" id="close-button" src="/sheet/images/close.png" alt="Close">
+    <div id="image-frame">
+      <img id="image-holder" alt="">
+      <input type="image" id="close-button" src="/sheet/images/close.png" alt="Close">
+    </div>
     <div id='table-container'>
       <table id='myTable'>
         <thead>
@@ -441,8 +443,8 @@
       }
       resolve();
     }).then(function() {
-      img.style.display = 'inline-block';
-      document.getElementById('close-button').style.display = 'inline-block';
+      img.style.display = 'block';
+      document.getElementById('close-button').style.display = 'block';
       document.getElementById('myInput').disabled = true;
       let ay = document.getElementsByClassName('pointer-cell');
       for(i = 0; i < ay.length; i++) {

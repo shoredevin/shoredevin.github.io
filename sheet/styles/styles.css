@@ -63,8 +63,16 @@ body {
     height: 625px;
 }
 
+#image-frame {
+    /* margin-left: 25%; */
+    align-content: center;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
 #close-button {
-    margin-left: 10%;
+    /* margin-left: -14%; */
     width: 2%;
     position: absolute;
     display: none;
@@ -72,13 +80,14 @@ body {
 }
 
 #image-holder {
+    /* margin-left: -14%; */
+    margin: auto;
     z-index: 1;
-    margin-left: -14%;
     position: absolute;
     display: none;
     background-color: white;
     outline: solid black;
-    box-shadow:         3px 3px 5px 6px white;
+    box-shadow: 3px 3px 5px 6px white;
 }
 
 #instructions {
