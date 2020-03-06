@@ -446,9 +446,10 @@
       img.style.display = 'block';
       document.getElementById('close-button').style.display = 'block';
       document.getElementById('myInput').disabled = true;
+      document.getElementById('clear-button').style.pointerEvents = 'none';
       let ay = document.getElementsByClassName('pointer-cell');
       for(i = 0; i < ay.length; i++) {
-        ay[i].style.pointerEvents = "none";
+        ay[i].style.pointerEvents = 'none';
       }
     })
   });
@@ -457,9 +458,10 @@
       document.getElementById('image-holder').style.display = 'none';
       document.getElementById('close-button').style.display = 'none';
       document.getElementById('myInput').disabled = false;
+      document.getElementById('clear-button').style.pointerEvents = 'auto';
       let ay = document.getElementsByClassName('pointer-cell');
       for(i = 0; i < ay.length; i++) {
-        ay[i].style.pointerEvents = "auto";
+        ay[i].style.pointerEvents = 'auto';
       }
   });
 
