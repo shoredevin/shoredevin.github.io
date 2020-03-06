@@ -35,6 +35,7 @@
       <input type="image" id="clear-button" src="/sheet/images/clear.png" onclick="clearSearch()">
     </div>
     <img id="image-holder" alt="">
+    <input type="image" id="close-button" src="/sheet/images/close.png" onclick="clearSearch()">
     <div id='table-container'>
       <table id='myTable'>
         <thead>
@@ -427,33 +428,36 @@
   }
 
   //add link to dex entry
-  $(document).on('click', '.sprite, .sprite-big', function() {
-    var img = document.getElementById('image-holder');
-    var id = $(this).closest('tr').find('td:eq(0)').text().toLowerCase();
-    if($(this).closest('tr').find('td:eq(6)').text().toLowerCase() == "♥") {
-      img.src = "https://shoredevin.github.io/sheet/images/images/" + id + "-s.gif"
-    } else {
-      img.src = "https://shoredevin.github.io/sheet/images/images/" + id + ".gif"
-    }
-    // console.log(img.src);
-    img.style.display = 'block';
-    // document.getElementById('table-container').contentEditable = false;
-    let ay = document.getElementsByClassName('notes-field');
-    for(i = 0; i < ay.length; i++) {
-      ay[i].contentEditable = false;
-    }
-    // showButton();
+  $(document).on('click', '.sprite, .sprite-big', async function() {
+    let currCell = $(this).closest('tr') 
+    let img = document.getElementById('image-holder');
+    let id = currCell.find('td:eq(0)').text().toLowerCase();
+
+    new Promise(function (resolve) {
+      if(currCell.find('td:eq(6)').text().toLowerCase() == "♥") {
+        img.src = "https://shoredevin.github.io/sheet/images/images/" + id + "-s.gif"
+      } else {
+        img.src = "https://shoredevin.github.io/sheet/images/images/" + id + ".gif"
+      }
+      resolve();
+    }).then(function() {
+      img.style.display = 'inline-block';
+      document.getElementById('close-button').style.display = 'inline-block';
+      document.getElementById('myInput').disabled = true;
+      let ay = document.getElementsByClassName('pointer-cell');
+      for(i = 0; i < ay.length; i++) {
+        ay[i].style.pointerEvents = "none";
+      }
+    })
   });
 
-  // function showButton() {
-  //   document.getElementById('xButton').style.display = 'block';   
-  // }
-
-  document.getElementById('image-holder').addEventListener("click", function(){
+  document.getElementById('close-button').addEventListener("click", function(){
       document.getElementById('image-holder').style.display = 'none';
-      let ay = document.getElementsByClassName('notes-field');
+      document.getElementById('close-button').style.display = 'none';
+      document.getElementById('myInput').disabled = false;
+      let ay = document.getElementsByClassName('pointer-cell');
       for(i = 0; i < ay.length; i++) {
-        ay[i].contentEditable = true;
+        ay[i].style.pointerEvents = "auto";
       }
   });
 

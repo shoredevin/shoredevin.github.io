@@ -63,6 +63,22 @@ body {
     height: 625px;
 }
 
+#close-button {
+    position: absolute;
+    display: none;
+    z-index: 1;
+}
+
+#image-holder {
+    z-index: 1;
+    margin-left: -14%;
+    position: absolute;
+    display: none;
+    background-color: white;
+    outline: solid black;
+    box-shadow:         3px 3px 5px 6px white;
+}
+
 #instructions {
     margin: auto;
     width: 777px;
@@ -135,8 +151,12 @@ th {
     text-align: center;
 }
 
-.pointer-cell {
+.status-setter, .pointer-cell {
     cursor: pointer;
+}
+
+.notes-field {
+    cursor: text;
 }
 
 .fireType {
@@ -224,17 +244,4 @@ th {
     -webkit-filter: grayscale(1);
     filter: gray;
     filter: grayscale(1);
-}
-
-#image-holder {
-    z-index: 1;
-    width: 500px;
-    height: auto;
-    position: absolute;
-    left: 300px;
-    top: 200px; /* Or perhaps different coordinates */
-    display: none;
-    background-color: white;
-    outline: solid black;
-    box-shadow:         3px 3px 5px 6px white;
 }
