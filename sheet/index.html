@@ -441,8 +441,9 @@
       } else {
         img.src = "https://shoredevin.github.io/sheet/images/images/" + id + ".gif"
       }
-      resolve();
-    }).then(function() {
+      resolve(currCell);
+    }).then(async function(currCell) {
+      await setBorder(currCell);
       img.style.display = 'block';
       document.getElementById('close-button').style.display = 'block';
       document.getElementById('myInput').disabled = true;
@@ -463,6 +464,50 @@
       for(i = 0; i < ay.length; i++) {
         ay[i].style.pointerEvents = 'auto';
       }
+  });
+
+  let typeColors = 
+    {
+      "fire"      : "orangered",
+      "normal"    : "tan",
+      "water"     : "dodgerblue",
+      "grass"     : "forestgreen",
+      "electric"  : "gold",
+      "ice"       : "aqua",
+      "fighting"  : "darkred",
+      "poison"    : "purple",
+      "ground"    : "darkkhaki",
+      "flying"    : "mediumslateblue",
+      "psychic"   : "deeppink",
+      "bug"       : "yellowgreen",
+      "rock"      : "saddlebrown",
+      "ghost"     : "indigo",
+      "dark"      : "black",
+      "dragon"    : "blueviolet",
+      "steel"     : "lightsteelblue",
+      "fairy"     : "pink"
+    };
+
+  async function setBorder(currCell) {
+    let tbColor = typeColors[currCell.find('td:eq(3)').text().toLowerCase()];
+    let lrColor;
+    if (currCell.find('td:eq(4)').text().toLowerCase() == '') {
+      lrColor = tbColor;
+    } else {
+      lrColor = typeColors[currCell.find('td:eq(4)').text().toLowerCase()];
+    }
+    let color = tbColor + " " + lrColor
+    document.getElementById('image-holder').style.borderColor = color;
+  };
+  window.addEventListener("load", function() { 
+    let sheet = document.styleSheets[1];
+    for(x in typeColors) {
+      style = '.' + x + 'Type {background-color:' + typeColors[x] + '; color: white;}';
+      sheet.insertRule (
+        style,
+        sheet.rules.length
+      );
+    }
   });
 
   //functions for saving to backend
