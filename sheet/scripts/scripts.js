@@ -1,11 +1,96 @@
+//search logic
 $(document).ready(function () {
-    $("#myInput").on("keyup focus", function () {
-        var value = $(this).val().toLowerCase();
-        $("#tableBody tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
+    $('#myInput').on('keyup focus', function () {
+        var value = this.value.toLowerCase();
+        var filter = [];
+        console.log(filter);
+        while (value.length > 0) {
+            if (value.indexOf('||') == -1) {
+                if (value.trim().length > 0) {
+                    filter.push(value.trim());
+                };
+                break;
+            } else {
+                index = value.indexOf('||');
+                filter.push(value.slice(0, index).trim())
+                value = value.slice(index+2, value.length);
+            };
+        };
+        var table = document.getElementById('tableBody');
+        var tr = table.getElementsByTagName('tr');
+        for (var i = 0; i < tr.length; i++) {
+            // console.log(tr[i].innerText);
+            if (filter.length == 0) {
+                tr[i].style.display = '';
+            } else {
+                for (var k = 0; k < filter.length; k++) {
+                    if (filter[k].indexOf('&') > -1) {
+                        let string = filter[k];
+                        console.log("string: " + string)
+                        let countAmp =  string.match(/&/g).length;
+                        for (var m = 0; m <= countAmp + 1; m++) {
+							if (m == countAmp + 1) {
+								if (tr[i].textContent.toLowerCase().indexOf(string.slice(0, string.length)) > -1) {
+                                    tr[i].style.display = '';
+                                    break;
+								} else {
+                                    tr[i].style.display = 'none';
+								}
+							} else if (tr[i].textContent.toLowerCase().indexOf(string.slice(0, string.indexOf('&'))) > -1) {
+								string = string.slice(string.indexOf('&') + 1, string.length);
+                            } else {
+                                tr[i].style.display = 'none';      
+                            }
+                        }
+                    } else if (tr[i].textContent.toLowerCase().indexOf(filter[k]) > -1) {
+                        tr[i].style.display = '';
+                        break;
+                    } else {
+                        tr[i].style.display = 'none';
+                    };
+                };
+            };
+        };
+        // for (var i = 0; i < tr.length; i++) {
+        //     // console.log(tr[i].innerText);
+        //     if( filter.length == 0) {
+        //         tr[i].style.display = '';
+        //     } else {
+        //         for(var k = 0; k < filter.length; k++) {
+        //             if (filter[k].indexOf('&') > -1) {
+        //                 if (tr[i].textContent.toLowerCase().indexOf(filter[k].slice(0, filter[k].indexOf('&'))) > -1 && tr[i].textContent.toLowerCase().indexOf(filter[k].slice(filter[k].indexOf('&')+1, filter[k].length)) > -1) {
+        //                     tr[i].style.display = '';
+        //                     break;
+        //                 } else {
+        //                     tr[i].style.display = 'none';
+        //                 }
+        //             } else if (tr[i].textContent.toLowerCase().indexOf(filter[k]) > -1) {
+        //                 tr[i].style.display = '';
+        //                 break;
+        //             } else {
+        //                 tr[i].style.display = 'none';    
+        //             };
+        //         };
+        //     };
+        // };
     });
 });
+
+// $(document).ready(function () {
+//     $("#myInput").on("keyup", function () {
+//         var regex1 = /[&]/gi;
+//         var regex2 = /[|]/gi;
+//         let value = this.value.toLowerCase();
+//         console.log('value: ' + value);
+//         if (value.indexOf('||') > -1) {
+//             console.log('here')
+//             document.getElementById('myInput').value.replace(regex1, '');
+//         } else if (value.indexOf('&') > -1) {
+//             console.log('no here')
+//             document.getElementById('myInput').value.replace(regex2, '');
+//     }
+//     });
+// });
 
 // $(document).ready(function () {
 //     $("#myInput").on("focus", function () {
