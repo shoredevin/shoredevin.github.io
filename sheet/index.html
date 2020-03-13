@@ -212,8 +212,11 @@
             for (var k = 0; k < range.values[i].length; k++) {
               tr.appendChild(document.createElement('td'));
               if (k != 1) {
-                tr.cells[k].appendChild(document.createTextNode(row[k]));
-
+                if(k == 0) {
+                  tr.cells[k].appendChild(document.createTextNode(row[k]+row[k+1]));
+                } else {
+                  tr.cells[k].appendChild(document.createTextNode(row[k]));
+                }
                 if (k == 3 || k == 4) {
                   var type = row[k].toLowerCase();
                   var typeClass = type + 'Type';
