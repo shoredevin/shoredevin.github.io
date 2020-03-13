@@ -4,6 +4,7 @@
 <head>
   <title>Google Sheets API Quickstart</title>
   <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/jpg" href="/favicon.ico"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -567,40 +568,40 @@
       test2 = $(this)[0].textContent; //data
     });
 
-//update the googlesheet when changes are made to front end
-//via click
-//only saves the edited row
-  $("#myTable").delegate(".status-setter", "click", function(e) {
-      let col = this.cellIndex;
-      let row = this.parentNode.rowIndex;
-      if (col == 5) {
-        col = "f";
-      } else if (col == 6){
-        col = "g";
-      };
-      let values = [
-        [
-          $(this)[0].textContent
-        ]
-      ];
-      let body = {
-        values: values
-      };
-      // console.log(body);
-      let range = sheetName + '!' + col + row;
-      gapi.client.sheets.spreadsheets.values.update({
-        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-        range: range,
-        valueInputOption: 'RAW',
-        resource: body
-      }).then((response) => {
-        var result = response.result;
-        console.log(range + ' updated')
-        console.log(`${result.updatedCells} cells updated.`);
-      });
-      addTimeStamp("d");
-  });
-
+  //update the googlesheet when changes are made to front end
+  //via click
+  //only saves the edited row
+    $("#myTable").delegate(".status-setter", "click", function(e) {
+        let col = this.cellIndex;
+        let row = this.parentNode.rowIndex;
+        if (col == 5) {
+          col = "f";
+        } else if (col == 6){
+          col = "g";
+        };
+        let values = [
+          [
+            $(this)[0].textContent
+          ]
+        ];
+        let body = {
+          values: values
+        };
+        // console.log(body);
+        let range = sheetName + '!' + col + row;
+        gapi.client.sheets.spreadsheets.values.update({
+          spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+          range: range,
+          valueInputOption: 'RAW',
+          resource: body
+        }).then((response) => {
+          var result = response.result;
+          console.log(range + ' updated')
+          console.log(`${result.updatedCells} cells updated.`);
+        });
+        addTimeStamp("d");
+    });
+//end save functions
 //update the googlesheet when changes are made to front end
   // $('body').on('DOMSubtreeModified', '.pointer-cell', function () {
   //   setTimeout(function() { 
@@ -641,7 +642,6 @@
   //   addTimeStamp("d");
   // });
   //end functions for saving to backend
-
   function createWorksheet() {
     console.log('got here');
     var params = {
@@ -812,9 +812,11 @@
       }, function(reason) {
         console.error('error: ' + reason.result.error.message);
       });
-
-      
     }, 500);
+    // .then(function() {
+      //once sheet is synced then sort sheet
+
+    // })
   }
 
 </script>
