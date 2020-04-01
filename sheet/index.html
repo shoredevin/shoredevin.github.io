@@ -8,9 +8,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js" integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script> -->
   <script src="scripts/scripts.js"></script>
   <!-- <script src="scripts/save.js"></script> -->
   <style type="text/css"></style>
@@ -416,10 +417,19 @@
     // });
 
     // getSheetLength.then(function(value) { 
-    setTimeout (function () {  
+    setTimeout (async function () {  
       if(defaultSheetLength > userSheetLength && userSheetLength != null) {
         // alert('There are Pokemon that have not been added to your Pokedex. Please contact the system administrator.');
-        syncSheets(userSheetLength, defaultSheetLength);
+        
+        await new Promise (resolve => {
+          syncSheets(userSheetLength, defaultSheetLength);
+          resolve()
+        }).then(function() {
+          setTimeout (async function() {
+            dexSort();
+          }, 1000);
+        })
+
         //here
         // var newRange = "Default!A" + userSheetLength + ":H" + defaultSheetLength;
         // console.log("Default!A" + userSheetLength + ":H" + defaultSheetLength);
@@ -642,6 +652,8 @@
   //   addTimeStamp("d");
   // });
   //end functions for saving to backend
+
+  //if user sheet does not exist create one from the Default sheet
   function createWorksheet() {
     console.log('got here');
     var params = {
@@ -661,6 +673,7 @@
       changeName(sheetId);
       sheetName = userEmail;
       addToMappings(sheetName, sheetId);
+      dexSort();
     }, function(reason) {
       console.error('error: ' + reason.result.error.message);
     });
@@ -778,7 +791,6 @@
 
   function syncSheets(userSheetLength, defaultSheetLength) {
     var values = [];
-
     var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
         range: 'Default!' + 'A' + userSheetLength + ':' + 'I' + defaultSheetLength,
@@ -812,11 +824,19 @@
       }, function(reason) {
         console.error('error: ' + reason.result.error.message);
       });
-    }, 500);
+    }, 1000);
+    // dexSort();
     // .then(function() {
       //once sheet is synced then sort sheet
 
     // })
+  }
+
+  async function dexSort() {
+    const url = 'https://script.google.com/macros/s/AKfycbz7TaNtf0Hq1LixcFMrziWDH7Ja5IwmTbT-TbfM8u1xwvZcApQ/exec?sheetName=' + userEmail;
+    $.get(url, function(data, status) {
+      console.log(data)
+    });
   }
 
 </script>
