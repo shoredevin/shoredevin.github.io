@@ -1,7 +1,7 @@
 body {
     /* padding-top: 10px;
     padding-left: 10px; */
-    background-image: url("https://cdn.bulbagarden.net/upload/2/25/LGPE_Kanto_Map.png");
+    background-image: url("/images/background.png");
     font-family: 'Lora', sans-serif;
     background-color: rgb(255,61,0);
 }
