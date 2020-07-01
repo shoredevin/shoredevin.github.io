@@ -137,12 +137,14 @@ window.onload = function() {
     document.getElementById('press-me').addEventListener("click", function() {
         let element = document.querySelector('.hidden-ability');
         let styles = getComputedStyle(element);
-        console.log(styles);
+        // console.log(styles);
         let disp = styles.display;
-        console.log(disp);
+        // console.log(disp);
         if (disp == 'none') {
+            styles.display = ''
             console.log('YOYOYO')
         } else {
+            styles.display = 'none'
             console.log("NONONO")
         }
     });
