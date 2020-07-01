@@ -139,6 +139,7 @@ window.onload = function() {
         let styles = getComputedStyle(element);
         // console.log(styles);
         let disp = styles.display;
+        console.log(element.style.display)
         // console.log(disp);
         if (disp == 'none') {
             element.style.display = '';
