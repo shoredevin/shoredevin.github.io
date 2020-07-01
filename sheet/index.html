@@ -190,7 +190,7 @@
       });
      
       setTimeout(function() {
-        sheet = sheetName + '!A:I';
+        sheet = sheetName + '!A:J';
         // console.log('sheet', sheet);
 
       gapi.client.sheets.spreadsheets.values.get({
@@ -234,7 +234,7 @@
                       var text = $(this).parent().find('td:eq(6)').text();
                       var r = undefined;
                       if (text == '♥') {
-                        r = confirm('You are making a shiny Pokemon not caught')
+                        r = confirm('You are making a shiny Pokemon not caught. This will change shiny status to "NO."')
                       }
                       if (r == true || r == undefined) {
                         $(this).parent().find('td:eq(6)').text('♡');
