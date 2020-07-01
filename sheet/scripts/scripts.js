@@ -139,14 +139,22 @@ window.onload = function() {
         let styles = getComputedStyle(element);
         // console.log(styles);
         let disp = styles.display;
-        console.log(element.style.display)
+        // console.log(element.style.display)
         // console.log(disp);
         if (disp == 'none') {
-            element.style.display = '';
-            console.log('YOYOYO')
+            let cols = document.getElementsByClassName('hidden-ability');
+            for (i = 0; i < cols.length; i++) {
+                cols[i].style.display = '';
+
+            }
+            console.log('show')
         } else {
-            element.style.display = 'none';
-            console.log("NONONO")
+            let cols = document.getElementsByClassName('hidden-ability');
+            for (i = 0; i < cols.length; i++) {
+                cols[i].style.display = 'none';
+
+            }
+            console.log("hide")
         }
     });
 }
