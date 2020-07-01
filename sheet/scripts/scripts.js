@@ -132,3 +132,7 @@ async function getCurrTimeUTC() {
     // console.log(timeStamp);
     return timeStamp;
 }
+
+document.getElementById('press-me').onclick = function() {
+    alert('Yo dude');
+}
