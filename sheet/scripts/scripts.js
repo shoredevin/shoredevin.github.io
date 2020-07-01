@@ -140,8 +140,10 @@ window.onload = function() {
         console.log(styles);
         let disp = styles.display;
         console.log(disp);
-        if(disp == 'none') {
+        if (disp == 'none') {
             console.log('YOYOYO')
+        } else {
+            console.log("NONONO")
         }
     });
 }
