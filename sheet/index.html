@@ -332,6 +332,10 @@
                   tr.cells[k].style = "word-wrap: break-word";
                   tr.cells[k].classList.add('notes-field')
                 }
+                if (k == 9) {
+                  tr.cells[k].style = "visibility: hidden";
+                  tr.cells[k].classList.add('hidden-ability')
+                }
               } else {
                 var img = document.createElement('img');
 
