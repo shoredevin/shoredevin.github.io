@@ -6,6 +6,11 @@ body {
     background-color: rgb(255,61,0);
 }
 
+/* this needs to be moved */
+.hiddden-ability {
+    display: none;
+}
+
 #header {
     margin-top: -20px;
     /* backdrop-filter: grayscale(10); */
