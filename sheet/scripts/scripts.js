@@ -135,6 +135,8 @@ async function getCurrTimeUTC() {
 
 window.onload = function() {
     document.getElementById('press-me').addEventListener("click", function() {
-        alert('Yo dude');
+        let element = document.querySelector('.hidden-ability');
+        let styles = getComputedStyle(element);
+        console.log(styles);
     });
 }
