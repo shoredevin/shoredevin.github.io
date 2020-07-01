@@ -138,5 +138,7 @@ window.onload = function() {
         let element = document.querySelector('.hidden-ability');
         let styles = getComputedStyle(element);
         console.log(styles);
+        let disp = styles.display;
+        console.log(disp);
     });
 }
