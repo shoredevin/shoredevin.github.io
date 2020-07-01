@@ -141,10 +141,10 @@ window.onload = function() {
         let disp = styles.display;
         // console.log(disp);
         if (disp == 'none') {
-            styles.display = ''
+            element.style.display = '';
             console.log('YOYOYO')
         } else {
-            styles.display = 'none'
+            element.style.display = 'none';
             console.log("NONONO")
         }
     });
