@@ -137,10 +137,7 @@ window.onload = function() {
     document.getElementById('press-me').addEventListener("click", function() {
         let element = document.querySelector('.hidden-ability');
         let styles = getComputedStyle(element);
-        // console.log(styles);
         let disp = styles.display;
-        // console.log(element.style.display)
-        // console.log(disp);
         if (disp == 'none') {
             let cols = document.getElementsByClassName('hidden-ability');
             for (let i = 0; i < cols.length; i++) {
