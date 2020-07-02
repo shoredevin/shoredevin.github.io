@@ -145,7 +145,7 @@ window.onload = function() {
             for (let i = 0; i < cols.length; i++) {
                 cols[i].style.cssText = 'display: table-cell';
             }
-            console.log('show')
+            console.log('show', classToChange)
             
         } else {
             let cols = document.getElementsByClassName(classToChange);
@@ -153,7 +153,7 @@ window.onload = function() {
                 cols[i].style.cssText = 'display: none';
 
             }
-            console.log("hide")
+            console.log("hide", classToChange)
             // document.getElementById('col-selector').selectedIndex=0;
         }
         document.getElementById('col-selector').selectedIndex=0;
