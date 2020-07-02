@@ -138,7 +138,9 @@ window.onload = function() {
     document.getElementById('press-me').addEventListener("click", function() {
         let classToChange = document.getElementById('col-selector').value;
         let element = document.querySelector('.' + classToChange);
+        //i do not think this does anything
         console.log(element.length);
+        //
         let styles = getComputedStyle(element);
         let disp = styles.display;
         if (disp == 'none') {
@@ -168,8 +170,10 @@ window.onload = function() {
         // console.log(currSelection);
         if(currSelection != '---') {
             document.getElementById('press-me').disabled = false;
+            document.getElementById('press-me').innerHTML = 'Show/Hide';
         } else {
             document.getElementById('press-me').disabled = true;
+            document.getElementById('press-me').innerHTML = 'Show/Hide ' + currSelection;
         }
     });
 }
