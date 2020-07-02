@@ -162,6 +162,8 @@ window.onload = function() {
         // console.log(currSelection);
         if(currSelection != '---') {
             document.getElementById('press-me').disabled = false;
+        } else {
+            document.getElementById('press-me').disabled = true;
         }
     });
 }
