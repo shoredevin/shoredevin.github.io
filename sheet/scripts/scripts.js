@@ -170,10 +170,10 @@ window.onload = function() {
         // console.log(currSelection);
         if(currSelection != '---') {
             document.getElementById('press-me').disabled = false;
-            document.getElementById('press-me').innerHTML = 'Show/Hide';
+            document.getElementById('press-me').innerHTML = 'Show/Hide ' + currSelection;
         } else {
             document.getElementById('press-me').disabled = true;
-            document.getElementById('press-me').innerHTML = 'Show/Hide ' + currSelection;
+            document.getElementById('press-me').innerHTML = 'Show/Hide';
         }
     });
 }
