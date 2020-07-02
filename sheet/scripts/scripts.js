@@ -155,6 +155,7 @@ window.onload = function() {
             }
             console.log("hide")
         }
+        document.getElementById('col-selector').selectedIndex=1;
     });
 // }
 
