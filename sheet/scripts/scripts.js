@@ -144,14 +144,14 @@ window.onload = function() {
         if (disp == 'none') {
             let cols = document.getElementsByClassName('hidden-ability');
             for (let i = 0; i < cols.length; i++) {
-                cols[i].style.display = '';
+                cols[i].style.cssText = 'display: block';
 
             }
             console.log('show')
         } else {
             let cols = document.getElementsByClassName('hidden-ability');
             for (let i = 0; i < cols.length; i++) {
-                cols[i].style.display = 'none';
+                cols[i].style.cssText = 'display: none';
 
             }
             console.log("hide")
