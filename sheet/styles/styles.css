@@ -11,6 +11,12 @@ body {
     display: none;
 }
 
+#column-select-container {
+    padding-top: 10px;
+}
+
+/* here and up */
+
 #header {
     margin-top: -20px;
     /* backdrop-filter: grayscale(10); */
