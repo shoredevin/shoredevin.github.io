@@ -134,6 +134,7 @@ async function getCurrTimeUTC() {
 }
 
 window.onload = function() {
+    //switch hidden ability (class name) with variable from option selection
     document.getElementById('press-me').addEventListener("click", function() {
         let element = document.querySelector('.hidden-ability');
         let styles = getComputedStyle(element);
