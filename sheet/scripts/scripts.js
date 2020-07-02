@@ -161,7 +161,7 @@ window.onload = function() {
         currSelection = document.getElementById('col-selector').value;
         // console.log(currSelection);
         if(currSelection != '---') {
-            document.getElementById('press-ms').disabled = false;
+            document.getElementById('press-me').disabled = false;
         }
     });
 }
