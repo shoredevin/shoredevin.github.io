@@ -138,6 +138,7 @@ window.onload = function() {
     document.getElementById('press-me').addEventListener("click", function() {
         let classToChange = document.getElementById('col-selector').value;
         let element = document.querySelector('.' + classToChange);
+        console.log(element.length);
         let styles = getComputedStyle(element);
         let disp = styles.display;
         if (disp == 'none') {
