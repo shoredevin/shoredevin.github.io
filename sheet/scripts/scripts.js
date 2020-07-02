@@ -158,7 +158,7 @@ window.onload = function() {
 
 window.onload = function() {
     document.getElementById('col-selector').addEventListener("click", function() {
-        currSelection = document.getElementsById('col-selector').value;
+        currSelection = document.getElementById('col-selector').value;
         console.log(currSelection);
     });
 }
