@@ -144,7 +144,7 @@ window.onload = function() {
         if (disp == 'none') {
             let cols = document.getElementsByClassName('hidden-ability');
             for (let i = 0; i < cols.length; i++) {
-                cols[i].style.cssText = 'display:';
+                cols[i].style.cssText = 'display: table-cell';
 
             }
             console.log('show')
