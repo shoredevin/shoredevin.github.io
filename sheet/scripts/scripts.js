@@ -146,7 +146,7 @@ window.onload = function() {
                 cols[i].style.cssText = 'display: table-cell';
             }
             console.log('show')
-            document.getElementById('col-selector').selectedIndex=0;
+            
         } else {
             let cols = document.getElementsByClassName(classToChange);
             for (let i = 0; i < cols.length; i++) {
@@ -154,8 +154,10 @@ window.onload = function() {
 
             }
             console.log("hide")
-            document.getElementById('col-selector').selectedIndex=0;
+            // document.getElementById('col-selector').selectedIndex=0;
         }
+        document.getElementById('col-selector').selectedIndex=0;
+        document.getElementById('press-me').disabled = true;
     });
 // }
 
