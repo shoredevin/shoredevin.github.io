@@ -136,19 +136,19 @@ async function getCurrTimeUTC() {
 window.onload = function() {
     //switch hidden ability (class name) with variable from option selection
     document.getElementById('press-me').addEventListener("click", function() {
-        console.log(document.getElementById('col-selector').value)
-        let element = document.querySelector('.hidden-ability');
+        let classToChange = document.getElementById('col-selector').value;
+        let element = document.querySelector('.' + classToChange);
         let styles = getComputedStyle(element);
         let disp = styles.display;
         if (disp == 'none') {
-            let cols = document.getElementsByClassName('hidden-ability');
+            let cols = document.getElementsByClassName(classToChange);
             for (let i = 0; i < cols.length; i++) {
                 cols[i].style.cssText = 'display: table-cell';
 
             }
             console.log('show')
         } else {
-            let cols = document.getElementsByClassName('hidden-ability');
+            let cols = document.getElementsByClassName(classToChange);
             for (let i = 0; i < cols.length; i++) {
                 cols[i].style.cssText = 'display: none';
 
