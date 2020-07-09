@@ -135,12 +135,9 @@ async function getCurrTimeUTC() {
 
 window.onload = function() {
     //switch hidden ability (class name) with variable from option selection
-    document.getElementById('press-me').addEventListener("click", function() {
+    document.getElementById('show-hide-button').addEventListener("click", function() {
         let classToChange = document.getElementById('col-selector').value;
         let element = document.querySelector('.' + classToChange);
-        //i do not think this does anything
-        console.log(element.length);
-        //
         let styles = getComputedStyle(element);
         let disp = styles.display;
         if (disp == 'none') {
@@ -149,7 +146,7 @@ window.onload = function() {
                 cols[i].style.cssText = 'display: table-cell';
             }
             console.log('show', classToChange)
-            
+            localStorage.removeItem(classToChange);
         } else {
             let cols = document.getElementsByClassName(classToChange);
             for (let i = 0; i < cols.length; i++) {
@@ -157,23 +154,44 @@ window.onload = function() {
 
             }
             console.log("hide", classToChange)
+            localStorage.setItem(classToChange, "hide");
             // document.getElementById('col-selector').selectedIndex=0;
         }
         document.getElementById('col-selector').selectedIndex=0;
-        document.getElementById('press-me').disabled = true;
+        document.getElementById('show-hide-button').disabled = true;
+        document.getElementById('show-hide-button').innerHTML = "Show/Hide";
+        
     });
 // }
 
 // window.onload = function() {
     document.getElementById('col-selector').addEventListener("click", function() {
         currSelection = document.getElementById('col-selector').value;
-        // console.log(currSelection);
-        if(currSelection != '---') {
-            document.getElementById('press-me').disabled = false;
-            document.getElementById('press-me').innerHTML = 'Show/Hide ' + currSelection;
+        if(currSelection == '---') {
+            document.getElementById('show-hide-button').disabled = true;
+            document.getElementById('show-hide-button').innerHTML = 'Show/Hide';
         } else {
-            document.getElementById('press-me').disabled = true;
-            document.getElementById('press-me').innerHTML = 'Show/Hide';
+            document.getElementById('show-hide-button').disabled = false;
+            let classToChange = document.getElementById('col-selector').value;
+            let element = document.querySelector('.' + classToChange);
+            let styles = getComputedStyle(element);
+            let disp = styles.display;
+            if (disp == 'none') {
+                document.getElementById('show-hide-button').innerHTML = "Show";
+            } else {
+                document.getElementById('show-hide-button').innerHTML = "Hide";
+            }
         }
     });
 }
+
+function showHide() {
+    if (localStorage.length > 0) {
+        for(let i = 0; i < localStorage.length; i++) {
+            let cols = document.getElementsByClassName(localStorage.key(i));
+            for (let k = 0; k < cols.length; k++) {
+                cols[k].style.cssText = 'display: none';
+            }
+        }
+    }
+};

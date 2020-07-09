@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Google Sheets API Quickstart</title>
+  <title>Pokedex Project</title>
   <meta charset="utf-8" />
   <link rel="shortcut icon" type="image/jpg" href="images/favicon.ico"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -22,9 +22,9 @@
   <!-- <div id="button-control-bar"> -->
   <div id="header">
     <h1><span id="pokeball">◓</span> Pokedex Project v1.0</h1>
+    <p><a href='#' onclick="window.open('profile.html', 'User Profile', 'width=600, height=400')" id="username-container"></a></p> 
     <button id="authorize_button" style="display: none;" class="auth-button">Authorize</button>
     <button id="signout_button" style="display: none;" class="auth-button">Sign Out</button>
-    <p id="username-container"></p> 
   <!-- </div> -->
   </div>
 
@@ -48,10 +48,10 @@
             <th>Sprite:</th>
             <th>Name:</th>
             <th colspan="2">Type:</th>
-            <th class="pointer-cell" onclick="addToSearch('★')">Caught:</th>
-            <th class="pointer-cell" onclick="addToSearch('♥')">Shiny:</th>
-            <th>Notes:</th>
-            <th>Generation:</th>
+            <th class="caught pointer-cell" onclick="addToSearch('★')">Caught:</th>
+            <th class="shiny pointer-cell" onclick="addToSearch('♥')">Shiny:</th>
+            <th class='notes'>Notes:</th>
+            <th class='gen'>Generation:</th>
             <th class='hidden-ability'>Hidden Ability</th>
           </tr>
         </thead>
@@ -61,10 +61,13 @@
     <div id='column-select-container'>
       <select name='cols' id='col-selector'>
         <option selected="true">---</option>    
+        <option value='caught'>Caught</option>
+        <option value='shiny'>Shiny</option>
+        <option value='notes'>Notes</option>
+        <option value='gen'>Gen</option>
         <option value='hidden-ability'>Hidden Ability</option>
-        <option>Shiny</option>
       </select>
-      <button id='press-me' disabled>Press Me</button>
+      <button id='show-hide-button' disabled>Show/Hide</button>
     </div>
   </div>
 
@@ -84,6 +87,8 @@
     var signoutButton = document.getElementById('signout_button');
     var tableStorage;
     var userEmail;
+    var catchPercent;
+    var shinyPercent;
     var sheetName;
     var sheet;
     /**
@@ -191,6 +196,15 @@
         for(var i = 0; i < response.result.values.length; i++) {
           if (response.result.values[i][0] == userEmail) {
             sheetName = response.result.values[i][1];
+            catchPercent = response.result.values[i][8];
+            shinyPercent = response.result.values[i][10];
+            userStats = {
+              'email' : userEmail,
+              'catchPercent': response.result.values[i][8],
+              'shinyPercent': response.result.values[i][10]
+            }
+            sessionStorage.setItem('userStats', JSON.stringify(userStats));
+            console.log(JSON.parse(sessionStorage.userStats))
             console.log('sheetname ', sheetName);
           };
         };
@@ -208,6 +222,7 @@
 
       }).then(function (response) {
         var range = response.result;
+        console.log(range)
         if (range.values.length > 0) {
           console.log(range);
           console.log('(╯°□°)╯︵◓')
@@ -330,20 +345,30 @@
                     }
                   };
                 }
-                if (k == 5 || k == 6 || k == 7) {
-                  tr.cells[k].classList.add('pointer-cell')
+                if (k == 5) {
+                  tr.cells[k].classList.add('caught')
                 }
-                if (k == 5 || k == 6) {
-                  tr.cells[k].classList.add('status-setter')
+                if (k == 6) {
+                  tr.cells[k].classList.add('shiny')
                 }
                 if (k == 7) {
                   tr.cells[k].contentEditable = "true";
                   tr.cells[k].style = "word-wrap: break-word";
                   tr.cells[k].classList.add('notes-field')
+                  tr.cells[k].classList.add('notes')
+                }
+                if (k == 8) {
+                  tr.cells[k].classList.add('gen')
                 }
                 if (k == 9) {
                   // tr.cells[k].style = "visibility: hidden";
                   tr.cells[k].classList.add('hidden-ability')
+                }
+                if (k == 5 || k == 6 || k == 7) {
+                  tr.cells[k].classList.add('pointer-cell')
+                }
+                if (k == 5 || k == 6) {
+                  tr.cells[k].classList.add('status-setter')
                 }
               } else {
                 var img = document.createElement('img');
@@ -392,7 +417,12 @@
             document.getElementById('pre').style = 'visibility: hidden';
           }
           // tablearea.appendChild(table);
-
+        
+          //work here
+          // setTimeout( function() {
+            showHide();
+          // }, 1000);
+          //
 
         } else {
           appendPre('No data found.');
@@ -595,6 +625,7 @@
   //via click
   //only saves the edited row
     $("#myTable").delegate(".status-setter", "click", function(e) {
+        console.log('neat')
         let col = this.cellIndex;
         let row = this.parentNode.rowIndex;
         if (col == 5) {
@@ -621,6 +652,7 @@
           var result = response.result;
           console.log(range + ' updated')
           console.log(`${result.updatedCells} cells updated.`);
+          setSessionStorage();
         });
         addTimeStamp("d");
     });
@@ -727,10 +759,20 @@
           appendPre('Refresh the page to view your Pokedex.');
           addTimeStamp('e');
           var result = response.result;
+          const url = 'https://script.google.com/macros/s/AKfycbwioWXB142H66DKuc99s9Mn482Er-ACxE4XwxV7McZNcogJrMc/exec?currentRow=' + row;
+          $.get(url, function(data, status) {
+            console.log(data)
+          });
       }).catch((err) => {
           console.error(err.result.error.message);
       });    
-    }, 5000);
+    }, 5000)
+    // .then(() => {
+    //   const url = 'https://script.google.com/macros/s/AKfycbwioWXB142H66DKuc99s9Mn482Er-ACxE4XwxV7McZNcogJrMc/exec?currentRow=' + row;
+    //   $.get(url, function(data, status) {
+    //     console.log(data)
+    //   });
+    // });
     // setTimeout(function() {
     //   addTimeStamp('e');
     // }, 500);
@@ -849,6 +891,31 @@
     const url = 'https://script.google.com/macros/s/AKfycbz7TaNtf0Hq1LixcFMrziWDH7Ja5IwmTbT-TbfM8u1xwvZcApQ/exec?sheetName=' + userEmail;
     $.get(url, function(data, status) {
       console.log(data)
+    });
+  }
+
+  function setSessionStorage() {
+    var params = {
+        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
+        range: 'Mappings',
+    };
+
+    var request = gapi.client.sheets.spreadsheets.values.get(params);
+
+    request.then(function(response) {
+	    for(var i = 0; i < response.result.values.length; i++) {
+		    if (response.result.values[i][0] == userEmail) {
+			    sheetName = response.result.values[i][1];
+			    catchPercent = response.result.values[i][8];
+			    shinyPercent = response.result.values[i][10];
+			    userStats = {
+				    'email' : userEmail,
+				    'catchPercent': response.result.values[i][8],
+				    'shinyPercent': response.result.values[i][10]
+			    };
+			    sessionStorage.setItem('userStats', JSON.stringify(userStats));
+		    };
+	    };
     });
   }
 

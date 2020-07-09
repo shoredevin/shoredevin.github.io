@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+    </head>
+    <body>
+        <h1 id="heading">User Profile</h1>
+        <table id="profile-table">
+            <tr>
+                <td class="title">Username:</td>
+                <td id="username-cell"></td>
+            </tr>
+            <tr>
+                <td class="title">Catch %:</td>
+                <td id="catch-percent-cell"></td>
+            </tr>
+            <tr>
+                <td class="title">Shiny %:</td>
+                <td id="shiny-percent-cell"></td>
+            </tr>
+        </table>
+        <!-- <div ></div> -->
+    </body>
+    <style>
+        #heading {
+            text-align: center;
+        }
+        /* table {
+            border: 1px solid black;   
+        } */
+        table, th, td {
+            padding: 5px;
+            margin-left: 25%;
+            width: 50%;
+            border: 1px solid black;   
+            border-collapse: collapse;
+            text-align: center;
+        }
+        /* tr:nth-child(even) {background-color: #f2f2f2;} */
+        .title {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            let userStats = JSON.parse(sessionStorage.userStats);
+            // console.log(userStats)
+            // console.log(userStats.catchPercent);
+            document.getElementById('username-cell').innerHTML = userStats.email;
+            document.getElementById('catch-percent-cell').innerHTML = userStats.catchPercent;
+            document.getElementById('shiny-percent-cell').innerHTML = userStats.shinyPercent;
+        }
+    </script>
+</html>
