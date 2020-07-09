@@ -287,9 +287,9 @@
                         // console.log('setting shiny')
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
-                        img.classList.add('sprite');
-                        $(this).parent().find('td:eq(1)').html(img);
+                        shinyImg.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                        shinyImg.classList.add('sprite');
+                        $(this).parent().find('td:eq(1)').html(shinyImg);
                         $(this).parent().find('td:eq(5)').text('★');
                       }
                     } else {
