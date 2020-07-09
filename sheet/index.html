@@ -273,6 +273,7 @@
                         //   gen ='ultra-sun-ultra-moon'
                         // }
                         var pokemonNumber = $(this).parent().find('td:eq(0)').text();
+                        console.log(pokemonNumber);
                         var replacementImg = document.createElement('img');
                         replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
                         //"https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
