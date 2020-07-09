@@ -257,25 +257,14 @@
                       var text = $(this).parent().find('td:eq(6)').text();
                       var r = undefined;
                       if (text == '♥') {
-                        // r = confirm('You are making a shiny Pokemon not caught. This will change shiny status to "NO."')
                         alert('you cannot change the caught status of a shiny pokemon')
                       } else {
                         $(this).parent().find('td:eq(6)').text('♡');
                         $(this).closest('tr').css('color', 'black');
                         $(this).text('☆');
-                        // var gen = '';
-                        // if($(this).parent().find('td:eq(0)').text() < 722) {
-                        //   gen = 'x-y';
-                        // // } else if (row[0] < 803){
-                        // //   gen = 'sun-moon';
-                        // } else {
-                        //   gen ='ultra-sun-ultra-moon'
-                        // }
                         var pokemonNumber = $(this).parent().find('td:eq(0)').text();
                         var replacementImg = document.createElement('img');
                         replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
-                        //"https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
-                        //is there something wrong here? is this finding the wrong row
                         $(this).parent().find('td:eq(1)').html(replacementImg);
                         console.log($(this).parent().find('td:eq(1)'));
                         replacementImg.classList.add('sprite');
