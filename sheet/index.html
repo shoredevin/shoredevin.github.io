@@ -7,6 +7,7 @@
   <link rel="shortcut icon" type="image/jpg" href="images/favicon.ico"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
+  <link rel="stylesheet" type="text/css" href="styles/snackbar.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://apis.google.com/js/api.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -69,6 +70,7 @@
       </select>
       <button id='show-hide-button' disabled>Show/Hide</button>
     </div>
+    <div id="snackbar">Hello world</div>
   </div>
 
   <script type="text/javascript">
@@ -257,7 +259,7 @@
                       var text = $(this).parent().find('td:eq(6)').text();
                       var r = undefined;
                       if (text == '♥') {
-                        alert('you cannot change the caught status of a shiny pokemon')
+                        showSnackBar('you cannot change the caught status of a shiny pokemon')
                       } else {
                         $(this).parent().find('td:eq(6)').text('♡');
                         $(this).closest('tr').css('color', 'black');
@@ -282,9 +284,8 @@
                     if ($(this).text() == '♡') {
                       var text = $(this).parent().find('td:eq(5)').text();
                       if (text == '☆') {
-                        alert('you cannot change the shiny status for an uncaught pokemon')
+                        showSnackBar('you cannot change the shiny status for an uncaught pokemon')
                       } else {
-                        // console.log('setting shiny')
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
                         shinyImg.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
@@ -293,14 +294,11 @@
                         $(this).parent().find('td:eq(5)').text('★');
                       }
                     } else {
-                      console.log('unsetting shiny')
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      //take this code and move it to k == 5
                       shinyImg.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
                       shinyImg.classList.add('sprite');
                       $(this).parent().find('td:eq(1)').html(shinyImg);
-                      //
                       var text = $(this).parent().find('td:eq(5)').text();
                       if (text == '☆') {
                         $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
