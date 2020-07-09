@@ -277,6 +277,7 @@
                         replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
                         //"https://img.pokemondb.net/sprites/" + gen + "/normal/" + pokemonName.toLowerCase() + ".png";
                         $(this).parent().find('td:eq(1)').html(replacementImg);
+                        console.log($(this).parent().find('td:eq(1)'));
                         replacementImg.classList.add('sprite');
 
                         $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
