@@ -263,10 +263,10 @@
                         $(this).closest('tr').css('color', 'black');
                         $(this).text('☆');
                         var pokemonNumber = $(this).parent().find('td:eq(0)').text();
-                        var replacementImg = document.createElement('img');
-                        replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
-                        // $(this).parent().find('td:eq(1)').html(replacementImg);
-                        // console.log($(this).parent().find('td:eq(1)'));
+                        // var replacementImg = document.createElement('img');
+                        // replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
+                        $(this).parent().find('td:eq(1)').html(img.src = "/sheet/images/images/" + pokemonNumber + ".gif");
+                        console.log($(this).parent().find('td:eq(1)'));
                         replacementImg.classList.add('sprite');
                         console.log($(this).parent().find('td:eq(1) img'));
                         $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
