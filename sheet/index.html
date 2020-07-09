@@ -268,9 +268,10 @@
                         // $(this).parent().find('td:eq(1)').html(img.src = "/sheet/images/images/" + pokemonNumber + ".gif")
                         
                         //
-                        img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
-                        img.classList.add('sprite');
-                        $(this).parent().find('td:eq(1)').html(img);
+                        let normalImg = document.createElement('img');
+                        normalImg.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
+                        normalImg.classList.add('sprite');
+                        $(this).parent().find('td:eq(1)').html(normalImg);
                         //
 
                         console.log($(this).parent().find('td:eq(1)'));
