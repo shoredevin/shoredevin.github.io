@@ -250,7 +250,6 @@
                 }
                 if (k == 5) {
                   tr.cells[k].onclick = function () {
-                    // console.log('running onclick function');
                     if ($(this).text() == '☆') {
                       $(this).text('★');
                       $(this).parent().find('td:eq(1) img').removeClass('grayscale-image');
@@ -258,9 +257,9 @@
                       var text = $(this).parent().find('td:eq(6)').text();
                       var r = undefined;
                       if (text == '♥') {
-                        r = confirm('You are making a shiny Pokemon not caught. This will change shiny status to "NO."')
-                      }
-                      if (r == true || r == undefined) {
+                        // r = confirm('You are making a shiny Pokemon not caught. This will change shiny status to "NO."')
+                        alert('you cannot change the caught status of a shiny pokemon')
+                      } else {
                         $(this).parent().find('td:eq(6)').text('♡');
                         $(this).closest('tr').css('color', 'black');
                         $(this).text('☆');
@@ -290,68 +289,25 @@
                 if (k == 6) {
                   tr.cells[k].onclick = function () {
                     var img = document.createElement('img');
-                    var pokemonNumber = $(this).parent().find('td:eq(0)').text();
-                    // var newName = pokemonName.replace(/\W/g, '');
-                    // console.log(newName);
-                //     var gen = '';
-                //     if($(this).parent().find('td:eq(0)').text() < 722) {
-                //       gen = 'x-y';
-                //   //   } else if (row[0] < 803){
-                //   // gen = 'sun-moon';
-                // } else {
-                //   gen ='ultra-sun-ultra-moon'
-                // }
-                    
-                    var r = undefined;
+                    var pokemonNumber = $(this).parent().find('td:eq(0)').text();                   
                     if ($(this).text() == '♡') {
                       var text = $(this).parent().find('td:eq(5)').text();
                       if (text == '☆') {
-                        // r = confirm('You are setting the shiny status for an uncaught Pokemon')
                         alert('you cannot change the shiny status for an uncaught pokemon')
                       } else {
-                        console.log('setting shiny')
-                                                                        $(this).text('♥');
+                        // console.log('setting shiny')
+                        $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                        //   img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
-                        // } else {
-                          img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
-                        // }
+                        img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
                         img.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(img);
                         $(this).parent().find('td:eq(5)').text('★');
                       }
-                      // if (r == true || r == undefined) {
-                      //   $(this).text('♥');
-                      //   $(this).closest('tr').css('color', 'red');
-                      //   // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                      //   //   img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
-                      //   // } else {
-                      //     img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
-                      //   // }
-                      //   img.classList.add('sprite');
-                      //   $(this).parent().find('td:eq(1)').html(img);
-                      //   $(this).parent().find('td:eq(5)').text('★');
-                      // }
                     } else {
                       console.log('unsetting shiny')
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                      //   img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + ".gif";
-                      // } else {
-                        img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
-                      // }
-                      ///**
-                      // fetch(img.src, {mode: 'no-cors' })
-                      //   .then(res => {
-                      //     if (res.ok) {
-                      //       console.log(img.src + ' found');
-                      //     } else {
-                      //       img.src = 'https://wiki.p-insurgence.com/images/0/09/722.png';
-                      //     }
-                      //   }).catch(err => console.log('Error:', err));
-                      ///**
+                      img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
                       img.classList.add('sprite');
                       $(this).parent().find('td:eq(1)').html(img);
                       var text = $(this).parent().find('td:eq(5)').text();
