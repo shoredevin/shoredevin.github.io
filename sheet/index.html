@@ -263,19 +263,11 @@
                         $(this).closest('tr').css('color', 'black');
                         $(this).text('☆');
                         var pokemonNumber = $(this).parent().find('td:eq(0)').text();
-                        // var replacementImg = document.createElement('img');
-                        // replacementImg.src = img.src = "/sheet/images/images/" + pokemonNumber + ".gif";
-                        // $(this).parent().find('td:eq(1)').html(img.src = "/sheet/images/images/" + pokemonNumber + ".gif")
-                        
-                        //
                         let normalImg = document.createElement('img');
                         normalImg.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
                         normalImg.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(normalImg);
-                        //
-
                         console.log($(this).parent().find('td:eq(1)'));
-                        // replacementImg.classList.add('sprite');
                         console.log($(this).parent().find('td:eq(1) img'));
                         $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
                       }
@@ -285,7 +277,7 @@
 
                 if (k == 6) {
                   tr.cells[k].onclick = function () {
-                    var img = document.createElement('img');
+                    var shinyImg = document.createElement('img');
                     var pokemonNumber = $(this).parent().find('td:eq(0)').text();                   
                     if ($(this).text() == '♡') {
                       var text = $(this).parent().find('td:eq(5)').text();
@@ -305,9 +297,9 @@
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
                       //take this code and move it to k == 5
-                      img.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
-                      img.classList.add('sprite');
-                      $(this).parent().find('td:eq(1)').html(img);
+                      shinyImg.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
+                      shinyImg.classList.add('sprite');
+                      $(this).parent().find('td:eq(1)').html(shinyImg);
                       //
                       var text = $(this).parent().find('td:eq(5)').text();
                       if (text == '☆') {
