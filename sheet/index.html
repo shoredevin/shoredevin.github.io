@@ -306,20 +306,21 @@
                     if ($(this).text() == '♡') {
                       var text = $(this).parent().find('td:eq(5)').text();
                       if (text == '☆') {
-                        r = confirm('You are setting the shiny status for an uncaught Pokemon')
+                        // r = confirm('You are setting the shiny status for an uncaught Pokemon')
+                        alert('you cannot change the shiny status for an uncaught pokemon')
                       }
-                      if (r == true || r == undefined) {
-                        $(this).text('♥');
-                        $(this).closest('tr').css('color', 'red');
-                        // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
-                        //   img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
-                        // } else {
-                          img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
-                        // }
-                        img.classList.add('sprite');
-                        $(this).parent().find('td:eq(1)').html(img);
-                        $(this).parent().find('td:eq(5)').text('★');
-                      }
+                      // if (r == true || r == undefined) {
+                      //   $(this).text('♥');
+                      //   $(this).closest('tr').css('color', 'red');
+                      //   // if(isNaN(pokemonNumber.charAt(pokemonNumber.length-1))) {
+                      //   //   img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + pokemonNumber.length-1 + "-s" + ".gif";
+                      //   // } else {
+                      //     img.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                      //   // }
+                      //   img.classList.add('sprite');
+                      //   $(this).parent().find('td:eq(1)').html(img);
+                      //   $(this).parent().find('td:eq(5)').text('★');
+                      // }
                     } else {
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
