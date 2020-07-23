@@ -24,7 +24,7 @@
   <div id="header">
     <h1><span id="pokeball">◓</span> Pokedex Project v1.0</h1>
     <p><a href='#' onclick="window.open('profile.html', 'User Profile', 'width=600, height=400')" id="username-container"></a></p> 
-    <button id="authorize_button" style="display: none;" class="auth-button">Authorize</button>
+    <button id="authorize_button" style="display: none;" class="auth-button">Sign In</button>
     <button id="signout_button" style="display: none;" class="auth-button">Sign Out</button>
   <!-- </div> -->
   </div>
@@ -35,11 +35,11 @@
     <p id="instructions">To search for caught Pokemon or shiny Pokemon click the table header for their respective columns:</p>
     <div id="search-container">
       <input class="form-control" id="myInput" type="text" placeholder="Search...">
-      <input type="image" id="clear-button" src="/sheet/images/clear.png" alt="Clear" onclick="clearSearch()">
+      <input type="image" id="clear-button" src="/images/clear.png" alt="Clear" onclick="clearSearch()">
     </div>
     <div id="image-frame">
       <img id="image-holder" alt="">
-      <input type="image" id="close-button" src="/sheet/images/close.png" alt="Close">
+      <input type="image" id="close-button" src="/images/close.png" alt="Close">
     </div>
     <div id='table-container'>
       <table id='myTable'>
@@ -51,26 +51,28 @@
             <th colspan="2">Type:</th>
             <th class="caught pointer-cell" onclick="addToSearch('★')">Caught:</th>
             <th class="shiny pointer-cell" onclick="addToSearch('♥')">Shiny:</th>
-            <th class='notes'>Notes:</th>
+            <th class='hidden-ability pointer-cell' onclick="addToSearch('◼')">HA:</th>
             <th class='gen'>Generation:</th>
-            <th class='hidden-ability'>Hidden Ability</th>
+            <th class='notes'>Notes:</th>
+            <th class='other-forms'>Forms:</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
     <div id='column-select-container'>
+      <label>Select column to show or hide:</label>
       <select name='cols' id='col-selector'>
         <option selected="true">---</option>    
         <option value='caught'>Caught</option>
         <option value='shiny'>Shiny</option>
+        <option value='hidden-ability'>Hidden Ability</option>
         <option value='notes'>Notes</option>
         <option value='gen'>Gen</option>
-        <option value='hidden-ability'>Hidden Ability</option>
       </select>
       <button id='show-hide-button' disabled>Show/Hide</button>
     </div>
-    <div id="snackbar">Hello world</div>
+    <div id="snackbar"></div>
   </div>
 
   <script type="text/javascript">
@@ -93,6 +95,7 @@
     var shinyPercent;
     var sheetName;
     var sheet;
+    var changesMade = false;
     /**
      *  On load, called to load the auth2 library and API client library.
      */
@@ -215,7 +218,7 @@
       });
      
       setTimeout(function() {
-        sheet = sheetName + '!A:J';
+        sheet = sheetName + '!A:K';
         // console.log('sheet', sheet);
 
       gapi.client.sheets.spreadsheets.values.get({
@@ -253,20 +256,29 @@
                 if (k == 5) {
                   tr.cells[k].onclick = function () {
                     if ($(this).text() == '☆') {
+                      changesMade = true;
                       $(this).text('★');
                       $(this).parent().find('td:eq(1) img').removeClass('grayscale-image');
                     } else {
                       var text = $(this).parent().find('td:eq(6)').text();
-                      var r = undefined;
+                      var hiddenAbilityText = $(this).parent().find('td:eq(9)').text();
                       if (text == '♥') {
                         showSnackBar('you cannot change the caught status of a shiny pokemon')
+                      } else if (hiddenAbilityText == '◼') {
+                        showSnackBar('you cannot change the caught status of a hidden ability pokemon')
                       } else {
+                        changesMade = true;
                         $(this).parent().find('td:eq(6)').text('♡');
                         $(this).closest('tr').css('color', 'black');
                         $(this).text('☆');
-                        var pokemonNumber = $(this).parent().find('td:eq(0)').text();
+                        if (document.getElementById('form-select' + $(this).closest('tr').index()) == null) {
+                          pokemonNumber = $(this).parent().find('td:eq(0)').text();
+                          console.log(pokemonNumber);
+                        } else {
+                          pokemonNumber = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
+                        }
                         let normalImg = document.createElement('img');
-                        normalImg.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
+                        normalImg.src ="/images/images/" + pokemonNumber + ".gif";
                         normalImg.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(normalImg);
                         console.log($(this).parent().find('td:eq(1)'));
@@ -280,23 +292,35 @@
                 if (k == 6) {
                   tr.cells[k].onclick = function () {
                     var shinyImg = document.createElement('img');
-                    var pokemonNumber = $(this).parent().find('td:eq(0)').text();                   
+                    // var pokemonNumber = $(this).parent().find('td:eq(0)').text();
+
+                    var pokemonNumber;  
+                    
+                    if (document.getElementById('form-select' + $(this).closest('tr').index()) == null) {
+                      pokemonNumber = $(this).parent().find('td:eq(0)').text();
+                      console.log(pokemonNumber);
+                    } else {
+                      pokemonNumber = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
+                    }
+                    
                     if ($(this).text() == '♡') {
                       var text = $(this).parent().find('td:eq(5)').text();
                       if (text == '☆') {
                         showSnackBar('you cannot change the shiny status for an uncaught pokemon')
                       } else {
+                        changesMade = true;
                         $(this).text('♥');
                         $(this).closest('tr').css('color', 'red');
-                        shinyImg.src = "/sheet/images/images/" + pokemonNumber.toLowerCase() + "-s" + ".gif";
+                        shinyImg.src = "/images/images/" + pokemonNumber + "-s" + ".gif";
                         shinyImg.classList.add('sprite');
                         $(this).parent().find('td:eq(1)').html(shinyImg);
                         $(this).parent().find('td:eq(5)').text('★');
                       }
                     } else {
+                      changesMade = true;
                       $(this).text('♡');
                       $(this).closest('tr').css('color', 'black');
-                      shinyImg.src ="/sheet/images/images/" + pokemonNumber.toLowerCase() + ".gif";
+                      shinyImg.src ="/images/images/" + pokemonNumber + ".gif";
                       shinyImg.classList.add('sprite');
                       $(this).parent().find('td:eq(1)').html(shinyImg);
                       var text = $(this).parent().find('td:eq(5)').text();
@@ -312,23 +336,127 @@
                 if (k == 6) {
                   tr.cells[k].classList.add('shiny')
                 }
-                if (k == 7) {
-                  tr.cells[k].contentEditable = "true";
-                  tr.cells[k].style = "word-wrap: break-word";
+                //currently notes
+                if (k == 9) {
+                  tr.cells[k].contentEditable = 'true';
+                  tr.cells[k].style = 'word-wrap: break-word';
                   tr.cells[k].classList.add('notes-field')
                   tr.cells[k].classList.add('notes')
                 }
                 if (k == 8) {
                   tr.cells[k].classList.add('gen')
                 }
-                if (k == 9) {
+                //currently hidden ability
+                if (k == 7) {
                   // tr.cells[k].style = "visibility: hidden";
                   tr.cells[k].classList.add('hidden-ability')
+                  tr.cells[k].onclick = function() {
+                    if ($(this).text() == '◻') {
+                      var text = $(this).parent().find('td:eq(5)').text();
+                      if(text == '☆') {
+                        showSnackBar('you cannot change the hidden ability status for an uncaught pokemon')
+                      } else {
+                        changesMade = true;
+                        $(this).text('◼');
+                      } 
+                    } else {
+                      changesMade = true;
+                      $(this).text('◻');
+                    }
+                  }
                 }
-                if (k == 5 || k == 6 || k == 7) {
+                if (k == 10) {
+                  tr.cells[k].onchange = function() {
+                    let formId = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value);
+                    let formImg = document.createElement('img');
+                    let catchStatus = $(this).parent().find('td:eq(5)').text();
+                    let shinyStatus = $(this).parent().find('td:eq(6)').text();
+                    if (shinyStatus == '♥') {
+                      formImg.src = '/images/images/' + formId.id + '-s' + '.gif';
+                    } else if (catchStatus == '★') {
+                      formImg.src = '/images/images/' + formId.id + '.gif';
+                      
+                    } else {
+                      formImg.src = '/images/images/' + formId.id + '.gif';
+                      formImg.classList.add('grayscale-image');
+                    }
+                    formImg.classList.add('sprite');
+                    $(this).parent().find('td:eq(1)').html(formImg);
+                    $(this).parent().find('td:eq(3)').html(formId.type1);
+                    $(this).parent().find('td:eq(4)').html(formId.type2);
+                    $(this).parent().find('td:eq(3), td:eq(4)').removeClass()
+                    $(this).parent().find('td:eq(3)').addClass(formId.type1.toLowerCase() + 'Type')
+                    if(formId.type2.toLowerCase() != '') {
+                      $(this).parent().find('td:eq(4)').addClass(formId.type2.toLowerCase() + 'Type')
+                    }
+                    localStorage.setItem(
+                      $(this).parent().find('td:eq(0)').text(), //Pokemon Number
+                      document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex //Select Index (current form)
+                    );
+                    console.log(document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex);
+                  }
+                  //
+                  let content = tr.cells[k].innerHTML;
+                  if(content.length == 0 || content.indexOf(' ') == 0) {
+                    tr.cells[k].innerHTML = '';  
+                  } else {
+                    tr.cells[k].innerHTML = '';
+                    let sel = document.createElement('select');
+                    sel.classList.add('form-selector')
+                    sel.setAttribute('id', 'form-select' + i)
+                    sel.setAttribute('size', 6)
+                    let options = JSON.parse(content);
+                    console.log(options)
+                    for(option in options) {
+                      var opt = document.createElement('option');
+                      opt.appendChild(document.createTextNode(option));
+                      let val = {
+                        "id": options[option].id,
+                        "type1": options[option].type1,
+                        "type2": options[option].type2
+                      };
+                      opt.value = JSON.stringify(val);
+                      opt.title = option;
+                      console.log(options[option].type1, options[option].type2)
+                      sel.appendChild(opt);
+                    }
+                    let currNum =  tr.cells[0].innerHTML;
+                    sel.getElementsByTagName('option')[0].selected = 'seleted'
+                    if  (localStorage.getItem(currNum) == null) {
+                      sel.getElementsByTagName('option')[0].selected = 'seleted'
+                    } else {
+                      sel.getElementsByTagName('option')[localStorage.getItem(currNum)].selected = 'selected'
+                      let uuuu = document.createElement('img'); //formImg
+                      let iiii = tr.cells[5].innerHTML; //shinyStatus
+                      let oooo = tr.cells[6].innerHTML; //catchStatus
+                      console.log(iiii, oooo)
+                      let formId = JSON.parse(sel.value);
+                      if (oooo == '♥') {
+                        uuuu.src = '/images/images/' + formId.id + '-s' + '.gif';
+                      } else if (iiii == '★') {
+                        uuuu.src = '/images/images/' + formId.id + '.gif';
+                      } else {
+                        uuuu.src = '/images/images/' + formId.id + '.gif';
+                        uuuu.classList.add('grayscale-image');
+                      }
+                      uuuu.classList.add('sprite');
+                      tr.cells[1].replaceChild(uuuu, tr.cells[1].childNodes[0]);
+                      tr.cells[3].innerHTML = formId.type1
+                      tr.cells[4].innerHTML = formId.type2
+                      tr.cells[3].className = formId.type1.toLowerCase() + 'Type';
+                      if(formId.type2.toLowerCase() != '') {
+                        tr.cells[4].className = formId.type2.toLowerCase() + 'Type';
+                      } else {
+                        tr.cells[4].className = '';
+                      }
+                    }
+                    tr.cells[k].appendChild(sel);
+                  }
+                }
+                if (k == 5 || k == 6 || k == 7 || k == 9 || k == 10) {
                   tr.cells[k].classList.add('pointer-cell')
                 }
-                if (k == 5 || k == 6) {
+                if (k == 5 || k == 6 || k == 9) {
                   tr.cells[k].classList.add('status-setter')
                 }
               } else {
@@ -345,10 +473,10 @@
 
                 if (row[6] == '♥') {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/shiny/" + row[2].toLowerCase() + ".png";
-                  img.src = "/sheet/images/images/" + row[0].toLowerCase() + row[1].toLowerCase() + "-s" + ".gif";
+                  img.src = "/images/images/" + row[0].toLowerCase() + row[1].toLowerCase() + "-s" + ".gif";
                 } else {
                   // img.src = "https://img.pokemondb.net/sprites/" + gen + "/normal/" + row[2].toLowerCase() + ".png";
-                  img.src = "/sheet/images/images/" + row[0].toLowerCase() + row[1].toLowerCase() + ".gif";
+                  img.src = "/images/images/" + row[0].toLowerCase() + row[1].toLowerCase() + ".gif";
                 }
 
 
@@ -451,13 +579,22 @@
   $(document).on('click', '.sprite, .sprite-big', async function() {
     let currCell = $(this).closest('tr') 
     let img = document.getElementById('image-holder');
-    let id = currCell.find('td:eq(0)').text().toLowerCase();
+    //if statement here that uses either the value of the selector or the id
+    let id;
+    if (document.getElementById('form-select' + $(this).closest('tr').index()) == null) {
+      id = document.getElementById("myTable").rows[$(this).closest('tr').index() + 1].cells[0].innerHTML;
+      console.log(id);
+    } else {
+      id = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
+    }
+                    
+
 
     new Promise(function (resolve) {
       if(currCell.find('td:eq(6)').text().toLowerCase() == "♥") {
-        img.src = "https://shoredevin.github.io/sheet/images/images/" + id + "-s.gif"
+        img.src = "/images/images/" + id + "-s.gif"
       } else {
-        img.src = "https://shoredevin.github.io/sheet/images/images/" + id + ".gif"
+        img.src = "/images/images/" + id + ".gif"
       }
       resolve(currCell);
     }).then(async function(currCell) {
@@ -483,6 +620,17 @@
         ay[i].style.pointerEvents = 'auto';
       }
   });
+
+  // document.getElementsByTagName('BODY')[0].addEventListener('click', function() {
+  //   document.getElementById('image-holder').style.display = 'none';
+  //     document.getElementById('close-button').style.display = 'none';
+  //     document.getElementById('myInput').disabled = false;
+  //     document.getElementById('clear-button').style.pointerEvents = 'auto';
+  //     let ay = document.getElementsByClassName('pointer-cell');
+  //     for(i = 0; i < ay.length; i++) {
+  //       ay[i].style.pointerEvents = 'auto';
+  //     }
+  // })  
 
   let typeColors = 
     {
@@ -551,30 +699,32 @@
     //via typing
     //only saves the edited row
     function doneTyping () {
-      console.log(test2);
-      let values = [
-        [
-          test2
-        ]
-      ];
-      let body = {
-        values: values
-      };
-      console.log(body);
-      let range = sheetName + '!' + 'h' + test;
-      gapi.client.sheets.spreadsheets.values.update({
-        spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-        range: range,
-        valueInputOption: 'RAW',
-        resource: body
-      }).then((response) => {
-        var result = response.result;
-        console.log(range + ' updated');
-        console.log(`${result.updatedCells} cells updated.`);
-      }).catch((err) => {
-        console.error(err);
-      });
-      addTimeStamp("d");
+      if(test2 != undefined) {
+        console.log(test2);
+        let values = [
+          [
+            test2
+          ]
+        ];
+        let body = {
+          values: values
+        };
+        console.log(body);
+        let range = sheetName + '!' + 'j' + test;
+        gapi.client.sheets.spreadsheets.values.update({
+          spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+          range: range,
+          valueInputOption: 'RAW',
+          resource: body
+        }).then((response) => {
+          var result = response.result;
+          console.log(range + ' updated');
+          console.log(`${result.updatedCells} cells updated.`);
+        }).catch((err) => {
+          console.error(err);
+        });
+        addTimeStamp("d");
+      }
     }  
 
     $("#myTable").delegate(".notes-field", "keyup", function(e) {
@@ -583,39 +733,46 @@
     });
 
   //update the googlesheet when changes are made to front end
-  //via click
+  //via click (caught and shiny columns)
   //only saves the edited row
     $("#myTable").delegate(".status-setter", "click", function(e) {
         console.log('neat')
-        let col = this.cellIndex;
-        let row = this.parentNode.rowIndex;
-        if (col == 5) {
-          col = "f";
-        } else if (col == 6){
-          col = "g";
-        };
-        let values = [
-          [
-            $(this)[0].textContent
-          ]
-        ];
-        let body = {
-          values: values
-        };
-        console.log(body);
-        let range = sheetName + '!' + col + row;
-        gapi.client.sheets.spreadsheets.values.update({
-          spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-          range: range,
-          valueInputOption: 'RAW',
-          resource: body
-        }).then((response) => {
-          var result = response.result;
-          console.log(range + ' updated')
-          console.log(`${result.updatedCells} cells updated.`);
-          setSessionStorage();
-        });
-        addTimeStamp("d");
+        if (changesMade == true) {
+          let col = this.cellIndex;
+          let row = this.parentNode.rowIndex;
+          if (col == 5) {
+            col = "f";
+          } else if (col == 6){
+            col = "g";
+          } else if (col == 9) {
+            col = "j";
+          }
+          let values = [
+            [
+              $(this)[0].textContent
+            ]
+          ];
+          let body = {
+            values: values
+          };
+          console.log(body);
+          let range = sheetName + '!' + col + row;
+          gapi.client.sheets.spreadsheets.values.update({
+            spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+            range: range,
+            valueInputOption: 'RAW',
+            resource: body
+          }).then((response) => {
+            var result = response.result;
+            console.log(range + ' updated')
+            console.log(`${result.updatedCells} cells updated.`);
+            setSessionStorage();
+            changesMade = false;
+          });
+          addTimeStamp("d");
+        } else {
+          console.log('no changes made')
+        }
     });
 //end save functions
 //update the googlesheet when changes are made to front end

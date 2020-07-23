@@ -16,8 +16,17 @@ body {
 }
 
 #column-select-container {
-    padding-top: 50px;
+    position: block;
+    /* background: gray; */
+    /* width: 300px; */
+    /* height: 75px; */
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
+
+/* #col-selector {
+    float: right;
+} */
 
 button {
     border: 1px solid #0066cc;
@@ -88,13 +97,13 @@ button:disabled {
 
 #content-container {
     background-color: white;
-    width: 800px;
+    width: 1000px;
     text-align: center;
     margin: auto;
     box-shadow: 5px 5px 5px black;
     padding-bottom: 1px;
-    border-radius: 10px;
-    height: 625px;
+    border-radius: 10px 10px 20px 20px;
+    /* height: 100%; */
 }
 
 #image-frame {
@@ -153,19 +162,19 @@ button:disabled {
 }
 
 #search-container {
-    width: 790px;
+    width: 990px;
     position: relative;
     margin: auto;
 }
 
 #myInput {
-    background-image:url('/sheet/images/searchicon.png');
+    background-image:url('/images/searchicon.png');
     background-position: 10px;
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
     margin-top: 10px;
     margin-bottom: 5px;
-    width: 790px;
+    width: 990px;
     border: 1px solid #ddd; 
     flex-grow: 2;
     /* box-shadow: 5px 5px 5px black; */
@@ -179,27 +188,46 @@ button:disabled {
 }
 #table-container {
     overflow: auto;
-    height: 500px;
+    height: 700px;
 }
 
 table {
     color: rgb(66,66,66);
-    margin: auto;
-    width: 777px;
+    margin-left: 5px;
+    /* margin-right: 30px; */
+    /* padding:10px; */
+    width: 975px;
+    /* height: 30px; */
     text-align: center;
     border-collapse: collapse;
     table-layout: fixed;
     margin-bottom: 15px;
+    /* position: relative; */
     /* padding-bottom: 50px; */
     /* box-shadow: 5px 5px 5px black; */
 
 }
 
-th, td {
+/* table thead tr {
+    display: block;
+}
+
+table th, table td {
+    width: 100px;
+}
+
+table tbody {
+    display: block;
+    overflow: auto;
+} */
+
+td {
     border: 1px solid rgb(66,66,66);
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    /* padding-left: 3px;
+    padding-right: 3px; */
 }
 
 tr:nth-child(odd) {background-color: rgb(255,255,255);}
@@ -209,6 +237,12 @@ th {
     background-color: rgb(66,66,66);
     color: white;
     text-align: center;
+    position: sticky;
+    /* z-index: 10; */
+    top: 0;
+    /* padding: 5px; */
+    /* padding-left: 5px;
+    padding-right: 5px; */
 }
 
 .status-setter, .pointer-cell {
@@ -304,6 +338,15 @@ th {
     -webkit-filter: grayscale(1);
     filter: gray;
     filter: grayscale(1);
+}
+
+.form-selector {
+    height: 100%;
+    line-height: 100px;
+    width: 100%;   
+    /* border-radius: 0%; */
+    border: 0px;
+    background-color: transparent;
 }
 
 /* The snackbar - position it at the bottom and in the middle of the screen */

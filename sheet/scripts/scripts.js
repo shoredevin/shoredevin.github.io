@@ -1,9 +1,11 @@
 //search logic
 $(document).ready(function () {
     $('#myInput').on('keyup focus', function () {
-        var value = this.value.toLowerCase();
+        const regex = / & /gi;
+        var value = this.value.toLowerCase().replace(regex, '&');
+        // console.log(value.replace(regex, '&'));
         var filter = [];
-        console.log(filter);
+        // console.log(filter);
         while (value.length > 0) {
             if (value.indexOf('||') == -1) {
                 if (value.trim().length > 0) {
@@ -26,7 +28,7 @@ $(document).ready(function () {
                 for (var k = 0; k < filter.length; k++) {
                     if (filter[k].indexOf('&') > -1) {
                         let string = filter[k];
-                        console.log("string: " + string)
+                        // console.log("string: " + string)
                         let countAmp =  string.match(/&/g).length;
                         for (var m = 0; m <= countAmp + 1; m++) {
 							if (m == countAmp + 1) {
@@ -107,6 +109,8 @@ function addToSearch(char) {
         document.getElementById('myInput').value = '☆';
     } else if (char == '♥' && currChar == '♥') {
         document.getElementById('myInput').value = '♡';
+    } else if (char == '◼' && currChar == '◼') {
+        document.getElementById('myInput').value = '◻';
     } else {
         document.getElementById('myInput').value = char;
     }
@@ -183,6 +187,14 @@ window.onload = function() {
             }
         }
     });
+
+    // let formSelectors = document.getElementsByClassName('form-selector');
+    // for (formSelector of formSelectors) {
+    //     console.log(formSelector);
+    //     formSelector.addEventListener('click', function() {
+    //         console.log('here');
+    //     })
+    // }
 }
 
 function showHide() {
