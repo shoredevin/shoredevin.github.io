@@ -96,6 +96,10 @@
     var sheetName;
     var sheet;
     var changesMade = false;
+    let formPreferences = {};
+    let rowRowRow;
+
+    // let formPreferences = JSON.parse(localStorage.getItem('formPreferences'));
     /**
      *  On load, called to load the auth2 library and API client library.
      */
@@ -200,9 +204,11 @@
         // console.log(response.result.values);
         for(var i = 0; i < response.result.values.length; i++) {
           if (response.result.values[i][0] == userEmail) {
+            rowRowRow = i;
             sheetName = response.result.values[i][1];
             catchPercent = response.result.values[i][8];
             shinyPercent = response.result.values[i][10];
+            formPreferences = JSON.parse(response.result.values[i][11]);
             userStats = {
               'email' : userEmail,
               'catchPercent': response.result.values[i][8],
@@ -214,7 +220,8 @@
           };
         };
       }, function(reason) {
-        console.error('error: ' + reason.result.error.message);
+        console.error('error: ' + reason.result.error.status);
+        appendPre('error: ' + reason.result.error.status);
       });
      
       setTimeout(function() {
@@ -389,11 +396,24 @@
                     if(formId.type2.toLowerCase() != '') {
                       $(this).parent().find('td:eq(4)').addClass(formId.type2.toLowerCase() + 'Type')
                     }
-                    localStorage.setItem(
-                      $(this).parent().find('td:eq(0)').text(), //Pokemon Number
-                      document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex //Select Index (current form)
-                    );
+                    //this will be able to go away when the 'db' is used rather than local storage
+                    // localStorage.setItem(
+                    //   $(this).parent().find('td:eq(0)').text(), //Pokemon Number
+                    //   document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex //Select Index (current form)
+                    // );
+                    //
+
+
+                    let newId = $(this).parent().find('td:eq(0)').text();
+                    let newForm =  document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex;
+                    formPreferences[newId] = newForm;
+                    let strang = JSON.stringify(formPreferences);
+                    //Here we need to add values tp 'db' rather than localstorage
+                    updateFormPreferences();
+                    // localStorage.setItem('formPreferences', strang);
+                    //
                     console.log(document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex);
+
                   }
                   //
                   let content = tr.cells[k].innerHTML;
@@ -422,10 +442,11 @@
                     }
                     let currNum =  tr.cells[0].innerHTML;
                     sel.getElementsByTagName('option')[0].selected = 'seleted'
-                    if  (localStorage.getItem(currNum) == null) {
+                    // if  (localStorage.getItem(currNum) == null) {
+                    if(formPreferences[currNum] == undefined) {
                       sel.getElementsByTagName('option')[0].selected = 'seleted'
                     } else {
-                      sel.getElementsByTagName('option')[localStorage.getItem(currNum)].selected = 'selected'
+                      sel.getElementsByTagName('option')[formPreferences[currNum]].selected = 'selected'
                       let uuuu = document.createElement('img'); //formImg
                       let iiii = tr.cells[5].innerHTML; //shinyStatus
                       let oooo = tr.cells[6].innerHTML; //catchStatus
@@ -518,9 +539,11 @@
           // tableStorage = "yeetEmpty";
         }
       }, function (response) {
-        // appendPre('Error: ' + response.result.error.message);
-        appendPre('No Pokedex found for ' + userEmail + '. Building Pokedex now, please wait.');
-        createWorksheet();
+        if(response.status != 403){
+          // appendPre('Error: ' + response.result.error.message);
+          appendPre('No Pokedex found for ' + userEmail + '. Building Pokedex now, please wait.');
+          createWorksheet();
+        }
       });
     }, 5000);
     //********************
@@ -839,6 +862,7 @@
       dexSort();
     }, function(reason) {
       console.error('error: ' + reason.result.error.message);
+      appendPre('error: ' + reason.result.error.message);
     });
   }
 
@@ -1034,6 +1058,37 @@
 			    sessionStorage.setItem('userStats', JSON.stringify(userStats));
 		    };
 	    };
+    });
+  }
+
+  function updateFormPreferences() {
+    console.log(rowRowRow);
+    var params = {
+      spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
+      range: 'Mappings',
+    };
+    let userRow = rowRowRow + 1;
+	  cell = 'Mappings!L' + userRow
+    var values = [
+      [JSON.stringify(formPreferences)],
+    ];
+    var body = {
+      values: values
+    };
+    var request = gapi.client.sheets.spreadsheets.values.get(params);
+    request.then(function(response) {
+		  gapi.client.sheets.spreadsheets.values.update({
+			  spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
+          range: cell,
+          valueInputOption: 'RAW',
+          resource: body
+      }).then((response) => {
+          var result = response.result;
+          console.log(cell + ' updated')
+          console.log(`${result.updatedCells} cell(s) updated.`);
+      });
+    }, function(reason) {
+        console.error('error: ' + reason.result.error.message);
     });
   }
 
