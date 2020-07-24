@@ -4,6 +4,7 @@ body {
     background-image: url("../images/background.jpg");
     font-family: 'Lora', sans-serif;
     background-color: rgb(255,61,0);
+    /* height: 100%; */
 }
 
 /* this needs to be moved */
@@ -103,6 +104,7 @@ button:disabled {
     box-shadow: 5px 5px 5px black;
     padding-bottom: 1px;
     border-radius: 10px 10px 20px 20px;
+    position: relative;
     /* height: 100%; */
 }
 
@@ -115,18 +117,43 @@ button:disabled {
 }
 
 #close-button {
-    margin-left: 620px;
-    margin-top: 10px;
-    width: 2%;
+    bottom: 637px;
+    right: 247px;
+    /* transform: translate(-50%, -50%); */
+    width: 40px;
+    height: 40px;
     position: absolute;
     display: none;
     z-index: 1;
 }
 
+#shiny, #shiny-label {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+#shiny {
+    /* bottom: 637px; */
+    /* right: 300px; */
+}
+
+#shiny-label {
+    /* bottom: 637px;
+    right: 350px; */
+}
+
+/* #{
+    display: none;
+} */
+
 #image-holder {
-    margin-left: 135px;
+    /* margin-left: 135px; */
     z-index: 1;
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: none;
     background-color: white;
     /* outline: solid black; */
@@ -150,10 +177,10 @@ button:disabled {
 
 #instructions {
     margin: auto;
-    width: 777px;
+    width: 90%;
     /* background-color: white; */
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
     /* margin-bottom: -9px; */
     text-align: center;
     font-size: 18px;
@@ -188,7 +215,7 @@ button:disabled {
 }
 #table-container {
     overflow: auto;
-    height: 700px;
+    height: 70vh;
 }
 
 table {
@@ -238,7 +265,7 @@ th {
     color: white;
     text-align: center;
     position: sticky;
-    /* z-index: 10; */
+    z-index: 1;
     top: 0;
     /* padding: 5px; */
     /* padding-left: 5px;
@@ -328,6 +355,7 @@ th {
 
 .sprite {
     height: 100px;
+    display: block;
 }
 
 /*.sprite-big {
@@ -338,6 +366,7 @@ th {
     -webkit-filter: grayscale(1);
     filter: gray;
     filter: grayscale(1);
+    /* z-index: 100; */
 }
 
 .form-selector {

@@ -32,13 +32,15 @@
   <div id="pre">placeholder</div>
 
   <div id="content-container" style="display: none">
-    <p id="instructions">To search for caught Pokemon or shiny Pokemon click the table header for their respective columns:</p>
+    <p id="instructions">To search for caught, shiny, or hidden ability Pokemon click the table header for their respective columns:</p>
     <div id="search-container">
       <input class="form-control" id="myInput" type="text" placeholder="Search...">
       <input type="image" id="clear-button" src="/images/clear.png" alt="Clear" onclick="clearSearch()">
     </div>
     <div id="image-frame">
       <img id="image-holder" alt="">
+      <input type="checkbox" id="shiny" name="shiny" value="Shiny">
+      <label for="shiny" id='shiny-label'>Shiny</label>
       <input type="image" id="close-button" src="/images/close.png" alt="Close">
     </div>
     <div id='table-container'>
@@ -624,6 +626,10 @@
       await setBorder(currCell);
       img.style.display = 'block';
       document.getElementById('close-button').style.display = 'block';
+      //add display to shiny button and shiny label
+      document.getElementById('shiny').style.display = 'block',
+      document.getElementById('shiny-label').style.display = 'block',
+      //
       document.getElementById('myInput').disabled = true;
       document.getElementById('clear-button').style.pointerEvents = 'none';
       let ay = document.getElementsByClassName('pointer-cell');
@@ -636,6 +642,8 @@
   document.getElementById('close-button').addEventListener("click", function(){
       document.getElementById('image-holder').style.display = 'none';
       document.getElementById('close-button').style.display = 'none';
+      document.getElementById('shiny').style.display = 'none',
+      document.getElementById('shiny-label').style.display = 'none',
       document.getElementById('myInput').disabled = false;
       document.getElementById('clear-button').style.pointerEvents = 'auto';
       let ay = document.getElementsByClassName('pointer-cell');
