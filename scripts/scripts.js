@@ -3,6 +3,14 @@ $(document).ready(function () {
     $('#myInput').on('keyup focus', function () {
         const regex = / & /gi;
         var value = this.value.toLowerCase().replace(regex, '&');
+        const caughtRegX = /"caught"/gi;
+        const uncaughtRegX = /"!caught"/gi;
+        const shinyRegX = /"shiny"/gi;
+        const notShinyRegX = /"!shiny"/gi;
+        value = value.replace(caughtRegX, "★");
+        value = value.replace(uncaughtRegX, "☆");
+        value = value.replace(shinyRegX, "♥");
+        value = value.replace(notShinyRegX, "♡");
         // console.log(value.replace(regex, '&'));
         var filter = [];
         // console.log(filter);

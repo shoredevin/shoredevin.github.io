@@ -16,6 +16,7 @@
   <script src="scripts/scripts.js"></script>
   <!-- <script src="scripts/save.js"></script> -->
   <style type="text/css"></style>
+  <noscript>Your browser does not support JavaScript!</noscript>
 </head>
 
 <body>
@@ -30,7 +31,6 @@
   </div>
 
   <div id="pre">placeholder</div>
-
   <div id="content-container" style="display: none">
     <p id="instructions">To search for caught, shiny, or hidden ability Pokemon click the table header for their respective columns:</p>
     <div id="search-container">
@@ -741,7 +741,7 @@
           values: values
         };
         console.log(body);
-        let range = sheetName + '!' + 'j' + test;
+        let range = sheetName + '!' + 'k' + test;
         gapi.client.sheets.spreadsheets.values.update({
           spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
           range: range,
@@ -998,7 +998,7 @@
     var values = [];
     var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-        range: 'Default!' + 'A' + userSheetLength + ':' + 'I' + defaultSheetLength,
+        range: 'Default!' + 'A' + userSheetLength + ':' + 'K' + defaultSheetLength,
         //A810:H810',
         valueRenderOption: 'FORMATTED_VALUE',
         dateTimeRenderOption: 'FORMATTED_STRING',
