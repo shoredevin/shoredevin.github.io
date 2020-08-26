@@ -206,6 +206,7 @@ window.onload = function() {
 }
 
 function showHide() {
+    console.log('hello world')
     if (localStorage.length > 0) {
         for(let i = 0; i < localStorage.length; i++) {
             let cols = document.getElementsByClassName(localStorage.key(i));
@@ -228,3 +229,13 @@ function showSnackBar(msg) {
     // After 3 seconds, remove the show class from DIV
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
+
+// function hideCols() {
+//     // for(item of localStorage) {
+//     //     console.log(item);
+//     // }
+//     for(i = 0; i < localStorage.length; i++) {
+//         console.log(localStorage[i]);
+//         console.log(localStorage.getItem(localStorage.key(i)));
+//     }
+// }

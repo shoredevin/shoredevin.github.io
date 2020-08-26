@@ -236,7 +236,7 @@
 
       }).then(function (response) {
         var range = response.result;
-        console.log(range)
+        // console.log(range)
         if (range.values.length > 0) {
           console.log(range);
           console.log('(╯°□°)╯︵◓')
@@ -428,7 +428,7 @@
                     sel.setAttribute('id', 'form-select' + i)
                     sel.setAttribute('size', 6)
                     let options = JSON.parse(content);
-                    console.log(options)
+                    // console.log(options)
                     for(option in options) {
                       var opt = document.createElement('option');
                       opt.appendChild(document.createTextNode(option));
@@ -439,7 +439,7 @@
                       };
                       opt.value = JSON.stringify(val);
                       opt.title = option;
-                      console.log(options[option].type1, options[option].type2)
+                      // console.log(options[option].type1, options[option].type2)
                       sel.appendChild(opt);
                     }
                     let currNum =  tr.cells[0].innerHTML;
@@ -452,7 +452,7 @@
                       let uuuu = document.createElement('img'); //formImg
                       let iiii = tr.cells[5].innerHTML; //shinyStatus
                       let oooo = tr.cells[6].innerHTML; //catchStatus
-                      console.log(iiii, oooo)
+                      // console.log(iiii, oooo)
                       let formId = JSON.parse(sel.value);
                       if (oooo == '♥') {
                         uuuu.src = '/images/images/' + formId.id + '-s' + '.gif';
@@ -741,7 +741,7 @@
           values: values
         };
         console.log(body);
-        let range = sheetName + '!' + 'k' + test;
+        let range = sheetName + '!' + 'j' + test;
         gapi.client.sheets.spreadsheets.values.update({
           spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
           range: range,
@@ -767,7 +767,7 @@
   //via click (caught and shiny columns)
   //only saves the edited row
     $("#myTable").delegate(".status-setter", "click", function(e) {
-        console.log('neat')
+        // console.log('neat')
         if (changesMade == true) {
           let col = this.cellIndex;
           let row = this.parentNode.rowIndex;
@@ -801,8 +801,8 @@
             changesMade = false;
           });
           addTimeStamp("d");
-        } else {
-          console.log('no changes made')
+        // } else {
+        //   console.log('no changes made')
         }
     });
 //end save functions
