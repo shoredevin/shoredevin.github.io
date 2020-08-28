@@ -16,7 +16,7 @@
   <script src="scripts/scripts.js"></script>
   <!-- <script src="scripts/save.js"></script> -->
   <style type="text/css"></style>
-  <noscript>Your browser does not support JavaScript!</noscript>
+  <noscript>Please enable JavaScript to use this website!</noscript>
 </head>
 
 <body>
@@ -44,7 +44,11 @@
       <input type="image" id="close-button" src="/images/close.png" alt="Close">
     </div>
     <div id='table-container'>
+      <p id="table-size"></p>
       <table id='myTable'>
+        <!-- <thead>
+          <th colspan="9">Test</th>
+        </thead> -->
         <thead>
           <tr>
             <th>Id:</th>
@@ -71,9 +75,11 @@
         <option value='hidden-ability'>Hidden Ability</option>
         <option value='notes'>Notes</option>
         <option value='gen'>Gen</option>
+        <option value='other-forms'>Forms</option>'
       </select>
       <button id='show-hide-button' disabled>Show/Hide</button>
     </div>
+    <!-- <div id="table-size"></div> -->
     <div id="snackbar"></div>
   </div>
 
@@ -213,8 +219,8 @@
             formPreferences = JSON.parse(response.result.values[i][11]);
             userStats = {
               'email' : userEmail,
-              'catchPercent': response.result.values[i][8],
-              'shinyPercent': response.result.values[i][10]
+              'catchPercent': catchPercent,
+              'shinyPercent': shinyPercent
             }
             sessionStorage.setItem('userStats', JSON.stringify(userStats));
             console.log(JSON.parse(sessionStorage.userStats))
@@ -421,7 +427,15 @@
                   let content = tr.cells[k].innerHTML;
                   if(content.length == 0 || content.indexOf(' ') == 0) {
                     tr.cells[k].innerHTML = '';  
+                  } else if(tr.cells[0].innerHTML == "801" & catchPercent != 100) {
+                    tr.cells[k].innerHTML = '';  
                   } else {
+                    //add if check here for magearna
+                    // if(tr.cells[0].innerHTML == "801") {
+                    //   if(catchPercent != 100) {
+                    //     break;
+                    //   }
+                    // }
                     tr.cells[k].innerHTML = '';
                     let sel = document.createElement('select');
                     sel.classList.add('form-selector')
@@ -476,10 +490,11 @@
                     tr.cells[k].appendChild(sel);
                   }
                 }
-                if (k == 5 || k == 6 || k == 7 || k == 9 || k == 10) {
+                //make the following columns pointer cells: caught, shiny, ha, notes
+                if (k == 5 || k == 6 || k == 7 || k == 9) {
                   tr.cells[k].classList.add('pointer-cell')
                 }
-                if (k == 5 || k == 6 || k == 9) {
+                if (k == 5 || k == 6 || k == 7 || k == 9) {
                   tr.cells[k].classList.add('status-setter')
                 }
               } else {
@@ -532,6 +547,7 @@
         
           //work here
           // setTimeout( function() {
+            setTotalRows();
             showHide();
           // }, 1000);
           //
@@ -775,8 +791,8 @@
             col = "f";
           } else if (col == 6){
             col = "g";
-          } else if (col == 9) {
-            col = "j";
+          } else if (col == 7) {
+            col = "h";
           }
           let values = [
             [

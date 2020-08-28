@@ -1,5 +1,9 @@
+let totalRows;
+
 //search logic
 $(document).ready(function () {
+    // console.log(tableRows);
+
     $('#myInput').on('keyup focus', function () {
         const regex = / & /gi;
         var value = this.value.toLowerCase().replace(regex, '&');
@@ -83,6 +87,7 @@ $(document).ready(function () {
         //         };
         //     };
         // };
+        logSortTotal();
     });
 });
 
@@ -203,10 +208,12 @@ window.onload = function() {
     //         console.log('here');
     //     })
     // }
+
+    //set the total rows
 }
 
 function showHide() {
-    console.log('hello world')
+    //console.log('hello world')
     if (localStorage.length > 0) {
         for(let i = 0; i < localStorage.length; i++) {
             let cols = document.getElementsByClassName(localStorage.key(i));
@@ -239,3 +246,25 @@ function showSnackBar(msg) {
 //         console.log(localStorage.getItem(localStorage.key(i)));
 //     }
 // }
+
+
+function setTotalRows() {
+    totalRows = table.getElementsByTagName('tr').length - 1;
+    document.getElementById('table-size').innerHTML = "Showing " + totalRows + " of " + totalRows + " rows";
+}
+
+function logSortTotal() {
+    let sortTotal = -1;
+    var tr = table.getElementsByTagName('tr');
+    for (var i = 0; i < tr.length; i++) {
+        if(tr[i].style.display != 'none') {
+            sortTotal++;
+        }
+    }
+    if(sortTotal > -1 && sortTotal < totalRows) {
+        document.getElementById('table-size').innerHTML = "Showing " + sortTotal + " of " + totalRows + " rows";
+    } else {
+        document.getElementById('table-size').innerHTML = "Showing " + totalRows + " of " + totalRows + " rows";
+    }
+    // console.log("sort total: " + sortTotal)
+}

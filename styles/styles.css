@@ -225,6 +225,15 @@ button:disabled {
     height: 70vh;
 }
 
+#table-size {
+    /* padding-top: -10px;
+    padding-bottom: -10px; */
+    height: 10px;
+    padding-left: 10px;
+    text-align: left;
+    /* font-weight: bold; */
+}
+
 table {
     color: rgb(66,66,66);
     margin-left: 5px;
