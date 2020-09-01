@@ -37,6 +37,7 @@
       <input class="form-control" id="myInput" type="text" placeholder="Search...">
       <input type="image" id="clear-button" src="/images/clear.png" alt="Clear" onclick="clearSearch()">
     </div>
+    <p id="table-size"></p>
     <div id="image-frame">
       <img id="image-holder" alt="">
       <input type="checkbox" id="shiny" name="shiny" value="Shiny">
@@ -44,7 +45,6 @@
       <input type="image" id="close-button" src="/images/close.png" alt="Close">
     </div>
     <div id='table-container'>
-      <p id="table-size"></p>
       <table id='myTable'>
         <!-- <thead>
           <th colspan="9">Test</th>
@@ -186,8 +186,17 @@
       pre.innerHTML = '';
       document.getElementById('pre').style = 'background-color: white';
       document.getElementById('pre').style = 'visibility: visible';
+      if(message == 403) {
+          var x = document.createElement('a');
+          var t = document.createTextNode('You currently do not have access to this site. To request access click here.')
+          x.setAttribute('href', 'javascript:funk()');
+          x.appendChild(t);
+          pre.appendChild(x);
+      } else {
+      console.log(message);
       var textContent = document.createTextNode(message + '\n');
       pre.appendChild(textContent);
+      }
     }
 
     /**
@@ -228,8 +237,26 @@
           };
         };
       }, function(reason) {
-        console.error('error: ' + reason.result.error.status);
-        appendPre('error: ' + reason.result.error.status);
+        if(reason.result.error.code == 403) {
+          console.log('yo dawg');
+          // var link = document.createElement('a');
+          // link.setAttribute('href', 'www.google.com');
+          // link.innerText = 'here'
+          // var text = document.createTextNode('You currently do not have access to this site. To request access click ' + link)
+          // console.log(text);
+          // appendPre(text);
+          // let txt = 'You currently do not have access to this site. To request access click '
+          // txt.anchor('www.google.com');
+          // var x = document.createElement('a');
+          // var t = document.createTextNode('msg')
+          // x.setAttribute('href', 'www.google.com');
+          // x.appendChild(t);
+          // console.log(x);
+          appendPre(403);
+        } else {
+          //console.error('error: ' + reason.result.error.status);
+          appendPre('error: ' + reason.result.error.status);
+        }
       });
      
       setTimeout(function() {
@@ -1114,6 +1141,26 @@
     }, function(reason) {
         console.error('error: ' + reason.result.error.message);
     });
+  }
+
+  async function funk() {
+    // console.log(userEmail);
+    let url = 'https://script.google.com/macros/s/AKfycbySF-KSzHQfGJAZLFk-dmO-kGhcApxVQtbG4WsSuyVIpbg82gkg/exec?email=' + userEmail;
+    
+    $.get(url, function(data, status) {
+      console.log(data);
+      appendPre('Your request for access has been submitted. You will be notified if access is granted.');
+    });
+
+    // .then(response => response.json())
+    // appendPre('Your request for access has been submitted. You will be notified if access is granted.');
+    // .then(data => {
+    //     console.log('Success:', data)
+    //     appendPre('Your request for access has been submitted. You will be notified if access is granted.');
+    // })
+    // .catch((err) => {
+    //     console.error('Error', err)
+    // })
   }
 
 </script>
