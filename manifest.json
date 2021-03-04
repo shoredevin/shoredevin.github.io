@@ -12,6 +12,6 @@
     "start_url": "./?utm_source=web_app_manifest",
     "display": "standalone",
     "orientation": "portrait",
-    "theme_color": "#29BDBB",
-    "background_color": "#29BDBB"
+    "theme_color": "#FFFFFF",
+    "background_color": "rgb(255,61,0)"
 }
