@@ -1,4 +1,4 @@
-ar cacheName = 'v1:static';
+var cacheName = 'v1:static';
 
 // During the installation phase, you'll usually want to cache static assets.
 self.addEventListener('install', function(e) {
