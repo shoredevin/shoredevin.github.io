@@ -11,6 +11,7 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('online', function(e) {
     // Resync data with server.
     console.log("You are online");
+    document.getElementById('pre').style = 'visibility: hidden';
     document.getElementById('content-container').style = 'display:block';
     //Page.hideOfflineWarning();
     //Arrivals.loadData();
