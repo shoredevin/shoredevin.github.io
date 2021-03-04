@@ -2,7 +2,7 @@ body {
     /* padding-top: 10px;
     padding-left: 10px; */
     
-    background-image: url("../images/background.jpg") no-repeat center center fixed;
+    background: url("../images/background.jpg") no-repeat center center fixed;
     /*background-repeat: no-repeat;*/
       -webkit-background-size: cover;
   -moz-background-size: cover;
