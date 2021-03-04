@@ -11,6 +11,7 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('online', function(e) {
     // Resync data with server.
     console.log("You are online");
+    document.getElementById('content-container').style = 'display:block';
     //Page.hideOfflineWarning();
     //Arrivals.loadData();
 }, false);
@@ -20,11 +21,12 @@ window.addEventListener('offline', function(e) {
     console.log("You are offline");
     //Page.showOfflineWarning();
     appendPre("You are currently offline");
+    document.getElementById('content-container').style = 'display:none';
 }, false);
 
 // Check if the user is connected.
 if (navigator.onLine) {
-    //Arrivals.loadData();
+    document.getElementById('pre').style = 'visibility: hidden';
 } else {
     // Show offline message
     //Page.showOfflineWarning();
