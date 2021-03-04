@@ -1,9 +1,5 @@
-let totalRows;
-
 //search logic
 $(document).ready(function () {
-    // console.log(tableRows);
-
     $('#myInput').on('keyup focus', function () {
         const regex = / & /gi;
         var value = this.value.toLowerCase().replace(regex, '&');
@@ -15,9 +11,7 @@ $(document).ready(function () {
         value = value.replace(uncaughtRegX, "☆");
         value = value.replace(shinyRegX, "♥");
         value = value.replace(notShinyRegX, "♡");
-        // console.log(value.replace(regex, '&'));
         var filter = [];
-        // console.log(filter);
         while (value.length > 0) {
             if (value.indexOf('||') == -1) {
                 if (value.trim().length > 0) {
@@ -33,14 +27,12 @@ $(document).ready(function () {
         var table = document.getElementById('tableBody');
         var tr = table.getElementsByTagName('tr');
         for (var i = 0; i < tr.length; i++) {
-            // console.log(tr[i].innerText);
             if (filter.length == 0) {
                 tr[i].style.display = '';
             } else {
                 for (var k = 0; k < filter.length; k++) {
                     if (filter[k].indexOf('&') > -1) {
                         let string = filter[k];
-                        // console.log("string: " + string)
                         let countAmp =  string.match(/&/g).length;
                         for (var m = 0; m <= countAmp + 1; m++) {
 							if (m == countAmp + 1) {
@@ -65,56 +57,9 @@ $(document).ready(function () {
                 };
             };
         };
-        // for (var i = 0; i < tr.length; i++) {
-        //     // console.log(tr[i].innerText);
-        //     if( filter.length == 0) {
-        //         tr[i].style.display = '';
-        //     } else {
-        //         for(var k = 0; k < filter.length; k++) {
-        //             if (filter[k].indexOf('&') > -1) {
-        //                 if (tr[i].textContent.toLowerCase().indexOf(filter[k].slice(0, filter[k].indexOf('&'))) > -1 && tr[i].textContent.toLowerCase().indexOf(filter[k].slice(filter[k].indexOf('&')+1, filter[k].length)) > -1) {
-        //                     tr[i].style.display = '';
-        //                     break;
-        //                 } else {
-        //                     tr[i].style.display = 'none';
-        //                 }
-        //             } else if (tr[i].textContent.toLowerCase().indexOf(filter[k]) > -1) {
-        //                 tr[i].style.display = '';
-        //                 break;
-        //             } else {
-        //                 tr[i].style.display = 'none';    
-        //             };
-        //         };
-        //     };
-        // };
         logSortTotal();
     });
 });
-
-// $(document).ready(function () {
-//     $("#myInput").on("keyup", function () {
-//         var regex1 = /[&]/gi;
-//         var regex2 = /[|]/gi;
-//         let value = this.value.toLowerCase();
-//         console.log('value: ' + value);
-//         if (value.indexOf('||') > -1) {
-//             console.log('here')
-//             document.getElementById('myInput').value.replace(regex1, '');
-//         } else if (value.indexOf('&') > -1) {
-//             console.log('no here')
-//             document.getElementById('myInput').value.replace(regex2, '');
-//     }
-//     });
-// });
-
-// $(document).ready(function () {
-//     $("#myInput").on("focus", function () {
-//         var value = $(this).val().toLowerCase();
-//         $("#tableBody tr").filter(function () {
-//             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-//         });
-//     });
-// });
 
 function addToSearch(char) {
     var currChar = document.getElementById('myInput').value;
@@ -134,7 +79,8 @@ function clearSearch() {
     document.getElementById('myInput').value = '';
     document.getElementById('myInput').focus();
     document.activeElement.blur()
-    $('#table-container').scrollTop(0);
+    // $('#table-container').scrollTop(0);
+    document.getElementById('table-container').scrollTo(0,0);
 }
 
 async function getCurrTimeUTC() {
@@ -172,16 +118,13 @@ window.onload = function() {
             }
             console.log("hide", classToChange)
             localStorage.setItem(classToChange, "hide");
-            // document.getElementById('col-selector').selectedIndex=0;
         }
         document.getElementById('col-selector').selectedIndex=0;
         document.getElementById('show-hide-button').disabled = true;
         document.getElementById('show-hide-button').innerHTML = "Show/Hide";
         
     });
-// }
 
-// window.onload = function() {
     document.getElementById('col-selector').addEventListener("click", function() {
         currSelection = document.getElementById('col-selector').value;
         if(currSelection == '---') {
@@ -200,16 +143,6 @@ window.onload = function() {
             }
         }
     });
-
-    // let formSelectors = document.getElementsByClassName('form-selector');
-    // for (formSelector of formSelectors) {
-    //     console.log(formSelector);
-    //     formSelector.addEventListener('click', function() {
-    //         console.log('here');
-    //     })
-    // }
-
-    //set the total rows
 }
 
 function showHide() {
@@ -227,26 +160,14 @@ function showHide() {
 function showSnackBar(msg) {
     // Get the snackbar DIV
     var x = document.getElementById("snackbar");
-    // let val = document.getElementById("dd").value
     x.innerHTML = msg;
-    
     // Add the "show" class to DIV
     x.className = "show";
-
     // After 3 seconds, remove the show class from DIV
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
 
-// function hideCols() {
-//     // for(item of localStorage) {
-//     //     console.log(item);
-//     // }
-//     for(i = 0; i < localStorage.length; i++) {
-//         console.log(localStorage[i]);
-//         console.log(localStorage.getItem(localStorage.key(i)));
-//     }
-// }
-
+let totalRows;
 
 function setTotalRows() {
     totalRows = table.getElementsByTagName('tr').length - 1;
@@ -266,5 +187,26 @@ function logSortTotal() {
     } else {
         document.getElementById('table-size').innerHTML = "Showing " + totalRows + " of " + totalRows + " rows";
     }
-    // console.log("sort total: " + sortTotal)
+}
+
+function openPopupWindow(myURL, title, myWidth, myHeight) {
+    var left = (screen.width - myWidth) / 2;
+    var top = (screen.height - myHeight) / 4;
+    var myWindow = window.open(myURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + myWidth + ', height=' + myHeight + ', top=' + top + ', left=' + left);
+}
+
+function showProfile() {
+    let userStats = JSON.parse(sessionStorage.userStats);
+    // console.log(userStats)
+    // console.log(userStats.catchPercent);
+    document.getElementById('username-cell').innerHTML = userStats.email;
+    document.getElementById('catch-percent-cell').innerHTML = userStats.catchPercent;
+    document.getElementById('shiny-percent-cell').innerHTML = userStats.shinyPercent;
+    document.getElementById('overlay').style.display = 'block'
+    document.getElementById('profile-container').style.display = 'inline-block'
+}
+
+function openRequestForm() {
+    document.getElementById('not-signed-in').style.display = "none";
+    document.getElementById('request-2').style.display = "block";
 }
