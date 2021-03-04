@@ -1,7 +1,7 @@
 let totalRows;
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
+  navigator.serviceWorker.register('/scripts/service-worker.js')
   .then(function(registration) {
     console.log('Registration successful, scope is:', registration.scope);
   })
