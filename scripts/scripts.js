@@ -11,14 +11,15 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('online', function(e) {
     // Resync data with server.
     console.log("You are online");
-    Page.hideOfflineWarning();
+    //Page.hideOfflineWarning();
     //Arrivals.loadData();
 }, false);
 
 window.addEventListener('offline', function(e) {
     // Queue up events for server.
     console.log("You are offline");
-    Page.showOfflineWarning();
+    //Page.showOfflineWarning();
+    appendPre("You are currently offline");
 }, false);
 
 // Check if the user is connected.
