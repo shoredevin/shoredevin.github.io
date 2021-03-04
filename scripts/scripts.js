@@ -1,3 +1,42 @@
+let totalRows;
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/scripts/service-worker.js').then(function(reg) {
+        console.log('Successfully registered service worker', reg);
+    }).catch(function(err) {
+        console.warn('Error whilst registering service worker', err);
+    });
+}
+
+window.addEventListener('online', function(e) {
+    // Resync data with server.
+    console.log("You are online");
+    document.getElementById('pre').style = 'visibility: hidden';
+    document.getElementById('content-container').style = 'display:block';
+    //Page.hideOfflineWarning();
+    //Arrivals.loadData();
+}, false);
+
+window.addEventListener('offline', function(e) {
+    // Queue up events for server.
+    console.log("You are offline");
+    //Page.showOfflineWarning();
+    appendPre("You are currently offline");
+    document.getElementById('content-container').style = 'display:none';
+}, false);
+
+// Check if the user is connected.
+if (navigator.onLine) {
+    document.getElementById('pre').style = 'visibility: hidden';
+} else {
+    // Show offline message
+    //Page.showOfflineWarning();
+    appendPre("You're currently offline");
+}
+
+// Set Knockout view model bindings.
+// ko.applyBindings(Page.vm);
+
 //search logic
 $(document).ready(function () {
     $('#myInput').on('keyup focus', function () {
@@ -187,6 +226,7 @@ function logSortTotal() {
     } else {
         document.getElementById('table-size').innerHTML = "Showing " + totalRows + " of " + totalRows + " rows";
     }
+<<<<<<< HEAD
 }
 
 function openPopupWindow(myURL, title, myWidth, myHeight) {
@@ -209,4 +249,7 @@ function showProfile() {
 function openRequestForm() {
     document.getElementById('not-signed-in').style.display = "none";
     document.getElementById('request-2').style.display = "block";
+=======
+    // console.log("sort total: " + sortTotal)
+>>>>>>> 318d9b0cc548e9d56fc9b360b217c3dbb4e4a880
 }
