@@ -30,7 +30,7 @@ if (navigator.onLine) {
 }
 
 // Set Knockout view model bindings.
-ko.applyBindings(Page.vm);
+// ko.applyBindings(Page.vm);
 
 //search logic
 $(document).ready(function () {
