@@ -23,7 +23,7 @@ window.addEventListener('offline', function(e) {
 
 // Check if the user is connected.
 if (navigator.onLine) {
-    Arrivals.loadData();
+    //Arrivals.loadData();
 } else {
     // Show offline message
     Page.showOfflineWarning();
