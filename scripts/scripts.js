@@ -26,7 +26,8 @@ if (navigator.onLine) {
     //Arrivals.loadData();
 } else {
     // Show offline message
-    Page.showOfflineWarning();
+    //Page.showOfflineWarning();
+    appendPre("You're currently offline");
 }
 
 // Set Knockout view model bindings.
