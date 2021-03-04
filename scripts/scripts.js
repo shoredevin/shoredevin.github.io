@@ -1,7 +1,7 @@
 let totalRows;
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').then(function(reg) {
+    navigator.serviceWorker.register('/scripts/service-worker.js').then(function(reg) {
         console.log('Successfully registered service worker', reg);
     }).catch(function(err) {
         console.warn('Error whilst registering service worker', err);
