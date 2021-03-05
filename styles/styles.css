@@ -303,20 +303,20 @@ button:disabled {
 }
 
 #myTable td {
-    border-left: 1px solid rgb(66,66,66);
-    border-right: 1px solid rgb(66,66,66);
-    border-bottom: 1px solid rgb(66,66,66);
+    border-left: thin solid rgb(66,66,66);
+    border-right: thin solid rgb(66,66,66);
+    border-bottom: thin solid rgb(66,66,66);
     /*this could be removed to eliminate weird behavior where the top row borderd underflows the header
     however, doing so causes issues with inconsistent cell heights
     */
     /* border-top: 1px solid green; */
     /* display: block; */
-    /* height: 250px;
-    min-height: 250px;
-    max-height: 250px; */
-    /* line-height: 100px; */
-    text-align: center;
-    overflow: hidden;
+    /* height: 110px;*/
+    /* min-height: 110px; */
+    /* max-height: 110px;   */
+    /* line-height: 50px; */
+    /* text-align: center; */
+    /* overflow: hidden; */
 }
 
 #myTable tr:nth-child(odd) {background-color: rgb(255,255,255);}
@@ -329,11 +329,14 @@ button:disabled {
     position: sticky;
     z-index: 1;
     top: 0;
-    border-left: 1px solid rgb(66,66,66);
-    border-right: 1px solid rgb(66,66,66);
+    /* border-left: 1px solid rgb(66,66,66);
+    border-right: 1px solid rgb(66,66,66); */
 }
 
 td {
+    /* line-height: 50px; */
+    height: 50px;
+    /* overflow: hidden; */
     display: table-cell;
     /* vertical-align: baseline; */
     line-break: normal;
@@ -348,10 +351,12 @@ td {
 }
 
 .notes-field {
+    /* min-height: 110px; */
+    /* max-height: 110px; */
     cursor: text;
     overflow: hidden;
-    /* line-height: 2px; */
-    height: 100%;
+    /* line-height: 50px; */
+    height: 10px;
 }
 
 .sprite {
@@ -367,8 +372,9 @@ td {
 
 .form-selector {
     height: 100%;
-    line-height: 100px;
+    /* line-height: 50px; */
     width: 100%;   
+    /* padding-top: 1px; */
     border: 0px;
     background-color: transparent;
 }
