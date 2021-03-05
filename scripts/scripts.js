@@ -1,8 +1,10 @@
 // let totalRows;
 
-window.onload = () => {
-    "use strict";
+// window.onload = () => {
+    console.log('here');
     
+    "use strict";
+
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('../service-worker.js').then(function(reg) {
             console.log('Successfully registered service worker', reg);
@@ -10,7 +12,7 @@ window.onload = () => {
             console.warn('Error whilst registering service worker', err);
         });
     }
-}
+// }
 
 window.addEventListener('online', function(e) {
     // Resync data with server.

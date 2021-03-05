@@ -16,6 +16,7 @@
         }
     ],
     "start_url": "/index.html",
+    "scope": "/",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "white",
