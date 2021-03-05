@@ -1,5 +1,5 @@
 let CACHE_NAME = "my-first-pwa";
-let urlsToCache = ["/", "/index.html", "/syles/style.css", "/syles/snackbar.css", "/scripts/app.js", "/scripts/scripts.js"];
+let urlsToCache = ["/", "/index.html", "/styles/styles.css", "/styles/snackbar.css", "/scripts/app.js", "/scripts/scripts.js"];
 
 /* Start the service worker and cache all of the app's content */
 self.addEventListener('install', function(event) {
