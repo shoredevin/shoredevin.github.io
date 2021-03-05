@@ -1,4 +1,4 @@
-let totalRows;
+// let totalRows;
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/scripts/service-worker.js').then(function(reg) {
@@ -226,7 +226,7 @@ function logSortTotal() {
     } else {
         document.getElementById('table-size').innerHTML = "Showing " + totalRows + " of " + totalRows + " rows";
     }
-<<<<<<< HEAD
+
 }
 
 function openPopupWindow(myURL, title, myWidth, myHeight) {
@@ -249,7 +249,4 @@ function showProfile() {
 function openRequestForm() {
     document.getElementById('not-signed-in').style.display = "none";
     document.getElementById('request-2').style.display = "block";
-=======
-    // console.log("sort total: " + sortTotal)
->>>>>>> 318d9b0cc548e9d56fc9b360b217c3dbb4e4a880
 }
