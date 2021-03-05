@@ -20,5 +20,5 @@
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "white",
-    "background_color": "rgb(255,61,0)"
+    "background_color": "white"
 }
