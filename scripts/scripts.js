@@ -1,11 +1,15 @@
 // let totalRows;
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/scripts/service-worker.js').then(function(reg) {
-        console.log('Successfully registered service worker', reg);
-    }).catch(function(err) {
-        console.warn('Error whilst registering service worker', err);
-    });
+window.onload = () => {
+    "use strict";
+    
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../service-worker.js').then(function(reg) {
+            console.log('Successfully registered service worker', reg);
+        }).catch(function(err) {
+            console.warn('Error whilst registering service worker', err);
+        });
+    }
 }
 
 window.addEventListener('online', function(e) {
