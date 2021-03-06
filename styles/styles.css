@@ -70,6 +70,10 @@ button:disabled {
     box-shadow: 0px 0px 20px 10px whitesmoke;
 }
 
+.title {
+    margin-left: 25px;
+}
+
 #pokeball {
     color: red;
 }
@@ -77,7 +81,7 @@ button:disabled {
 .auth-button {
     position: absolute;
     margin-top: 5px;
-    margin-right: 5px;
+    margin-right: 25px;
     top: 0;
     right: 0;
     width: 75px;
@@ -86,7 +90,7 @@ button:disabled {
 #username-container {
     position: absolute;
     margin-top: 8px;
-    margin-right: 90px;
+    margin-right: 110px;
     top: 0;
     right: 0;
 }
@@ -96,12 +100,14 @@ button:disabled {
 }
 
 #pre {
+    border-top: solid lightgrey;
     background-color: whitesmoke;
     box-shadow: 0px 0px 20px 10px whitesmoke;
     margin-top: -10px;
     font-size: 16px;
     color: red;
     visibility: hidden;
+    padding-left: 25px;
 }
 
 #not-signed-in {
