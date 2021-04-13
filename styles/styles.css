@@ -153,11 +153,60 @@ button:disabled {
     position: relative;
 }
 
+#image-holder {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    background-color: white;
+    border-image: none;
+    border-radius: 50px 0 50px 0;
+    border-style: solid;
+    border-width: 10px;
+}
+
+#search-image-frame {
+    align-content: center;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
 #image-frame {
     align-content: center;
     display: block;
     width: 100%;
     text-align: center;
+}
+
+#search-info {
+    z-index: 3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    background-color: rgb(25,25,25);
+    border-image: none;
+    /* border-radius: 20px 20px 20px 20px; */
+    border-style: solid;
+    border-color: black;
+}
+
+#search-info-table {
+    background-color: rgb(25,25,25);
+    font-family: 'Lora', sans-serif;
+    color: whitesmoke;
+    border-spacing: 0 15px;
+    margin: 10px;
+}
+
+.search-info-cell {
+    padding: 10px;
+    border: 1px inset whitesmoke;
+    vertical-align: middle;
 }
 
 /* #close-button {
@@ -176,20 +225,6 @@ button:disabled {
     z-index: 1;
 }
 
-#image-holder {
-    z-index: 3;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    background-color: white;
-    border-image: none;
-    border-radius: 50px 0 50px 0;
-    border-style: solid;
-    border-width: 10px;
-}
-
 #profile-container {
     display: none;
     z-index: 3;
@@ -198,7 +233,7 @@ button:disabled {
     left: 50%;
     transform: translate(-50%, -50%);
     background:  rgb(25,25,25);
-    height: 50%;
+    height: 55%;
     width: 50%;
 }
 #user-profile {
@@ -232,15 +267,20 @@ button:disabled {
     font-weight: bold;
 }
 
-#profile-table {
+.profile-table, .grid-preferences-table {
     padding: 5px;
     margin-left: 5%;
     width: 90%;
 }
-#profile-table td, #profile-table th{
+.profile-table td, .profile-table th, .grid-preferences-table td, .grid-preferences-table th {
     border: 1px solid  rgb(25,25,25);   
+    /* border: 1px solid salmon; */
     border-collapse: collapse;
     text-align: center;
+}
+
+.show-hide-column-checkbox {
+    cursor: pointer;
 }
 
 .img-border1 {
@@ -262,6 +302,7 @@ button:disabled {
 }
 
 #search-container {
+    padding-top: 5px;
     width: 990px;
     position: relative;
     margin: auto;
@@ -277,6 +318,13 @@ button:disabled {
     width: 990px;
     border: 1px solid #ddd; 
     flex-grow: 2;
+}
+
+#info-button {
+    width: 2.5%;
+    position: absolute;
+    right: 60px;
+    bottom: 5px;
 }
 
 #clear-button {
@@ -308,22 +356,12 @@ button:disabled {
     text-indent: inherit;
 }
 
+/* 
 #myTable td {
-    border-left: thin solid rgb(66,66,66);
-    border-right: thin solid rgb(66,66,66);
-    border-bottom: thin solid rgb(66,66,66);
-    /*this could be removed to eliminate weird behavior where the top row borderd underflows the header
-    however, doing so causes issues with inconsistent cell heights
-    */
-    /* border-top: 1px solid green; */
-    /* display: block; */
-    /* height: 110px;*/
-    /* min-height: 110px; */
-    /* max-height: 110px;   */
-    /* line-height: 50px; */
-    /* text-align: center; */
-    /* overflow: hidden; */
-}
+    border-left: 1px solid rgb(66,66,66);
+    border-right: 1px solid rgb(66,66,66);
+    border-bottom: 1px solid rgb(66,66,66);
+}    */
 
 #myTable tr:nth-child(odd) {background-color: rgb(255,255,255);}
 #myTable tr:nth-child(even) {background-color: rgb(234,234,234);}
@@ -335,11 +373,14 @@ button:disabled {
     position: sticky;
     z-index: 1;
     top: 0;
-    /* border-left: 1px solid rgb(66,66,66);
-    border-right: 1px solid rgb(66,66,66); */
+    border-left: 1px solid rgb(66,66,66);
+    border-right: 1px solid rgb(66,66,66);
 }
 
 td {
+    border-left: 1px solid rgb(66,66,66);
+    border-right: 1px solid rgb(66,66,66);
+    border-bottom: 1px solid rgb(66,66,66);
     /* line-height: 50px; */
     height: 50px;
     /* overflow: hidden; */

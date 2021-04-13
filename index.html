@@ -56,11 +56,11 @@
             </div>
 
         <div id="content-container" style="display: none">
-            <p id="instructions">To search for caught, shiny, or hidden ability Pokemon click the table header for their respective columns: <a href="#" onclick="openPopupWindow('searchInfo.html', 'User Profile', 600, 400)">🛈</a></p>
+            <!-- <p id="instructions">To search for caught, shiny, or hidden ability Pokemon click the table header for their respective columns: <a href="#" onclick="showSearchInfo()">🛈</a></p> -->
             <div id="search-container">
                 <input class="form-control" id="myInput" type="text" placeholder="Search...">
+                <input type="image" id="info-button" src="/images/info.png" alt="Info" onclick="showSearchInfo()">
                 <input type="image" id="clear-button" src="/images/clear.png" alt="Clear" onclick="clearSearch()">
-                
             </div>
             <p id="table-size"></p>
             <div id="image-frame">
@@ -69,23 +69,100 @@
                 <!-- <label for="shiny" id='shiny-label'>Shiny</label> -->
                 <!-- <input type="image" id="close-button" src="/images/close.png" alt="Close"> -->
             </div>
-            <div id="profile-container">
-                <div id="user-profile">
-                    <h1 id="heading">User Profile</h1>
-                    <table id="profile-table">
+            <div id="search-info-frame">
+                <div id="search-info">
+                    <table id="search-info-table">
                         <tr>
-                            <td class="profile-table-cell-title">Username:</td>
-                            <td id="username-cell"></td>
+                            <td class="search-info-cell">
+                                Caught
+                                <br>
+                                Shiny
+                                <br>
+                                Hidden Ability
+                            </td>
+                            <td class="search-info-cell">
+                                Clicking the header row for the Caught column will search for all caught Pokemon. Clicking the header row again will search for uncaught Pokemon. Additionally, you can type in the search bar for caught or uncaught Pokemon by typing "caught" or "!caught" to find caught and uncaught Pokemon respectively. Be sure to include the quotes when searching via text.
+                            </td>
                         </tr>
                         <tr>
-                            <td class="profile-table-cell-title">Catch %:</td>
-                            <td id="catch-percent-cell"></td>
-                        </tr>
-                        <tr>
-                            <td class="profile-table-cell-title">Shiny %:</td>
-                            <td id="shiny-percent-cell"></td>
+                            <td class="search-info-cell">And/Or</td>
+                            <td class="search-info-cell">
+                                And/Or logic can be used when searching. To search with and logic (for instance any Pokemon that are both Fire and Water type) you must use the & syntax. Thus to search for any Pokemon that both Fire and Water you would type Fire & Water into the search bar.
+                                <br><br>
+                                To search with and logic (for instance any Pokemon that are both Fire and Water type) you must use the & syntax. Thus to search for any Pokemon that both Fire and Water you would type Fire & Water into the search bar.
+                            </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+            <div id="profile-container">
+                <div id="user-profile">
+                    <div id="user-profile-container">
+                        <h1 id="heading">User Profile</h1>
+                        <table class="profile-table">
+                            <tr>
+                                <td class="profile-table-cell-title">Username:</td>
+                                <td id="username-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Catch %:</td>
+                                <td id="catch-percent-cell"></td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Shiny %:</td>
+                                <td id="shiny-percent-cell"></td>
+                            </tr>
+                        </table>
+                        <a href="#" onclick="showGridPreferences()" style="float:left; padding-left: 20px">Show Grid Preferences</a>
+                    </div>
+                    <div id="grid-preferences-container" style="display:none">
+                        <h1>Grid Preferences</h1>
+                        <table class="grid-preferences-table">
+                            <tr>
+                                <td class="profile-table-cell-title">Caught:</td>
+                                <td>
+                                    <input type="checkbox" id="hide-caught-checkbox" class="show-hide-column-checkbox" name="caught" value="caught" onclick="hideMe(this.id)">
+                                    <label for="caught">Hide</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Shiny:</td>
+                                <td>
+                                    <input type="checkbox" id="hide-shiny-checkbox" class="show-hide-column-checkbox" name="hide-shiny" value="shiny" onclick="hideMe(this.id)">
+                                    <label for="hide-shiny">Hide</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Hidden Ability:</td>
+                                <td>
+                                    <input type="checkbox" id="hide-hidden-ability-checkbox" class="show-hide-column-checkbox" name="hidden-ability" value="hidden-ability" onclick="hideMe(this.id)">
+                                    <label for="hidden-ability">Hide</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Notes:</td>
+                                <td>
+                                    <input type="checkbox" id="hide-notes-checkbox" class="show-hide-column-checkbox" name="notes" value="notes" onclick="hideMe(this.id)">
+                                    <label for="notes">Hide</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Gen:</td>
+                                <td>
+                                    <input type="checkbox" id="hide-gen-checkbox" class="show-hide-column-checkbox" name="gen" value="gen" onclick="hideMe(this.id)">
+                                    <label for="gen">Hide</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="profile-table-cell-title">Forms:</td>
+                                <td>
+                                    <input type="checkbox" id="hide-other-forms-checkbox" class="show-hide-column-checkbox" name="forms" value="other-forms" onclick="hideMe(this.id)">
+                                    <label for="forms">Hide</label>
+                                </td>
+                            </tr>
+                        </table>
+                        <a href="#" onclick="hideGridPreferences()" style="float:left; padding-left: 20px">Hide Grid Preferences</a>
+                    </div>
                 </div>
             </div>
             <div id='table-container'>

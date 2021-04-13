@@ -236,7 +236,7 @@ async function setTableContents() {
                                                 pokemonNumber = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
                                             }
                                             let normalImg = document.createElement('img');
-                                            normalImg.src ="/images/images/" + pokemonNumber + ".gif";
+                                            normalImg.src ="/images/sprites/" + pokemonNumber + ".gif";
                                             normalImg.classList.add('sprite');
                                             $(this).parent().find('td:eq(1)').html(normalImg);
                                             console.log($(this).parent().find('td:eq(1)'));
@@ -264,7 +264,7 @@ async function setTableContents() {
                                             changesMade = true;
                                             $(this).text('♥');
                                             $(this).closest('tr').css('color', 'red');
-                                            shinyImg.src = "/images/images/" + pokemonNumber + "-s" + ".gif";
+                                            shinyImg.src = "/images/sprites/" + pokemonNumber + "-s" + ".gif";
                                             shinyImg.classList.add('sprite');
                                             $(this).parent().find('td:eq(1)').html(shinyImg);
                                             $(this).parent().find('td:eq(5)').text('★');
@@ -273,7 +273,7 @@ async function setTableContents() {
                                         changesMade = true;
                                         $(this).text('♡');
                                         $(this).closest('tr').css('color', 'black');
-                                        shinyImg.src ="/images/images/" + pokemonNumber + ".gif";
+                                        shinyImg.src ="/images/sprites/" + pokemonNumber + ".gif";
                                         shinyImg.classList.add('sprite');
                                         $(this).parent().find('td:eq(1)').html(shinyImg);
                                         var text = $(this).parent().find('td:eq(5)').text();
@@ -316,18 +316,19 @@ async function setTableContents() {
                                 }
                             }
                             if (k == 10) {
+                                tr.cells[k].classList.add('other-forms')
                                 tr.cells[k].onchange = function() {
                                     let formId = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value);
                                     let formImg = document.createElement('img');
                                     let catchStatus = $(this).parent().find('td:eq(5)').text();
                                     let shinyStatus = $(this).parent().find('td:eq(6)').text();
                                     if (shinyStatus == '♥') {
-                                        formImg.src = '/images/images/' + formId.id + '-s' + '.gif';
+                                        formImg.src = '/images/sprites/' + formId.id + '-s' + '.gif';
                                     } else if (catchStatus == '★') {
-                                        formImg.src = '/images/images/' + formId.id + '.gif';
+                                        formImg.src = '/images/sprites/' + formId.id + '.gif';
                                         
                                     } else {
-                                        formImg.src = '/images/images/' + formId.id + '.gif';
+                                        formImg.src = '/images/sprites/' + formId.id + '.gif';
                                         formImg.classList.add('grayscale-image');
                                     }
                                     formImg.classList.add('sprite');
@@ -382,11 +383,11 @@ async function setTableContents() {
                                         let oooo = tr.cells[6].innerHTML; //catchStatus
                                         let formId = JSON.parse(sel.value);
                                         if (oooo == '♥') {
-                                            uuuu.src = '/images/images/' + formId.id + '-s' + '.gif';
+                                            uuuu.src = '/images/sprites/' + formId.id + '-s' + '.gif';
                                         } else if (iiii == '★') {
-                                            uuuu.src = '/images/images/' + formId.id + '.gif';
+                                            uuuu.src = '/images/sprites/' + formId.id + '.gif';
                                         } else {
-                                            uuuu.src = '/images/images/' + formId.id + '.gif';
+                                            uuuu.src = '/images/sprites/' + formId.id + '.gif';
                                             uuuu.classList.add('grayscale-image');
                                         }
                                         uuuu.classList.add('sprite');
@@ -415,9 +416,9 @@ async function setTableContents() {
                         } else {
                             var img = document.createElement('img');
                             if (row[6] == '♥') {
-                                img.src = "/images/images/" + row[0].toLowerCase() + row[1].toLowerCase() + "-s" + ".gif";
+                                img.src = "/images/sprites/" + row[0].toLowerCase() + row[1].toLowerCase() + "-s" + ".gif";
                             } else {
-                                img.src = "/images/images/" + row[0].toLowerCase() + row[1].toLowerCase() + ".gif";
+                                img.src = "/images/sprites/" + row[0].toLowerCase() + row[1].toLowerCase() + ".gif";
                             }
                             img.classList.add('sprite');
                             if (row[5] == '☆') {
@@ -499,9 +500,9 @@ $(document).on('click', '.sprite, .sprite-big', async function() {
     }
     new Promise(function (resolve) {
         if(currCell.find('td:eq(6)').text().toLowerCase() == "♥") {
-            img.src = "/images/images/" + id + "-s.gif"
+            img.src = "/images/sprites/" + id + "-s.gif"
         } else {
-            img.src = "/images/images/" + id + ".gif"
+            img.src = "/images/sprites/" + id + ".gif"
         }
         resolve(currCell);
     }).then(async function(currCell) {
@@ -522,6 +523,7 @@ $(document).on('click', '.sprite, .sprite-big', async function() {
 document.getElementById('overlay').addEventListener("click", function(){
     document.getElementById('image-holder').style.display = 'none';
     document.getElementById('profile-container').style.display = 'none';
+    document.getElementById('search-info').style.display = 'none';
     // document.getElementById('close-button').style.display = 'none';
     // document.getElementById('myInput').disabled = false;
     // document.getElementById('clear-button').style.pointerEvents = 'auto';
