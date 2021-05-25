@@ -1,7 +1,7 @@
 // let totalRows;
 
 // window.onload = () => {
-    console.log('here');
+    // console.log('here');
     
     "use strict";
 
@@ -13,6 +13,14 @@
         });
     }
 // }
+
+window.onload = function() {
+    //switch hidden ability (class name) with variable from option selection
+    setupGridPreferences();
+    document.querySelector('#myInput').addEventListener("keyup", function() {
+        setSearchLogic();
+    });
+}
 
 window.addEventListener('online', function(e) {
     // Resync data with server.
@@ -40,25 +48,21 @@ if (navigator.onLine) {
     appendPre("You're currently offline");
 }
 
-// Set Knockout view model bindings.
-// ko.applyBindings(Page.vm);
-
 //search logic
-$(document).ready(function () {
-    $('#myInput').on('keyup focus', function () {
+function setSearchLogic() {
+    console.log('i am here...')
         const regex = / & /gi;
-        var value = this.value.toLowerCase().replace(regex, '&');
+        var value = document.querySelector('#myInput').value.toLowerCase().replace(regex, '&');
         const caughtRegX = /caught/gi;
         const uncaughtRegX = /!caught/gi;
         const uncaughtExplicitRegX = /uncaught/gi;
         const shinyRegX = /shiny/gi;
         const notShinyRegX = /!shiny/gi;
-        value = value.replace(uncaughtRegX, '☆');
-        value = value.replace(uncaughtExplicitRegX, '☆');
-        value = value.replace(caughtRegX, '★');
-        value = value.replace(notShinyRegX, '♡');
-        value = value.replace(shinyRegX, '♥');
-        console.log(value);
+        value = value.replace(uncaughtRegX, '<i class="far fa-star" aria-hidden="true"></i>');
+        value = value.replace(uncaughtExplicitRegX, '<i class="far fa-star" aria-hidden="true"></i>');
+        value = value.replace(caughtRegX, '<i class="fas fa-star" aria-hidden="true"></i>');
+        value = value.replace(notShinyRegX, '<i class="far fa-heart" aria-hidden="true"></i>');
+        value = value.replace(shinyRegX, '<i class="fas fa-heart" aria-hidden="true"></i>');
         var filter = [];
         while (value.length > 0) {
             if (value.indexOf('||') == -1) {
@@ -84,19 +88,19 @@ $(document).ready(function () {
                         let countAmp =  string.match(/&/g).length;
                         for (var m = 0; m <= countAmp + 1; m++) {
 							if (m == countAmp + 1) {
-								if (tr[i].textContent.toLowerCase().indexOf(string.slice(0, string.length)) > -1) {
+								if (tr[i].innerHTML.toLowerCase().indexOf(string.slice(0, string.length)) > -1) {
                                     tr[i].style.display = '';
                                     break;
 								} else {
                                     tr[i].style.display = 'none';
 								}
-							} else if (tr[i].textContent.toLowerCase().indexOf(string.slice(0, string.indexOf('&'))) > -1) {
+							} else if (tr[i].innerHTML.toLowerCase().indexOf(string.slice(0, string.indexOf('&'))) > -1) {
 								string = string.slice(string.indexOf('&') + 1, string.length);
                             } else {
                                 tr[i].style.display = 'none';      
                             }
                         }
-                    } else if (tr[i].textContent.toLowerCase().indexOf(filter[k]) > -1) {
+                    } else if (tr[i].innerHTML.toLowerCase().indexOf(filter[k]) > -1) {
                         tr[i].style.display = '';
                         break;
                     } else {
@@ -105,9 +109,8 @@ $(document).ready(function () {
                 };
             };
         };
-        logSortTotal();
-    });
-});
+    logSortTotal();
+}
 
 function addToSearch(char) {
     var currChar = document.getElementById('myInput').value;
@@ -127,8 +130,8 @@ function clearSearch() {
     document.getElementById('myInput').value = '';
     document.getElementById('myInput').focus();
     document.activeElement.blur()
-    // $('#table-container').scrollTop(0);
     document.getElementById('table-container').scrollTo(0,0);
+    setSearchLogic();
 }
 
 async function getCurrTimeUTC() {
@@ -138,75 +141,11 @@ async function getCurrTimeUTC() {
     let str = data.utc_datetime;
     let time = str.slice(str.indexOf('T') + 1, str.indexOf('.'));
     let date = str.slice(0, str.indexOf('T'))
-    // let timezone = data.abbreviation;
     let timeStamp = time + ' ' + date + ' ' + 'UTC';
-    // console.log(timeStamp);
     return timeStamp;
 }
 
-window.onload = function() {
-    //switch hidden ability (class name) with variable from option selection
-    setupGridPreferences();
-
-    // let checkBoxes = document.getElementsByClassName("show-hide-column-checkbox");
-    // console.log(checkBoxes);
-    // // for (checkBox of checkBoxes) {
-    // for (let i = 0; i < checkBoxes.length; i++) {
-    //     console.log(checkBoxes[i]);
-    //     checkBoxes[i].addEventListener("click", hideMe(this.id));
-    // }
-
-    document.getElementById('show-hide-button').addEventListener("click", function() {
-        let classToChange = document.getElementById('col-selector').value;
-        let element = document.querySelector('.' + classToChange);
-        let styles = getComputedStyle(element);
-        let disp = styles.display;
-        if (disp == 'none') {
-            let cols = document.getElementsByClassName(classToChange);
-            for (let i = 0; i < cols.length; i++) {
-                cols[i].style.cssText = 'display: table-cell';
-            }
-            console.log('show', classToChange)
-            localStorage.removeItem(classToChange);
-        } else {
-            let cols = document.getElementsByClassName(classToChange);
-            for (let i = 0; i < cols.length; i++) {
-                cols[i].style.cssText = 'display: none';
-
-            }
-            console.log("hide", classToChange)
-            localStorage.setItem(classToChange, "hide");
-        }
-        document.getElementById('col-selector').selectedIndex=0;
-        document.getElementById('show-hide-button').disabled = true;
-        document.getElementById('show-hide-button').innerHTML = "Show/Hide";
-        
-    });
-
-
-
-    document.getElementById('col-selector').addEventListener("click", function() {
-        currSelection = document.getElementById('col-selector').value;
-        if(currSelection == '---') {
-            document.getElementById('show-hide-button').disabled = true;
-            document.getElementById('show-hide-button').innerHTML = 'Show/Hide';
-        } else {
-            document.getElementById('show-hide-button').disabled = false;
-            let classToChange = document.getElementById('col-selector').value;
-            let element = document.querySelector('.' + classToChange);
-            let styles = getComputedStyle(element);
-            let disp = styles.display;
-            if (disp == 'none') {
-                document.getElementById('show-hide-button').innerHTML = "Show";
-            } else {
-                document.getElementById('show-hide-button').innerHTML = "Hide";
-            }
-        }
-    });
-}
-
 function showHide() {
-    //console.log('hello world')
     if (localStorage.length > 0) {
         for(let i = 0; i < localStorage.length; i++) {
             let cols = document.getElementsByClassName(localStorage.key(i));
@@ -220,12 +159,15 @@ function showHide() {
 function setupGridPreferences() {
     if(localStorage.length > 0) {
         for(let i = 0; i < localStorage.length; i++) {
-            let id = "hide-" + localStorage.key(i) + "-checkbox"
+            let id = localStorage.key(i);
             console.log(id);
             document.getElementById(id).checked = true;
+            let cols = document.getElementsByClassName(id);
+            for (const col of cols) {
+                col.style.cssText = 'display: none';
+            }
         }
     }
-    // document.getElementById('caught').checked = true;
 }
 
 function hideMe(classToChange) {
@@ -242,8 +184,6 @@ function hideMe(classToChange) {
             cols[i].style.cssText = 'display: table-cell';
         }
     };
-    //localStorage.removeItem(col);
-
 }
 
 function showSnackBar(msg) {
@@ -279,23 +219,19 @@ function logSortTotal() {
 
 }
 
-function openPopupWindow(myURL, title, myWidth, myHeight) {
-    var left = (screen.width - myWidth) / 2;
-    var top = (screen.height - myHeight) / 4;
-    var myWindow = window.open(myURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + myWidth + ', height=' + myHeight + ', top=' + top + ', left=' + left);
-}
+// function openPopupWindow(myURL, title, myWidth, myHeight) {
+//     var left = (screen.width - myWidth) / 2;
+//     var top = (screen.height - myHeight) / 4;
+//     var myWindow = window.open(myURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + myWidth + ', height=' + myHeight + ', top=' + top + ', left=' + left);
+// }
 
 function showProfile() {
     let userStats = JSON.parse(sessionStorage.userStats);
-    // console.log(userStats)
-    // console.log(userStats.catchPercent);
     document.getElementById('username-cell').innerHTML = userStats.email;
     document.getElementById('catch-percent-cell').innerHTML = userStats.catchPercent;
     document.getElementById('shiny-percent-cell').innerHTML = userStats.shinyPercent;
     document.getElementById('overlay').style.display = 'block'
     document.getElementById('profile-container').style.display = 'inline-block'
-    // document.getElementById('grid-preferences-container').style.display = 'none';
-
 }
 
 function openRequestForm() {
@@ -304,13 +240,11 @@ function openRequestForm() {
 }
 
 function showSearchInfo() {
-    // alert('this is working');
     document.getElementById('search-info').style.display = 'block';
     document.getElementById('overlay').style.display = 'block'
 }
 
 function showGridPreferences() {
-    // alert("yeetus feetus my dude");
     document.getElementById('grid-preferences-container').style.display = 'block';
     document.getElementById('user-profile-container').style.display = 'none';
 }
@@ -318,4 +252,12 @@ function showGridPreferences() {
 function hideGridPreferences() {
     document.getElementById('grid-preferences-container').style.display = 'none';
     document.getElementById('user-profile-container').style.display = 'block';
+}
+
+function removeFormCol() {
+    console.log('running');
+    let formColCells = document.querySelectorAll('.other-forms');
+    for (let i = 0; i < formColCells.length; i++) {
+        formColCells[i].remove();
+    }
 }

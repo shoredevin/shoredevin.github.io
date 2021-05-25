@@ -6,12 +6,16 @@
         <meta name ="viewport" content="width=device-width, initial-scale=.5">
         <link rel="shortcut icon" type="image/jpg" href="images/favicon.ico"/>
         <link rel="apple-touch-icon" href="images/splash_icon.png">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://kit.fontawesome.com/e57a1fd105.js" crossorigin="anonymous"></script>
+
+        <!-- can this be removed? -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
         <link rel="stylesheet" type="text/css" href="styles/styles.css">
         <link rel="stylesheet" type="text/css" href="styles/snackbar.css">
         <link rel="manifest" href="./manifest.json">
         <meta name="theme-color" content="white">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <!-- can this be remove? -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> -->
         <!-- <script src="https://apis.google.com/js/api.js"></script> -->
         <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
         <script defer src="scripts/app.js"></script>
@@ -19,57 +23,53 @@
         <script defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
           onreadystatechange="if (this.readyState === 'complete') this.onload()">
         </script>
-        <!-- <script src="https://apis.google.com/js/api.js"></script>
-        <script src="more.js"></script> -->
-
-        <!-- <style type="text/css"></style> -->
-        <!-- <script src="scripts/more.js"></script> -->
     </head>
     <body>
         <div id="overlay"></div>
-        <div id="header">
-            <div class="title">
-                <h1><span id="pokeball">◓</span> Pokedex Project v1.0</h1>
-            </div>
-            <!-- <p><a href='#' onclick="window.open('profile.html', 'User Profile', 'width=600, height=400')" id="username-container"></a></p>  -->
-            <!-- <p><a href='#' onclick="openPopupWindow('profile.html', 'User Profile', 600, 400)" id="username-container"></a></p>  -->
-            <p><a href='#' onclick="showProfile()" id="username-container"></a></p> 
-            <button id="authorize_button" style="display: none;" class="auth-button">Sign In</button>
-            <button id="signout_button" style="display: none;" class="auth-button">Sign Out</button>
-        </div>
+        <header>
+            <nav class="nav">
+                <ul class="header-nav">
+                    <li><p class="curr-link">Home</p></li>
+                    <li class="nav-link"><a href="#" class="header-link">Can I Catch Them All?</a></li>
+                    <li class="nav-link"><a href="#" class="header-link">Pokebank Locator</a></li>
+                    <li class="nav-link">
+                        <a href='#' onclick="showProfile()" id="username-container" class="header-link" style="display: none;"></a>
+                    </li>
+                    <li>
+                        <a href="#" id="authorize_button" style="display: none;" class="auth-button">Sign In</a>
+                    </li>
+                    <li>
+                        <a href="#" id="signout_button" style="display: none;" class="auth-button">Sign Out</a>
+                    </li>
+                    <div class="clr"></div>
+                </ul>
+                <div class="clr"></div>
+            </nav>
+        </header>
         <noscript>Please enable JavaScript to use this website!</noscript>
         <div id="pre">placeholder</div>
             <div>
                 <div id="not-signed-in">
-                    <p>Please login to view your Pokedex. If you do not have an account you need to <a href="#" onclick="openRequestForm()">request one</a>.</p>
-                </div>
-                <div id="request-2">
-                    <p>Please provide your email address and press submit in order to request access.</p>
-                    <input type='text' id="requester-email" placeholder="email address...">
-                    <input type='button' value="submit" onclick="requestAccess()">
-                    <br>
-                    <!-- <div> -->
-                        <a href="#" onclick="back()">Return</a>
-                    <!-- </div> -->
-                    <!-- <input type='button' value="return" onclick="back()"> -->
+                    <p>
+                        If you do not have an account enter your email to request one.
+                    </p>
+                    <form class="request-form">
+                        <input type='text' id="requester-email" placeholder="email address...">
+                        <input type='button' id="request-submit" value="submit" onclick="requestAccess()">
+                    </form>
                 </div>
             </div>
 
         <div id="content-container" style="display: none">
-            <!-- <p id="instructions">To search for caught, shiny, or hidden ability Pokemon click the table header for their respective columns: <a href="#" onclick="showSearchInfo()">🛈</a></p> -->
             <div id="search-container">
                 <input class="form-control" id="myInput" type="text" placeholder="Search...">
-                <input type="image" id="info-button" src="/images/info.png" alt="Info" onclick="showSearchInfo()">
-                <input type="image" id="clear-button" src="/images/clear.png" alt="Clear" onclick="clearSearch()">
+                <input type="button" id="clear-button" alt="Clear" onclick="clearSearch()" value="X">
             </div>
             <p id="table-size"></p>
             <div id="image-frame">
                 <img id="image-holder" alt="">
-                <!-- <input type="checkbox" id="shiny" name="shiny" value="Shiny"> -->
-                <!-- <label for="shiny" id='shiny-label'>Shiny</label> -->
-                <!-- <input type="image" id="close-button" src="/images/close.png" alt="Close"> -->
             </div>
-            <div id="search-info-frame">
+            <!-- <div id="search-info-frame">
                 <div id="search-info">
                     <table id="search-info-table">
                         <tr>
@@ -94,7 +94,7 @@
                         </tr>
                     </table>
                 </div>
-            </div>
+            </div> -->
             <div id="profile-container">
                 <div id="user-profile">
                     <div id="user-profile-container">
@@ -113,7 +113,7 @@
                                 <td id="shiny-percent-cell"></td>
                             </tr>
                         </table>
-                        <a href="#" onclick="showGridPreferences()" style="float:left; padding-left: 20px">Show Grid Preferences</a>
+                        <a href="#" onclick="showGridPreferences()" style="float:left; padding-left: 25px">Show Grid Preferences</a>
                     </div>
                     <div id="grid-preferences-container" style="display:none">
                         <h1>Grid Preferences</h1>
@@ -121,47 +121,47 @@
                             <tr>
                                 <td class="profile-table-cell-title">Caught:</td>
                                 <td>
-                                    <input type="checkbox" id="hide-caught-checkbox" class="show-hide-column-checkbox" name="caught" value="caught" onclick="hideMe(this.id)">
+                                    <input type="checkbox" id="caught" class="show-hide-column-checkbox" name="caught" value="caught" onclick="hideMe(this.id)">
                                     <label for="caught">Hide</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="profile-table-cell-title">Shiny:</td>
                                 <td>
-                                    <input type="checkbox" id="hide-shiny-checkbox" class="show-hide-column-checkbox" name="hide-shiny" value="shiny" onclick="hideMe(this.id)">
-                                    <label for="hide-shiny">Hide</label>
+                                    <input type="checkbox" id="shiny" class="show-hide-column-checkbox" name="shiny" value="shiny" onclick="hideMe(this.id)">
+                                    <label for="shiny">Hide</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="profile-table-cell-title">Hidden Ability:</td>
                                 <td>
-                                    <input type="checkbox" id="hide-hidden-ability-checkbox" class="show-hide-column-checkbox" name="hidden-ability" value="hidden-ability" onclick="hideMe(this.id)">
+                                    <input type="checkbox" id="hidden-ability" class="show-hide-column-checkbox" name="hidden-ability" value="hidden-ability" onclick="hideMe(this.id)">
                                     <label for="hidden-ability">Hide</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="profile-table-cell-title">Notes:</td>
                                 <td>
-                                    <input type="checkbox" id="hide-notes-checkbox" class="show-hide-column-checkbox" name="notes" value="notes" onclick="hideMe(this.id)">
+                                    <input type="checkbox" id="notes" class="show-hide-column-checkbox" name="notes" value="notes" onclick="hideMe(this.id)">
                                     <label for="notes">Hide</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="profile-table-cell-title">Gen:</td>
                                 <td>
-                                    <input type="checkbox" id="hide-gen-checkbox" class="show-hide-column-checkbox" name="gen" value="gen" onclick="hideMe(this.id)">
+                                    <input type="checkbox" id="gen" class="show-hide-column-checkbox" name="gen" value="gen" onclick="hideMe(this.id)">
                                     <label for="gen">Hide</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="profile-table-cell-title">Forms:</td>
                                 <td>
-                                    <input type="checkbox" id="hide-other-forms-checkbox" class="show-hide-column-checkbox" name="forms" value="other-forms" onclick="hideMe(this.id)">
+                                    <input type="checkbox" id="other-forms" class="show-hide-column-checkbox" name="forms" value="other-forms" onclick="hideMe(this.id)">
                                     <label for="forms">Hide</label>
                                 </td>
                             </tr>
                         </table>
-                        <a href="#" onclick="hideGridPreferences()" style="float:left; padding-left: 20px">Hide Grid Preferences</a>
+                        <a href="#" onclick="hideGridPreferences()" style="float:left; padding-left: 25px">Hide Grid Preferences</a>
                     </div>
                 </div>
             </div>
@@ -183,19 +183,6 @@
                     </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
-            </div>
-            <div id='column-select-container'>
-                <label>Select column to show or hide:</label>
-                <select name='cols' id='col-selector'>
-                <option selected="true">---</option>    
-                <option value='caught'>Caught</option>
-                <option value='shiny'>Shiny</option>
-                <option value='hidden-ability'>Hidden Ability</option>
-                <option value='notes'>Notes</option>
-                <option value='gen'>Gen</option>
-                <option value='other-forms'>Forms</option>'
-                </select>
-                <button id='show-hide-button' disabled>Show/Hide</button>
             </div>
         </div>    
         <div id="snackbar"></div>

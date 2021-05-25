@@ -1,28 +1,29 @@
 // Client ID and API key from the Developer Console
-var CLIENT_ID = '1031814387459-03essqpn06v2iqa7qhqlvrgk27t70c2q.apps.googleusercontent.com';
-var API_KEY = 'AIzaSyAiTPu0gDQqDPL0-LKbSu1Jvw4lcCEdFvE';
+const CLIENT_ID = '1031814387459-03essqpn06v2iqa7qhqlvrgk27t70c2q.apps.googleusercontent.com';
+const API_KEY = 'AIzaSyAiTPu0gDQqDPL0-LKbSu1Jvw4lcCEdFvE';
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-var SCOPES = "https://www.googleapis.com/auth/spreadsheets";
+const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 
-var authorizeButton = document.getElementById('authorize_button');
-var signoutButton = document.getElementById('signout_button');
-var tableStorage;
-var userEmail;
-var catchPercent;
-var shinyPercent;
-var sheetName;
-var sheet;
+const authorizeButton = document.getElementById('authorize_button');
+const signoutButton = document.getElementById('signout_button');
+
+let tableStorage;
+let userEmail;
+let catchPercent;
+let shinyPercent;
+let sheetName;
+let sheet;
 let formPreferences = {};
 let rowRowRow;
 let USER_ROLE;
-var changesMade = false;
+let changesMade = false;
 let persistPre = false;
-
+let images;
 
 /**
  *  On load, called to load the auth2 library and API client library.
@@ -66,28 +67,17 @@ function initClient() {
  *  Called when the signed in status changes, to update the UI
  *  appropriately. After a sign-in, the API is called.
  */
-function updateSigninStatus(isSignedIn) {
+async function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-        document.getElementById('not-signed-in').style.display = "none"
-        authorizeButton.style.display = 'none';
-        signoutButton.style.display = 'block';
-        //check user permissions here, if they do not have permissions stop
-        //if user has permission do this
         setTableContents();
-        // doTheGoodThing();
         addTimeStamp('f');
-    } else {
-        document.getElementById('not-signed-in').style.display = "block"
+    } 
+    else {
+        document.getElementById('not-signed-in').style.display = "inline-block"
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
     }
 }
-
-// async function doTheGoodThing() {
-//     USER_ROLE = await getPermissionId();
-//     console.log(USER_ROLE);
-//     setTableContents();
-// }
 
 /**
  *  Sign in the user upon button click.
@@ -103,7 +93,8 @@ function handleSignoutClick(event) {
     gapi.auth2.getAuthInstance().signOut();
     document.getElementById('tableBody').innerHTML = '';
     document.getElementById('content-container').style = 'display:none';
-    document.getElementById('pre').style = 'visibility: hidden';
+    // document.getElementById('pre').style = 'visibility: hidden';
+    document.getElementById('username-container').style.display = 'none';
     document.getElementById('username-container').innerHTML = '';
 }
 
@@ -119,13 +110,14 @@ function appendPre(message) {
     document.getElementById('pre').style = 'background-color: white';
     document.getElementById('pre').style = 'visibility: visible';
     if(message == 403) {
+        handleSignoutClick();
+        authorizeButton.style.display = 'block';
         var x = document.createElement('a');
         var t = document.createTextNode('You currently do not have access to this site. To request access click here.')
         x.setAttribute('href', 'javascript:funk()');
         x.appendChild(t);
         pre.appendChild(x);
     } else {
-        // console.log(message);
         var textContent = document.createTextNode(message + '\n');
         pre.appendChild(textContent);
     }
@@ -138,20 +130,23 @@ async function setTableContents() {
     console.log(USER_ROLE);
     if(USER_ROLE == undefined) {
         appendPre(403);
+        showSnackBar("You're not authorized")
         return
     }
+    document.getElementById('not-signed-in').style.display = "none"
+    authorizeButton.style.display = 'none';
+    signoutButton.style.display = 'block';
     var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
         range: 'Mappings',
     };
     var request = gapi.client.sheets.spreadsheets.values.get(params);
     request.then(function(response) {
-        // if  (USER_ROLE == undefined) {
-        //     console.log('undefined user role');
-        //     // break
-        // } else {
-        //     console.log('here is my user role ' + USER_ROLE)
-        // }
+        if  (USER_ROLE == undefined) {
+            console.log('undefined user role');
+        } else {
+            console.log('here is my user role ' + USER_ROLE)
+        }
         
         for (var i = 0; i < response.result.values.length; i++) {
             if (response.result.values[i][0] == userEmail) {
@@ -159,7 +154,6 @@ async function setTableContents() {
                 sheetName = response.result.values[i][1];
                 catchPercent = response.result.values[i][8];
                 shinyPercent = response.result.values[i][10];
-                // console.log(response.result.values[i][11])
                 if (response.result.values[i][11] != undefined) {
                     formPreferences = JSON.parse(response.result.values[i][11]);
                 } 
@@ -169,13 +163,10 @@ async function setTableContents() {
                     'shinyPercent': shinyPercent
                 }
                 sessionStorage.setItem('userStats', JSON.stringify(userStats));
-                // console.log(JSON.parse(sessionStorage.userStats))
-                // console.log('sheetname ', sheetName);
             };
         };
     }, function(reason) {
         if(reason.result.error.code == 403) {
-            // console.log('yo dawg');
             appendPre(403);
         } else {
             appendPre('error: ' + reason.result.error.status);
@@ -203,84 +194,90 @@ async function setTableContents() {
                         if (k != 1) {
                             if (k == 0) {
                                 tr.cells[k].appendChild(document.createTextNode(row[k]+row[k+1]));
+                                tr.cells[k].classList.add('pokemonID')
                             } else {
-                                tr.cells[k].appendChild(document.createTextNode(row[k]));
+                                tr.cells[k].innerHTML = row[k];
                             }
                             if (k == 3 || k == 4) {
                                 var type = row[k].toLowerCase();
                                 var typeClass = type + 'Type';
                                 tr.cells[k].classList.add(typeClass);
+                                if(k == 3) { tr.cells[k].classList.add('type1') }
+                                if(k == 4) { tr.cells[k].classList.add('type2') }
                             }
                             if (k == 5) {
                                 tr.cells[k].onclick = function () {
-                                    if ($(this).text() == '☆') {
+                                    console.log(this.innerHTML);
+                                    if (this.innerHTML == '<i class="far fa-star"></i>' || this.innerHTML == '<i class="far fa-star" aria-hidden="true"></i>') {
                                         changesMade = true;
-                                        $(this).text('★');
-                                        $(this).parent().find('td:eq(1) img').removeClass('grayscale-image');
+                                        this.innerHTML = '<i class="fas fa-star"></i>';
+                                        this.parentElement.querySelector('img').classList.remove('grayscale-image');
                                     } else {
-                                        var text = $(this).parent().find('td:eq(6)').text();
-                                        var hiddenAbilityText = $(this).parent().find('td:eq(9)').text();
-                                        if (text == '♥') {
+                                        let text = this.parentElement.querySelector('.shiny').innerHTML;
+                                        let hiddenAbilityText = this.parentElement.querySelector('.hidden-ability').innerHTML;
+                                        if (text == '<i class="fas fa-heart"></i>' || text == '<i class="fas fa-heart" aria-hidden="true"></i>') {
                                             showSnackBar("OAK: " + userEmail + "! This isn't the time to use that!")
-                                        } else if (hiddenAbilityText == '◼') {
+                                        } else if (hiddenAbilityText == '<i class="fas fa-square"></i>' || hiddenAbilityText == '<i class="fas fa-square" aria-hidden="true"></i>') {
                                             showSnackBar("OAK: " + userEmail + "! This isn't the time to use that!")
                                         } else {
                                             changesMade = true;
-                                            $(this).parent().find('td:eq(6)').text('♡');
-                                            $(this).closest('tr').css('color', 'black');
-                                            $(this).text('☆');
-                                            if (document.getElementById('form-select' + $(this).closest('tr').index()) == null) {
-                                                pokemonNumber = $(this).parent().find('td:eq(0)').text();
+                                            this.innerHTML = '<i class="far fa-star"></i>';
+                                            this.parentElement.querySelector('.shiny').innerHTML = '<i class="far fa-heart"></i>'; 
+                                            this.parentElement.style.color = "black";
+                                            if (this.parentElement.querySelector('.form-selector') == null) {
+                                                /*
+                                                    -- To Do --
+                                                    update query function below once class
+                                                    has been added to the ID column
+                                                    0 - .pokemonID 
+                                                */
+                                                pokemonNumber = this.parentElement.querySelector('.pokemonID').innerHTML;
                                                 console.log(pokemonNumber);
                                             } else {
-                                                pokemonNumber = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
+                                                console.log(this.parentElement.querySelector('.form-selector').value);
+                                                pokemonNumber = JSON.parse(this.parentElement.querySelector('.form-selector').value).id;
                                             }
-                                            let normalImg = document.createElement('img');
-                                            normalImg.src ="/images/sprites/" + pokemonNumber + ".gif";
-                                            normalImg.classList.add('sprite');
-                                            $(this).parent().find('td:eq(1)').html(normalImg);
-                                            console.log($(this).parent().find('td:eq(1)'));
-                                            console.log($(this).parent().find('td:eq(1) img'));
-                                            $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
+                                            let normalImg = "/images/sprites/" + pokemonNumber + ".gif";
+                                            this.parentElement.querySelector('img').src = normalImg;
+                                            this.parentElement.querySelector('img').classList.add('grayscale-image');
                                         }
                                     }
+                                    saveOnClick(this);
                                 };
                             }
                             if (k == 6) {
                                 tr.cells[k].onclick = function () {
-                                    var shinyImg = document.createElement('img');
                                     var pokemonNumber;  
-                                    if (document.getElementById('form-select' + $(this).closest('tr').index()) == null) {
-                                        pokemonNumber = $(this).parent().find('td:eq(0)').text();
-                                        // console.log(pokemonNumber);
+                                    if (this.parentElement.querySelector('form-selector') == null) {
+                                        pokemonNumber = this.parentElement.querySelector('.pokemonID').innerHTML;
                                     } else {
-                                        pokemonNumber = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
+                                        pokemonNumber = JSON.parse(this.parentElement.querySelector('.form-selector').value).id;
                                     }
-                                    if ($(this).text() == '♡') {
-                                        var text = $(this).parent().find('td:eq(5)').text();
-                                        if (text == '☆') {
+                                    if (this.innerHTML == '<i class="far fa-heart"></i>' || this.innerHTML == '<i class="far fa-heart" aria-hidden="true"></i>') {
+                                        let text = this.previousElementSibling.innerHTML;
+                                        if (text == '<i class="far fa-star"></i>' || text == '<i class="far fa-star" aria-hidden="true"></i>') {
                                             showSnackBar("OAK: " + userEmail + "! This isn't the time to use that!")
                                         } else {
                                             changesMade = true;
-                                            $(this).text('♥');
-                                            $(this).closest('tr').css('color', 'red');
-                                            shinyImg.src = "/images/sprites/" + pokemonNumber + "-s" + ".gif";
-                                            shinyImg.classList.add('sprite');
-                                            $(this).parent().find('td:eq(1)').html(shinyImg);
-                                            $(this).parent().find('td:eq(5)').text('★');
+                                            this.innerHTML = '<i class="fas fa-heart"></i>';
+                                            this.parentElement.style.color = 'red';
+                                            let shinyUrl = "/images/sprites/" + pokemonNumber + "-s" + ".gif";
+                                            console.log(this.parentElement.querySelector('img'));
+                                            this.parentElement.querySelector('img').src = shinyUrl;
+                                            this.previousElementSibling.innerHTML = '<i class="fas fa-star"></i>' 
                                         }
                                     } else {
                                         changesMade = true;
-                                        $(this).text('♡');
-                                        $(this).closest('tr').css('color', 'black');
-                                        shinyImg.src ="/images/sprites/" + pokemonNumber + ".gif";
-                                        shinyImg.classList.add('sprite');
-                                        $(this).parent().find('td:eq(1)').html(shinyImg);
-                                        var text = $(this).parent().find('td:eq(5)').text();
-                                        if (text == '☆') {
-                                            $(this).parent().find('td:eq(1) img').addClass('grayscale-image');
+                                        this.innerHTML = '<i class="far fa-heart"></i>';
+                                        this.parentElement.style.color = 'black';
+                                        let shinyUrl ="/images/sprites/" + pokemonNumber + ".gif";
+                                        this.parentElement.querySelector('img').src = shinyUrl;
+                                        let text = this.previousElementSibling.innerHTML;
+                                        if (text == '<i class="far fa-star"></i>' || text == '<i class="far fa-star" aria-hidden="true"></i>') {
+                                            this.parentElement.querySelector('img').classList.add('grayscale-image');
                                         }
                                     }
+                                    saveOnClick(this);
                                 };
                             }
                             if (k == 5) {
@@ -294,6 +291,9 @@ async function setTableContents() {
                                 tr.cells[k].style = 'word-wrap: break-word';
                                 tr.cells[k].classList.add('notes-field')
                                 tr.cells[k].classList.add('notes')
+                                tr.cells[k].onkeyup = function () {
+                                    happyMappy(this);
+                                }
                             }
                             if (k == 8) {
                                 tr.cells[k].classList.add('gen')
@@ -301,54 +301,73 @@ async function setTableContents() {
                             if (k == 7) {
                                 tr.cells[k].classList.add('hidden-ability')
                                 tr.cells[k].onclick = function() {
-                                    if ($(this).text() == '◻') {
-                                        var text = $(this).parent().find('td:eq(5)').text();
-                                        if(text == '☆') {
+                                    if (this.innerHTML == '<i class="far fa-square"></i>' || this.innerHTML == '<i class="far fa-square" aria-hidden="true"></i>') {
+                                        let text = this.parentElement.querySelector('.caught').innerHTML;
+                                        if(text == '<i class="far fa-star"></i>' || text == '<i class="far fa-star" aria-hidden="true"></i>') {
                                             showSnackBar("OAK: " + userEmail + "! This isn't the time to use that!")
                                         } else {
                                             changesMade = true;
-                                            $(this).text('◼');
+                                            this.innerHTML = '<i class="fas fa-square"></i>';
                                         } 
                                     } else {
                                         changesMade = true;
-                                        $(this).text('◻');
+                                        this.innerHTML = '<i class="far fa-square"></i>';
                                     }
+                                    saveOnClick(this);
                                 }
                             }
+                            /*
+                                -- TO DO --
+                                swap the below if statement to fix form col
+                            */
                             if (k == 10) {
                                 tr.cells[k].classList.add('other-forms')
                                 tr.cells[k].onchange = function() {
-                                    let formId = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value);
-                                    let formImg = document.createElement('img');
-                                    let catchStatus = $(this).parent().find('td:eq(5)').text();
-                                    let shinyStatus = $(this).parent().find('td:eq(6)').text();
-                                    if (shinyStatus == '♥') {
-                                        formImg.src = '/images/sprites/' + formId.id + '-s' + '.gif';
-                                    } else if (catchStatus == '★') {
-                                        formImg.src = '/images/sprites/' + formId.id + '.gif';
-                                        
+                                    let type1Cell = this.parentElement.querySelector('.type1');
+                                    let type2Cell = this.parentElement.querySelector('.type2');
+                                    let formId = JSON.parse(this.parentElement.querySelector('.form-selector').value);
+                                    let formImg;
+                                    let catchStatus = this.parentElement.querySelector('.caught').innerHTML;
+                                    let shinyStatus = this.parentElement.querySelector('.shiny').innerHTML;
+                                    /*  
+                                        -- TO DO --
+                                        this if block can probably be reduced
+                                        should not need to add grayscale class
+                                    */
+                                    if (shinyStatus == '<i class="fas fa-heart"></i>' || shinyStatus == '<i class="fas fa-heart" aria-hidden="true"></i>') {
+                                        formImg = '/images/sprites/' + formId.id + '-s' + '.gif';
+                                    } else if (catchStatus == '<i class="fas fa-star"></i>' || catchStatus == '<i class="fas fa-star" aria-hidden="true"></i>') {
+                                        formImg = '/images/sprites/' + formId.id + '.gif';         
                                     } else {
-                                        formImg.src = '/images/sprites/' + formId.id + '.gif';
-                                        formImg.classList.add('grayscale-image');
+                                        formImg = '/images/sprites/' + formId.id + '.gif';
+                                        this.parentElement.querySelector('img').classList.add('grayscale-image');
                                     }
-                                    formImg.classList.add('sprite');
-                                    $(this).parent().find('td:eq(1)').html(formImg);
-                                    $(this).parent().find('td:eq(3)').html(formId.type1);
-                                    $(this).parent().find('td:eq(4)').html(formId.type2);
-                                    $(this).parent().find('td:eq(3), td:eq(4)').removeClass()
-                                    $(this).parent().find('td:eq(3)').addClass(formId.type1.toLowerCase() + 'Type')
+                                    this.parentElement.querySelector('img').src = formImg;
+                                    /*  
+                                        -- TO DO --
+                                        need to add classes to the following cells
+                                        0 - .pokemonID
+                                        3 - .form1
+                                        4 - .form2
+                                    */
+                                    type1Cell.innerHTML = formId.type1;
+                                    type2Cell.innerHTML = formId.type2;
+                                    type1Cell.className = "";
+                                    type2Cell.className = "";
+                                    type1Cell.classList.add(formId.type1.toLowerCase() + 'Type');
+                                    type1Cell.classList.add('type1');
                                     if(formId.type2.toLowerCase() != '') {
-                                        $(this).parent().find('td:eq(4)').addClass(formId.type2.toLowerCase() + 'Type')
+                                        type2Cell.classList.add(formId.type2.toLowerCase() + 'Type')
+                                        type2Cell.classList.add('type2')
+
                                     }
-                                    let newId = $(this).parent().find('td:eq(0)').text();
-                                    let newForm =  document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex;
+                                    let newId = this.parentElement.querySelector('.pokemonID').innerHTML;
+                                    let newForm = this.parentElement.querySelector('.form-selector').selectedIndex;
                                     formPreferences[newId] = newForm;
                                     let strang = JSON.stringify(formPreferences);
                                     updateFormPreferences();
-                                    // console.log(document.getElementById('form-select' + $(this).closest('tr').index()).selectedIndex);
                                 }
                                 let content = tr.cells[k].innerHTML;
-                                // console.log(content);
                                 if(content.length == 0 || content.indexOf(' ') == 0) {
                                     tr.cells[k].innerHTML = '';  
                                 } else if(tr.cells[0].innerHTML == "801" & catchPercent != 100) {
@@ -382,11 +401,23 @@ async function setTableContents() {
                                         let iiii = tr.cells[5].innerHTML; //shinyStatus
                                         let oooo = tr.cells[6].innerHTML; //catchStatus
                                         let formId = JSON.parse(sel.value);
-                                        if (oooo == '♥') {
+                                        if (oooo == '<i class="fas fa-heart"></i>' || oooo == '<i class="fas fa-heart" aria-hidden="true"></i>') {
+                                            /*
+                                                -- TO DO --
+                                                switch this to data-src
+                                            */
                                             uuuu.src = '/images/sprites/' + formId.id + '-s' + '.gif';
-                                        } else if (iiii == '★') {
+                                        } else if (iiii == '<i class="fas fa-star"></i>' || iiii == '<i class="fas fa-star" aria-hidden="true"></i>') {
+                                            /*
+                                                -- TO DO -- 
+                                                switch this to data-src
+                                            */
                                             uuuu.src = '/images/sprites/' + formId.id + '.gif';
                                         } else {
+                                            /*
+                                                -- TO DO -- 
+                                                switch this to data-src
+                                            */
                                             uuuu.src = '/images/sprites/' + formId.id + '.gif';
                                             uuuu.classList.add('grayscale-image');
                                         }
@@ -395,8 +426,10 @@ async function setTableContents() {
                                         tr.cells[3].innerHTML = formId.type1
                                         tr.cells[4].innerHTML = formId.type2
                                         tr.cells[3].className = formId.type1.toLowerCase() + 'Type';
+                                        tr.cells[3].classList.add('type1');
                                         if(formId.type2.toLowerCase() != '') {
                                             tr.cells[4].className = formId.type2.toLowerCase() + 'Type';
+                                            tr.cells[4].classList.add('type2');
                                         } else {
                                             tr.cells[4].className = '';
                                         }
@@ -414,20 +447,21 @@ async function setTableContents() {
                                 tr.cells[k].classList.add('status-setter')
                             }
                         } else {
+                            tr.cells[k].onclick = function() { createSpritePopup(this) };
                             var img = document.createElement('img');
-                            if (row[6] == '♥') {
-                                img.src = "/images/sprites/" + row[0].toLowerCase() + row[1].toLowerCase() + "-s" + ".gif";
+                            if (row[6] == '<i class="fas fa-heart"></i>' || row[6] == '<i class="fas fa-heart" aria-hidden="true"></i>') {
+                                img.setAttribute('data-src', "/images/sprites/" + row[0].toLowerCase() + row[1].toLowerCase() + "-s" + ".gif")
                             } else {
-                                img.src = "/images/sprites/" + row[0].toLowerCase() + row[1].toLowerCase() + ".gif";
+                                img.setAttribute('data-src', "/images/sprites/" + row[0].toLowerCase() + row[1].toLowerCase() + ".gif")
                             }
                             img.classList.add('sprite');
-                            if (row[5] == '☆') {
+                            if (row[5] == '<i class="far fa-star"></i>' || row[5] == '<i class="far fa-star" aria-hidden="true"></i>') {
                                 img.classList.add('grayscale-image');
                             }
                             tr.cells[k].appendChild(img);
                             tr.cells[k].classList.add('pointer-cell');
                         }
-                        if (row[6] == "TRUE" || row[6] == "♥") {
+                        if (row[6] == "TRUE" || row[6] == '<i class="fas fa-heart"></i>' || row[6] == '<i class="fas fa-heart" aria-hidden="true"></i>') {
                             tr.style = "color: red";
                         }
                     }
@@ -438,12 +472,15 @@ async function setTableContents() {
                 console.log(USER_ROLE);
                 if (USER_ROLE != "writer" && USER_ROLE != "owner") {
                     appendPre("You are not authorized to make updates. Changes will not be saved.");
-                    $('#myTable').off()
-                    $('.form-selector').off('change')
+                    document.querySelector('#mytable').innerHTML = '';
                 } else {
                     document.getElementById('pre').style = 'visibility: hidden'; 
                 }
                 //
+                images = document.querySelectorAll("[data-src]")
+                images.forEach(image => {
+                    imgObserver.observe(image);
+                })
                 setTotalRows();
                 showHide();
             } else {
@@ -451,7 +488,6 @@ async function setTableContents() {
             }
         }, function (response) {
             if(response.status != 403){
-                // appendPre('Error: ' + response.result.error.message);
                 appendPre('No Pokedex found for ' + userEmail + '. Building Pokedex now, please wait.');
                 createWorksheet();
             }
@@ -484,22 +520,25 @@ async function setTableContents() {
             })
         }
     }, 750);
-    document.getElementById('username-container').innerHTML = userEmail;
+    document.getElementById('username-container').style.display = "inline";
+    document.getElementById('username-container').innerHTML = '<i class="far fa-user"></i>';
 }
 
 //add link to dex entry
-$(document).on('click', '.sprite, .sprite-big', async function() {
-    let currCell = $(this).closest('tr') 
+function createSpritePopup(e) {
+    let currCell = e.closest('td');
     let img = document.getElementById('image-holder');
     let id;
-    if (document.getElementById('form-select' + $(this).closest('tr').index()) == null) {
-        id = document.getElementById("myTable").rows[$(this).closest('tr').index() + 1].cells[0].innerHTML;
-        // console.log(id);
-    } else {
-        id = JSON.parse(document.getElementById('form-select' + $(this).closest('tr').index()).value).id;
+    if (e.parentElement.querySelector('.form-selector') == null) { 
+        id = e.parentElement.querySelector('.pokemonID').innerHTML;
+    } else {d;
+        id = JSON.parse(e.parentElement.querySelector('.form-selector').value).id;
     }
     new Promise(function (resolve) {
-        if(currCell.find('td:eq(6)').text().toLowerCase() == "♥") {
+        if(
+            currCell.parentElement.querySelector('.shiny').innerHTML.toLowerCase() == '<i class="fas fa-heart"></i>' ||
+            currCell.parentElement.querySelector('.shiny').innerHTML.toLowerCase() == '<i class="fas fa-heart" aria-hidden="true"></i>'
+        ) {
             img.src = "/images/sprites/" + id + "-s.gif"
         } else {
             img.src = "/images/sprites/" + id + ".gif"
@@ -508,31 +547,15 @@ $(document).on('click', '.sprite, .sprite-big', async function() {
     }).then(async function(currCell) {
         await setBorder(currCell);
         img.style.display = 'block';
-        // document.getElementById('close-button').style.display = 'block';
-        // document.getElementById('myInput').disabled = true;
-        // document.getElementById('clear-button').style.pointerEvents = 'none';
         document.getElementById("overlay").style.display = "block";
-
-        // let ay = document.getElementsByClassName('pointer-cell');
-        // for(i = 0; i < ay.length; i++) {
-        //     ay[i].style.pointerEvents = 'none';
-        // }
     })
-});
+}
 
 document.getElementById('overlay').addEventListener("click", function(){
     document.getElementById('image-holder').style.display = 'none';
     document.getElementById('profile-container').style.display = 'none';
     document.getElementById('search-info').style.display = 'none';
-    // document.getElementById('close-button').style.display = 'none';
-    // document.getElementById('myInput').disabled = false;
-    // document.getElementById('clear-button').style.pointerEvents = 'auto';
     document.getElementById("overlay").style.display = "none";
-
-    // let ay = document.getElementsByClassName('pointer-cell');
-    // for(i = 0; i < ay.length; i++) {
-    //     ay[i].style.pointerEvents = 'auto';
-    // }
 });
 
 let typeColors = 
@@ -558,12 +581,12 @@ let typeColors =
 };
 
 async function setBorder(currCell) {
-    let tbColor = typeColors[currCell.find('td:eq(3)').text().toLowerCase()];   //top-bottom color
-    let lrColor;                                                                //left-right color
-    if (currCell.find('td:eq(4)').text().toLowerCase() == '') {                 //if pokemon only has one type tbColor and lrColor are the same
+    let tbColor = typeColors[currCell.parentElement.querySelector('.type1').innerHTML.toLowerCase()];   //top-bottom color
+    let lrColor;                                                                                        //left-right color            
+    if(currCell.parentElement.querySelector('.type2').innerHTML.toLowerCase() == '') {                  //if pokemon only has one type tbColor and lrColor are the same
         lrColor = tbColor;
     } else {
-        lrColor = typeColors[currCell.find('td:eq(4)').text().toLowerCase()];
+        lrColor = typeColors[currCell.parentElement.querySelector('.type2').innerHTML.toLowerCase()];
     }
     let color = tbColor + " " + lrColor
     document.getElementById('image-holder').style.borderColor = color;
@@ -580,44 +603,45 @@ window.addEventListener("load", function() {
     }
 });
 
-//functions for saving to backend
-//setup before functions
+/*
+    functions for saving to backend
+    setup before functions 
+*/
 var typingTimer;                //timer identifier
 var doneTypingInterval = 1000;  //time in ms, 5 second for example
-var $input = $('#myTable');
-var test = undefined;
-var test2 = undefined;
+const input = document.querySelector('#myTable');
+var rowToUpdate = undefined;
+var updateContents = undefined;
 
-//on keyup, start the countdown
-$input.on('keyup', function () {
+input.onkeyup = function() {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(doneTyping, doneTypingInterval);
-});
+}
 
-//on keydown, clear the countdown 
-$input.on('keydown', function () {
+input.onkeypress = function() {
     clearTimeout(typingTimer);
-});
+}
 
-//update the googlesheet when changes are made to front end
-//via typing
-//only saves the edited row
+
+/*
+    update the googlesheet when changes are made to front end
+    via typing
+    only saves the edited row
+*/
 async function doneTyping () {
-    if(test2 != undefined) {
-        // console.log(test2);
+    if(updateContents != undefined) {
         if(await getPermissionId() == undefined) {
             permissionsChanged();
         } else {
             let values = [
                 [
-                    test2
+                    updateContents
                 ]
             ];
             let body = {
                 values: values
             };
-            // console.log(body);
-            let range = sheetName + '!' + 'j' + test;
+            let range = sheetName + '!' + 'j' + rowToUpdate;
             gapi.client.sheets.spreadsheets.values.update({
                 spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
                 range: range,
@@ -635,21 +659,24 @@ async function doneTyping () {
     }
 }  
 
-$("#myTable").delegate(".notes-field", "keyup", function(e) {
-    test = this.parentNode.rowIndex; //row
-    test2 = $(this)[0].textContent; //data
-});
+function happyMappy(e) {
+    rowToUpdate = e.parentElement.rowIndex;
+    updateContents = e.innerHTML;
+}
 
-//update the googlesheet when changes are made to front end
-//via click (caught and shiny columns)
-//only saves the edited row
-$("#myTable").delegate(".status-setter", "click", async function(e) {
+
+/*
+    update the googlesheet when changes are made to front end
+    via click (caught and shiny columns)
+    only saves the edited row
+*/
+async function saveOnClick(e) {
     if (changesMade == true) {
         if(await getPermissionId() == undefined) {
             permissionsChanged();
         } else {
-            let col = this.cellIndex;
-            let row = this.parentNode.rowIndex;
+            let col = e.cellIndex;
+            let row = e.parentNode.rowIndex;
             if (col == 5) {
                 col = "f";
             } else if (col == 6){
@@ -659,13 +686,12 @@ $("#myTable").delegate(".status-setter", "click", async function(e) {
             }
             let values = [
                 [
-                    $(this)[0].textContent
+                    e.innerHTML
                 ]
             ];
             let body = {
                 values: values
             };
-            // console.log(body);
             let range = sheetName + '!' + col + row;
             gapi.client.sheets.spreadsheets.values.update({
                 spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
@@ -681,7 +707,7 @@ $("#myTable").delegate(".status-setter", "click", async function(e) {
             addTimeStamp("d");
         }
     }
-});
+};
 
 function createWorksheet() {
     console.log('Creating worksheet...');
@@ -744,10 +770,14 @@ function addToMappings(sheetName, sheetId) {
             appendPre('Refresh the page to view your Pokedex.');
             addTimeStamp('e');
             var result = response.result;
+            /*
+                -- To Do --
+                What does this do?
+            */
             const url = 'https://script.google.com/macros/s/AKfycbwioWXB142H66DKuc99s9Mn482Er-ACxE4XwxV7McZNcogJrMc/exec?currentRow=' + row;
-            $.get(url, function(data, status) {
-                console.log(data)
-            });
+            fetch(url)
+                .then(response => response.json())
+                .then(data => console.log(data))
         }).catch((err) => {
             console.error(err.result.error.message);
         });    
@@ -778,6 +808,7 @@ function changeName(sheetId) {
 
 async function addTimeStamp(column) {
     let currTime = undefined;
+    try {
     await new Promise(resolve => {
         currTime = getCurrTimeUTC();
         resolve(currTime);
@@ -806,32 +837,21 @@ async function addTimeStamp(column) {
                         range: userCell,
                         valueInputOption: 'RAW',
                     }      
-                    // valueRangeBody = {body};
                     var request = gapi.client.sheets.spreadsheets.values.update(params, body);
-                    // gapi.client.sheets.spreadsheets.values.update({
-                    //     spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI',
-                    //     range: userCell,
-                    //     valueInputOption: 'RAW',
-                    //     resource: body
                     request.then(function(response) {
                         console.log(response);
-                        // var result = response.result;
-                        // console.log(response.result.error.code);
-                        // if(response.status == 403) {console.log('uh oh')}
-                        // console.log(`${result.updatedCells} cell(s) updated.`);
                     }, function(reason) {
                         console.error(reason)
-                        // if(reason.status == 403) {
-                        //     appendPre("You are not authorized to make updates. Changes will not be saved.");
-                        //     persistPre = true;
-                        //     $('#myTable').off('click')
-                        // }
                     });
                     
                 };
             };
         });
     });
+    } 
+    catch (err) {
+        console.error(err)
+    }
 }
 
 function syncSheets(userSheetLength, defaultSheetLength) {
@@ -860,7 +880,6 @@ function syncSheets(userSheetLength, defaultSheetLength) {
             values: values
         };
         console.log('yeet');
-        // console.log(body);
         var request = gapi.client.sheets.spreadsheets.values.update(params, body);
         request.then(function(response) {
             console.log(response.result);
@@ -872,9 +891,13 @@ function syncSheets(userSheetLength, defaultSheetLength) {
 
 async function dexSort() {
     const url = 'https://script.google.com/macros/s/AKfycbz7TaNtf0Hq1LixcFMrziWDH7Ja5IwmTbT-TbfM8u1xwvZcApQ/exec?sheetName=' + userEmail;
-    $.get(url, function(data, status) {
-        console.log(data)
-    });
+    try {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => console.log(data));
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 function setSessionStorage() {
@@ -901,13 +924,11 @@ function setSessionStorage() {
 }
 
 function updateFormPreferences() {
-    // console.log(rowRowRow);
     var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
         range: 'Mappings',
     };
     let userRow = rowRowRow + 1;
-    //add let here not sure this was defined previously
     let cell = 'Mappings!L' + userRow
     var values = [
         [JSON.stringify(formPreferences)],
@@ -934,10 +955,19 @@ function updateFormPreferences() {
 
 async function funk() {
     let url = 'https://script.google.com/macros/s/AKfycbySF-KSzHQfGJAZLFk-dmO-kGhcApxVQtbG4WsSuyVIpbg82gkg/exec?email=' + userEmail;
-    $.get(url, function(data, status) {
-        console.log(data);
-        appendPre('Your request for access has been submitted. You will be notified if access is granted.');
-    });
+    try {
+        fetch(url, {
+            method: 'GET',
+            mode: 'no-cors'
+        })
+            .then(response => response.json())
+            .then((data) => {
+                console.log(data);
+                appendPre('Your request for access has been submitted. You will be notified if access is granted.');
+            })
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 async function requestAccess() {
@@ -946,10 +976,20 @@ async function requestAccess() {
         alert('You must provide an email address to request access.');
     } else {
         let url = 'https://script.google.com/macros/s/AKfycbySF-KSzHQfGJAZLFk-dmO-kGhcApxVQtbG4WsSuyVIpbg82gkg/exec?email=' + userEmail;
-        $.get(url, function(data, status) {
-            console.log(data);
-            appendPre('Your request for access has been submitted. You will be notified if access is granted.');
-        });
+        try {
+            fetch(url, {
+                method: 'GET',
+                mode: 'no-cors',
+                catch: 'no-cache'
+            })
+                .then(response => response.json())
+                .then((data) => {
+                    console.log(data);
+                    appendPre('Your request for access has been submitted. You will be notified if access is granted.');
+                })
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 
@@ -960,17 +1000,8 @@ function back() {
 
 }
 
-
-async function main() {
-    // await loadDriveClient();
-    console.log(await getPermissionId());
-}
-
-// async function loadDriveClient() {
-//     gapi.client.setApiKey('AIzaSyAiTPu0gDQqDPL0-LKbSu1Jvw4lcCEdFvE');
-//     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/drive/v2/rest")
-//         .then(function() { console.log("GAPI client loaded for API"); },
-//               function(err) { console.error("Error loading GAPI client for API", err); });
+// async function main() {
+//     console.log(await getPermissionId());
 // }
 
 async function getPermissionId() {
@@ -997,22 +1028,29 @@ function getPerm(id) {
 }
 
 async function permissionsChanged() {
-    // alert('hello');
-    // console.log(await getPermissionId());
-    // let role = 
-    // if(await getPermissionId() == undefined) {
-        // await new Promise(resolve => {
-            alert('Your access has expired')
-            document.getElementById('content-container').innerHTML = "";
-            // resolve();
-        // });
-        // await new Promise(resolve => {
-            
-            // clearInterval(int);
-            // document.getElementById('content-container').innerHTML = "";
-            appendPre(403);
-            // showSnackBar('Your permissions have been changed.')
-            // resolve();
-        // });
-    // }
+    handleSignoutClick();
+    document.getElementById('content-container').style.display = "none";
+    document.getElementById('content-container').innerHTML = "";
+    showSnackBar('Your permissions have been changed.')
 };
+
+function preloadImage(img) {
+    const src = img.getAttribute("data-src");
+    if (!src) {
+        return;
+    }
+    img.src = src;
+}
+
+const imgOptions = { };
+
+const imgObserver = new IntersectionObserver((entries, imgObserver) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+            return;
+        } else {
+            preloadImage(entry.target);
+            imgObserver.unobserve(entry.target);
+        }
+    })
+}, imgOptions);
