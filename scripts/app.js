@@ -522,6 +522,7 @@ async function setTableContents() {
     }, 750);
     document.getElementById('username-container').style.display = "inline";
     document.getElementById('username-container').innerHTML = '<i class="far fa-user"></i>';
+    document.getElementById('username-container').title = userEmail
 }
 
 //add link to dex entry
