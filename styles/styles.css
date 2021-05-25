@@ -5,10 +5,7 @@
     --main-bg-color: hsl(278, 42%, 25%);
     --main-dark-color: hsl(278, 42%, 25%);
     --main-light-color: hsl(278, 42%, 97%);
-    /* --header-accent-color: hsl(300, 100%, 45%); */
-    
-
-  }
+}
 
 * {
     margin: 0;
