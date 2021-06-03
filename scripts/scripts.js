@@ -261,3 +261,9 @@ function removeFormCol() {
         formColCells[i].remove();
     }
 }
+
+function toggleHeader() {
+    const header = document.querySelector('header');
+
+    header.classList.toggle('header-open')
+}

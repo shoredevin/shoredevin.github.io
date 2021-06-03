@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pokedex Project</title>
+        <meta charset="utf-8" />
+        <meta name ="viewport" content="width=device-width, initial-scale=.5">
+        <link rel="shortcut icon" type="image/jpg" href="images/favicon.ico"/>
+        <link rel="apple-touch-icon" href="images/splash_icon.png">
+        <!-- <script src="https://kit.fontawesome.com/e57a1fd105.js" crossorigin="anonymous"></script> -->
+        <!-- <script defer src="scripts/scripts.js"></script> -->
+        <link rel="stylesheet" type="text/css" href="styles/global.css">
+        <link rel="stylesheet" type="text/css" href="styles/snackbar.css">
+        <link rel="manifest" href="./manifest.json">
+        <meta name="theme-color" content="hsl(278, 42%, 25%)">
+    </head>
+    <style>
+        body {
+          font-family: 'Roboto', sans-serif;
+          /* background-color: darkgray;*/
+          /* background-color: rgb(25, 25, 25); */
+          color: brown;
+        }
+        button {
+          margin-bottom: 10px;
+        }
+        /* table {
+          background-image: linear-gradient(to bottom right,lightgoldenrodyellow 50%, white 100%);
+        } */
+        table {
+            margin: 0 auto;
+        }
+        table, th, td {
+          background-color: lightgoldenrodyellow;
+          
+          border: 1px solid orange;
+          border-collapse: collapse;
+          color: brown;
+          font-size: 40px;
+        }
+        td {
+          width: 50px;
+          height: 50px;
+          text-align: center;
+          font-weight: bold;
+        }
+        .form-input {
+            width: 30%;
+        }
+        .pokemon-number {
+            margin: 0 auto;
+            width: 75%;
+        }
+        #dialog {
+          height: 20px;
+          /* padding-top: 5px;
+          padding-bottom: 5px; */
+          font-weight: bold;
+        }
+        /* input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        } */
+      </style>
+    <body>
+        <div id="overlay"></div>
+        <header>
+            <nav class="nav">
+                <ul class="header-nav">
+                    <li class="nav-link"><a href="/index.html" class="header-link">Home</a></li>
+                    <li class="nav-link"><a href="#" class="header-link">Can I Catch Them All?</a></li>
+                    <li><p class="curr-link">Pokebank Locator</p></li>
+                    <!-- <div class="clr"></div> -->
+                </ul>
+                <div class="clr"></div>
+            </nav>
+        </header>
+        <noscript>Please enable JavaScript to use this website!</noscript>
+        <div id="pre">placeholder</div>
+
+        <div id="content-container">
+            <h1>Pokebank Locator</h1>
+            <!-- <form class="pokemon-number"> -->
+                <input type="number" placeholder="Pokemon Number..." id="pokemonNum" class="form-input" min="1">
+                <button onclick="fillPokemonCell()" class="form-button">Submit</button>
+            <!-- </form> -->
+    <div id="dialog"></div>
+    <table id="mytable">
+      <tr id='row-1'>
+        <td id="1"></td>
+        <td id="2"></td>
+        <td id="3"></td>
+        <td id="4"></td>
+        <td id="5"></td>
+        <td id="6"></td>
+      </tr>
+      <tr id='row-4'>
+        <td id="7"></td>
+        <td id="8"></td>
+        <td id="9"></td>
+        <td id="10"></td>
+        <td id="11"></td>
+        <td id="12"></td>
+      </tr>
+      <tr id='row-3'>
+        <td id="13"></td>
+        <td id="14"></td>
+        <td id="15"></td>
+        <td id="16"></td>
+        <td id="17"></td>
+        <td id="18"></td>
+      </tr>
+      <tr id='row-4'>
+        <td id="19"></td>
+        <td id="20"></td>
+        <td id="21"></td>
+        <td id="22"></td>
+        <td id="23"></td>
+        <td id="24"></td>
+      </tr>
+      <tr id='row-5'>
+        <td id="25"></td>
+        <td id="26"></td>
+        <td id="27"></td>
+        <td id="28"></td>
+        <td id="29"></td>
+        <td id="30"></td>
+      </tr>
+      <!-- <tr id='row-6'>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr> -->
+    </table>
+        </div>    
+        <div id="snackbar"></div>
+    </body>
+    <script>
+        let prevSlot = undefined;
+    
+        function fillPokemonCell() {
+          if(document.getElementById('pokemonNum').value == "") {
+            alert('You must enter a Pokemon number');
+          } else if(document.getElementById('pokemonNum').value < 1) {
+            alert('There is not Pokemon with this ID');
+            document.getElementById('pokemonNum').value = '';
+          } else {
+            if(prevSlot != undefined) {
+              document.getElementById(prevSlot).innerHTML = '';
+            }
+            let pokemonNum = document.getElementById('pokemonNum').value;
+            document.getElementById('pokemonNum').value = '';
+            let box = Math.ceil(pokemonNum / 30);
+            let slot = pokemonNum % 30;
+            if(slot == 0) {
+              slot = 30
+            }
+            document.getElementById('dialog').innerHTML = "Box: " + box + " Slot: " + slot;  
+            document.getElementById(slot).innerHTML = "X";
+            prevSlot = slot;
+          }
+    
+        }
+      </script>
+</html>
+

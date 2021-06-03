@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Pokedex Project</title>
-        <meta charset="utf-8" />
-        <meta name ="viewport" content="width=device-width, initial-scale=.5">
+        <title>Pokemon Tools</title>
+        <meta charset="UTF-8">
+        <!-- <meta name ="viewport" content="width=device-width, initial-scale=.5"> -->
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="shortcut icon" type="image/jpg" href="images/favicon.ico"/>
         <link rel="apple-touch-icon" href="images/splash_icon.png">
         <script src="https://kit.fontawesome.com/e57a1fd105.js" crossorigin="anonymous"></script>
         <!-- can this be removed? -->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="styles/global.css">
         <link rel="stylesheet" type="text/css" href="styles/styles.css">
         <link rel="stylesheet" type="text/css" href="styles/snackbar.css">
         <link rel="manifest" href="./manifest.json">
@@ -25,20 +28,24 @@
     </head>
     <body>
         <div id="overlay"></div>
+        <!-- <button onclick="toggleHeader()">Click Me</button> -->
         <header>
+            <span class="hamburger" onclick="toggleHeader()"><i class="fas fa-bars"></i></span>
             <nav class="nav">
                 <ul class="header-nav">
                     <li><p class="curr-link">Home</p></li>
                     <li class="nav-link"><a href="#" class="header-link">Can I Catch Them All?</a></li>
-                    <li class="nav-link"><a href="#" class="header-link">Pokebank Locator</a></li>
-                    <li class="nav-link">
-                        <a href='#' onclick="showProfile()" id="username-container" class="header-link" style="display: none;"></a>
+                    <li class="nav-link"><a href="/bankLocator.html" class="header-link">Pokebank Locator</a></li>
+                    <span class="right-align"></span>
+                    <li class="nav-link right-align" style="display: none;" id="username-container">
+                        <a href='#' onclick="showProfile()" id="user-icon" class="header-link"></a>
                     </li>
-                    <li>
-                        <a href="#" id="authorize_button" style="display: none;" class="auth-button">Sign In</a>
+                    
+                    <li id="authorize-container" style="display: none;">
+                        <a href="#" id="authorize_button" class="auth-button">Sign In</a>
                     </li>
-                    <li>
-                        <a href="#" id="signout_button" style="display: none;" class="auth-button">Sign Out</a>
+                    <li id="signout-container" style="display: none">
+                        <a href="#" id="signout_button" class="auth-button">Sign Out</a>
                     </li>
                     <div class="clr"></div>
                 </ul>

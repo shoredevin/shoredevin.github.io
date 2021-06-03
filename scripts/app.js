@@ -8,8 +8,9 @@ const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
-
+const authorizeContainer = document.querySelector('#authorize-container');
 const authorizeButton = document.getElementById('authorize_button');
+const signoutContainer = document.querySelector('#signout-container');
 const signoutButton = document.getElementById('signout_button');
 
 let tableStorage;
@@ -74,8 +75,8 @@ async function updateSigninStatus(isSignedIn) {
     } 
     else {
         document.getElementById('not-signed-in').style.display = "inline-block"
-        authorizeButton.style.display = 'block';
-        signoutButton.style.display = 'none';
+        authorizeContainer.style.display = 'block';
+        signoutContainer.style.display = 'none';
     }
 }
 
@@ -111,7 +112,7 @@ function appendPre(message) {
     document.getElementById('pre').style = 'visibility: visible';
     if(message == 403) {
         handleSignoutClick();
-        authorizeButton.style.display = 'block';
+        authorizeContainer.style.display = 'block';
         var x = document.createElement('a');
         var t = document.createTextNode('You currently do not have access to this site. To request access click here.')
         x.setAttribute('href', 'javascript:funk()');
@@ -134,8 +135,8 @@ async function setTableContents() {
         return
     }
     document.getElementById('not-signed-in').style.display = "none"
-    authorizeButton.style.display = 'none';
-    signoutButton.style.display = 'block';
+    authorizeContainer.style.display = 'none';
+    signoutContainer.style.display = 'block';
     var params = {
         spreadsheetId: '1FPZBycraxhpYwlQyeO2y_JeWBLunzTw3F45A4g237JI', 
         range: 'Mappings',
@@ -521,8 +522,8 @@ async function setTableContents() {
         }
     }, 750);
     document.getElementById('username-container').style.display = "inline";
-    document.getElementById('username-container').innerHTML = '<i class="far fa-user"></i>';
-    document.getElementById('username-container').title = userEmail
+    document.getElementById('user-icon').innerHTML = '<i class="far fa-user"></i>';
+    document.getElementById('user-icon').title = userEmail
 }
 
 //add link to dex entry
