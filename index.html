@@ -11,7 +11,7 @@
         <p>Allow Select App is a Google Chrome extension that allows user select that was previously disabled by the website. This also overrides other forms of blocking a user select. I would be interested in implementing additional solutions if this currently does not work on some websites.
 		</p><p>
 		Click the download button below to be taken to the Chrome Web Store to install the extension.</p>
-        <button id="download-button">Download</button>
+        <button id="download-button" onclick="buttonClick()">Download</button>
 		<div class="call-out">
 			<p id="no-highlight">
 			<b>Give it a test, turn on the extension and try highlighting the paragraph below:</b>
@@ -71,4 +71,7 @@
         margin-top: auto;
     }
 </style>
+	<script>
+		async function buttonClick() { alert('We are currently waiting from approval. Please check back soon!') }
+	</script>
 </html>
