@@ -8,33 +8,42 @@
 <body>
     <div class="content-container">
         <h1>Allow Select App</h1>
-        <p>Allows user select that was previously disabled by the website. Also overrides other forms of blocking a user select. I would be interested in implementing additional solutions if this currently does not work on some websites.</p>
+        <p>Allow Select App is a Google Chrome extension that allows user select that was previously disabled by the website. This also overrides other forms of blocking a user select. I would be interested in implementing additional solutions if this currently does not work on some websites.
+		</p><p>
+		Click the download button below to be taken to the Chrome Web Store to install the extension.</p>
         <button id="download-button">Download</button>
-        
-        <p id="no-highlight">
-		<b>Give it a test, turn on the extension and try highlighting the paragraph below:</b><br><br>
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, minima totam. Nesciunt minima ipsum ipsam voluptatum. Nulla explicabo, consequatur quam, eveniet iure, veniam commodi odio porro quidem totam aliquam officiis?
+		<div class="call-out">
+			<p id="no-highlight">
+			<b>Give it a test, turn on the extension and try highlighting the paragraph below:</b>
+			<br>
+			<br>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, minima totam. Nesciunt minima ipsum ipsam voluptatum. Nulla explicabo, consequatur quam, eveniet iure, veniam commodi odio porro quidem totam aliquam officiis?
+		</div>
 		</p>
-	<p>Hello world</p>
     </div>
     <a id="contact-us" href="mailto:help@allowselect.com">Contact Us</a>
 </body>
 <style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
     body {
         display: flex;
         flex-direction: column;
         align-items: center;
-	    justify-content: center;
-	    max-width: 90%;
+		justify-content: center;
+		height: 100dvh;
+		padding: 15px;
     }
     .content-container {
+	
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        width: 550px;
-	    max-width: 90%;
-        gap: 10px;
+		width: 550px;
+        gap: 15px;
     }
     #download-button {
         background: green;
@@ -48,6 +57,12 @@
         background-color: darkgreen;
         cursor: pointer;
     }
+	.call-out {
+		background-color: lightgreen;
+		border: 1px solid black;
+		border-radius: .5rem;
+		padding: 7.5px;
+	}
     #no-highlight {
         user-select: none;
     }
