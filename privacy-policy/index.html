@@ -3,61 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Allow Select</title>
+    <title>Privacy Policy</title>
 </head>
 <body>
     <div class="content-container">
         <h1>Privacy Policy</h1>
         <p>The Allow Select extension does not collect user data.</p>
 	</div>
-	<a id="contact-us" href="mailto:help@allowselect.com">Contact Us</a>
+	<div class="link-container">
+		<a href="../index.html">Home</a>
+		<div class="divider"></div>
+		<a href="mailto:help@allowselect.com">Contact Us</a>
+		<div class="divider"></div>
+		<a href="./privacy-policy/index.html">Privacy Policy</a>
+	</div>
 </body>
 <style>
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-    body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-		justify-content: center;
-		height: 100dvh;
-		padding: 15px;
-    }
-    .content-container {
-	
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-		width: 550px;
-        max-width: 90%;
-        gap: 15px;
-    }
-    #download-button {
-        background: green;
-        border-radius: .5rem;
-        padding: .5rem;
-        border: 1px solid green;
-        color: white;
-        font-size: 2rem;
-    }
-    #download-button:hover {
-        background-color: darkgreen;
-        cursor: pointer;
-    }
-	.call-out {
-		background-color: lightgreen;
-		border: 1px solid black;
-		border-radius: .5rem;
-		padding: 7.5px;
-	}
-    #no-highlight {
-        user-select: none;
-    }
-    #contact-us {
-        margin-top: auto;
-    }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100dvh;
+			padding: 15px;
+		}
+		.content-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 550px;
+			max-width: 90%;
+			gap: 15px;
+		}
+		#download-button {
+			background: green;
+			border-radius: .5rem;
+			padding: .5rem;
+			border: 1px solid green;
+			color: white;
+			font-size: 2rem;
+		}
+		#download-button:hover {
+			background-color: darkgreen;
+			cursor: pointer;
+		}
+		.call-out {
+			background-color: lightgreen;
+			border: 1px solid black;
+			border-radius: .5rem;
+			padding: 7.5px;
+		}
+		#no-highlight {
+			user-select: none;
+		}
+		.link-container {
+			margin-top: auto;
+			display: flex;
+			flex-direction: row;
+			gap: 10px;
+		}
+		.divider::after {
+			content: "•"
+		}
 </style>
 </html>
