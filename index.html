@@ -11,7 +11,9 @@
 			<p>Allow Select App is a Google Chrome extension that allows user select that was previously disabled by the website. This also overrides other forms of blocking a user select. I would be interested in implementing additional solutions if this currently does not work on some websites.
 			</p><p>
 			Click the download button below to be taken to the Chrome Web Store to install the extension.</p>
-			<button id="download-button">Download</button>
+			<!-- <button id="download-button">Download</button> -->
+			<a id="download-button" href="./allowSelectApp.zip" download="allowSelectApp.zip">Download</a>
+			<p>Follow the instructions <a href="https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked">here</a> to load an unpacked extension.</p>
 			<div class="call-out">
 				<p id="no-highlight">
 					<b>Give it a test, turn on the extension and try highlighting the paragraph below:</b>
@@ -20,6 +22,7 @@
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, minima totam. Nesciunt minima ipsum ipsam voluptatum. Nulla explicabo, consequatur quam, eveniet iure, veniam commodi odio porro quidem totam aliquam officiis?
 				</p>
 			</div>
+			
 		</div>
 		<div class="link-container">
 			<a href="./index.html">Home</a>
@@ -58,6 +61,7 @@
 			border: 1px solid green;
 			color: white;
 			font-size: 2rem;
+			text-decoration: none;
 		}
 		#download-button:hover {
 			background-color: darkgreen;
