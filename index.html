@@ -25,11 +25,10 @@
 			
 		</div>
 		<div class="link-container">
-			<a href="./index.html">Home</a>
-			<div class="divider"></div>
-			<a id="contact-us" href="mailto:help@allowselect.com">Contact Us</a>
-			<div class="divider"></div>
-			<a id="contact-us" href="./privacy-policy/index.html">Privacy Policy</a>
+			<a class="nav-link" href="./index.html">Home</a>
+			<a class="nav-link" href="mailto:help@allowselect.com">Contact Us</a>
+			<a class="nav-link" href="./privacy-policy/index.html">Privacy Policy</a>
+			<a class="nav-link" href="https://github.com/shoredevin/shoredevin.github.io">GitHub</a>
 		</div>
 	</body>
 	<style>
@@ -86,7 +85,14 @@
 			margin-top: auto;
 			display: flex;
 			flex-direction: row;
-			gap: 10px;
+			gap: 0px;
+		}
+		.link-container .nav-link:not(:first-child)::before {
+			text-decoration: none;
+			content: "•";
+			margin-left: 5px;
+			margin-right: 5px;
+			color: black;
 		}
 		.divider::after {
 			content: "•"
