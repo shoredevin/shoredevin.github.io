@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+    padding: 15px;
+}
+a {
+    text-decoration: none;
+}
+.link-text:hover {
+    text-decoration: underline;
+}
+#content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 550px;
+    max-width: 90%;
+    gap: 15px;
+}
+#download-button {
+    background: green;
+    border-radius: .5rem;
+    padding: .5rem;
+    border: 1px solid green;
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+}
+#download-button:hover {
+    background-color: darkgreen;
+    cursor: pointer;
+}
+.call-out {
+    background-color: lightgreen;
+    border: 1px solid black;
+    border-radius: .5rem;
+    padding: 7.5px;
+}
+#no-highlight {
+    user-select: none;
+}
+.link-container {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+}
+.link-container .nav-link:not(:first-child)::before {
+    text-decoration: none;
+    content: "•";
+    margin-left: 5px;
+    margin-right: 5px;
+    color: black;
+}
+.divider::after {
+    content: "•";
+}

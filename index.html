@@ -4,16 +4,21 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Allow Select</title>
+		<script src="./template.js" defer></script>
+		<link rel="stylesheet" href="./global.css">
 	</head>
 	<body>
-		<div class="content-container">
+		<div id="content-container">
 			<h1>Allow Select App</h1>
-			<p>Allow Select App is a Google Chrome extension that allows user select that was previously disabled by the website. This also overrides other forms of blocking a user select. I would be interested in implementing additional solutions if this currently does not work on some websites.
-			</p><p>
-			Click the download button below to be taken to the Chrome Web Store to install the extension.</p>
+			<p>
+				Allow Select App is a Google Chrome extension that allows user select that was previously disabled by the website. This also overrides other forms of blocking a user select. I would be interested in implementing additional solutions if this currently does not work on some websites.
+			</p>
+			<p>
+				Click the download button below to be taken to the Chrome Web Store to install the extension.
+			</p>
 			<!-- <button id="download-button">Download</button> -->
 			<a id="download-button" href="./allowSelectApp.zip" download="allowSelectApp.zip">Download</a>
-			<p>Follow the instructions <a href="https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked">here</a> to load an unpacked extension.</p>
+			<p>Follow the instructions <a href="https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked"><span class="link-text">here</span></a> to load an unpacked extension.</p>
 			<div class="call-out">
 				<p id="no-highlight">
 					<b>Give it a test, turn on the extension and try highlighting the paragraph below:</b>
@@ -24,78 +29,5 @@
 			</div>
 			
 		</div>
-		<div class="link-container">
-			<a class="nav-link" href="./index.html">Home</a>
-			<a class="nav-link" href="mailto:help@allowselect.com">Contact Us</a>
-			<a class="nav-link" href="./privacy-policy/index.html">Privacy Policy</a>
-			<a class="nav-link" href="https://github.com/shoredevin/allowSelectApp">GitHub</a>
-		</div>
 	</body>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-		body {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			height: 100dvh;
-			padding: 15px;
-		}
-		a {
-			text-decoration: none;
-		}
-		a:hover {
-			text-decoration: underline;
-		}
-		.content-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			width: 550px;
-			max-width: 90%;
-			gap: 15px;
-		}
-		#download-button {
-			background: green;
-			border-radius: .5rem;
-			padding: .5rem;
-			border: 1px solid green;
-			color: white;
-			font-size: 2rem;
-			text-decoration: none;
-		}
-		#download-button:hover {
-			background-color: darkgreen;
-			cursor: pointer;
-		}
-		.call-out {
-			background-color: lightgreen;
-			border: 1px solid black;
-			border-radius: .5rem;
-			padding: 7.5px;
-		}
-		#no-highlight {
-			user-select: none;
-		}
-		.link-container {
-			margin-top: auto;
-			display: flex;
-			flex-direction: row;
-			gap: 0px;
-		}
-		.link-container .nav-link:not(:first-child)::before {
-			text-decoration: none;
-			content: "•";
-			margin-left: 5px;
-			margin-right: 5px;
-			color: black;
-		}
-		.divider::after {
-			content: "•"
-		}
-	</style>
 </html>
